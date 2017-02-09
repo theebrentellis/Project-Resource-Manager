@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
+
 <div class="container">
     <div class="col-md-8 col-md-offset-2">
-        <div >
             <div class="row">
                 <h2>Projects</h2>
                 <p><a href="/projects">Add New Project</a></p>
@@ -42,17 +42,15 @@
                     </tbody>
                 </table>
             </div>
-            <div class="row">
-                <button type="" class="btn btn-info">Assign Time</button>
-            </div>
-            <div class="row"></div>
+            <!--<example class="row"></example>-->
+            <button id="show-modal" @click="showModal = true" class="btn btn-sm btn-success">Press Me!</button>
             <br>
+            <br>
+            <modal class="row" v-if="showModal" @close="showModal = false"></modal>
             <div id="calendar" class="row"></div>
             <!--<div><h6><a href="/calendar">Calendar</a></h6></div>-->
-            <!--{{var_dump($errors)}}-->
-        </div>
+            {{var_dump($errors)}}
     </div>
 </div>
-<script src="{{elixir('js/app.js')}}"></script>
 
 @endsection

@@ -47,8 +47,5 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true
-    },
-    "browser": {
-        "vue": "vue/dist/vue.common"
     }
 }

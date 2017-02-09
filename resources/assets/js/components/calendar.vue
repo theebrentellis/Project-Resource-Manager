@@ -3,12 +3,9 @@
 </template>
 
 <script>
-    // require('./../bootstrap');
     require('jquery');
     const moment = require('moment');
     const fullCalendar = require('fullcalendar');
-
-    // const actions = require('../calendarActions.js');
 
     $(document).ready(function() {
 

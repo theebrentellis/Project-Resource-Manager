@@ -13,9 +13,12 @@ require('./bootstrap');
  */
 
 Vue.component('calendar', require('./components/calendar.vue'));
+Vue.component('modal', require('./components/modal.vue'));
+Vue.component('example', require('./components/Example.vue'));
 
-// Vue.component('example', require('./components/Example.vue'));
-
-// const app = new Vue({
-//     el: '#app'
-// });
+new Vue({
+    el: '#app',
+    data: {
+        showModal: false
+    }
+});
