@@ -1,1 +1,0 @@
-{"virtualbox":{"/home/vagrant/project-resource-manager":{"type":null,"mount_options":[],"guestpath":"/home/vagrant/project-resource-manager","hostpath":"/Users/BrentEllis/Code/Project Resource Manager","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/BrentEllis/Code/Project Resource Manager","disabled":false,"__vagrantfile":true}}}

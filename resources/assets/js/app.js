@@ -5,6 +5,12 @@
  */
 
 require('./bootstrap');
+import Vue from 'vue';
+
+import calendar from './components/calendar.vue';
+import modal from './components/modal.vue';
+import thebutton from './components/theButton.vue';
+import store from './store';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -12,13 +18,14 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('calendar', require('./components/calendar.vue'));
-Vue.component('modal', require('./components/modal.vue'));
-Vue.component('example', require('./components/Example.vue'));
+// const calendar = Vue.component('calendar', require('./components/calendar.vue'));
+// const modal = Vue.component('modal', require('./components/modal.vue'));
 
-new Vue({
+
+
+window.App = new Vue({
     el: '#app',
-    data: {
-        showModal: false
-    }
+    store,
+    components: { calendar, modal, thebutton },
+
 });

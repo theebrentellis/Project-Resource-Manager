@@ -1,4 +1,3 @@
-
 window._ = require('lodash');
 
 /**
@@ -18,7 +17,7 @@ require('bootstrap-sass');
  */
 
 window.Vue = require('vue');
-
+require('vue-resource');
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

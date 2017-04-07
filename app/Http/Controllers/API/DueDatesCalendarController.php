@@ -20,6 +20,8 @@ class DueDatesCalendarController extends Controller
 
             $e['title'] = $allProjects[$key]->name;
             $e['start'] = $allProjects[$key]->dueDate;
+            $e['description'] = $allProjects[$key]->description;
+            $e['dueDate'] = $allProjects[$key]->dueDate;
 
             array_push($events, $e);
         }
