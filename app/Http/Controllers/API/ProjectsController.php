@@ -26,9 +26,4 @@ class ProjectsController extends Controller
 
         return $projects;
     }
-    public function addTask(Request $request)
-    {
-        echo "<pre>";
-        print_r($request);
-    }
 }

@@ -14,12 +14,20 @@ const actions = {
         commit('OPEN_MODAL', date);
     },
     closeModal({ commit }, formData) {
-        console.log(formData);
-        console.log("closeModal");
-        return Vue.http.post('/api/assignTask', formData)
+        
+        formData.project_id = state.project_id;
+        formData.dev_id = state.dev_id;
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        formData._token = CSRF_TOKEN;
+        formData._method = "POST";
+
+        return Vue.http.post('/api/addTimeCard', formData)
             .then((response) => {
                 console.log(response);
-                // commit('CLOSE_MODAL');
+                if (response.status == 200) {
+                    console.log("CLOSE_MODAL");
+                    commit('CLOSE_MODAL');
+                }
             }, (error) => {
                 console.log("Error: " + error)
             });
@@ -86,14 +94,10 @@ const getters = {
         return state.message;
     }
 }
-const data = {
-    showModalData: "Sample Data"
-}
 
 export default {
     state,
     actions,
     mutations,
-    data,
     getters
 }

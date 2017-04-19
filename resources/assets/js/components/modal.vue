@@ -13,7 +13,7 @@
           </div>
           <div class="modal-body">
             <slot name="body">
-                <p><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>
+                <p v-if="state.date"><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>
                 <form @submit.prevent="close">
                     <div class="form-group">
                         <label for="dev">Developer:</label>
@@ -58,7 +58,7 @@
 
           <div class="modal-footer">
             <slot name="footer"></slot>
-            <button class="btn btn-primary" @click="close()">Assign Time</button>  
+            <button class="btn btn-primary" @click="closeSubmit()">Assign Time</button>  
           </div>
           
         </div>
@@ -100,10 +100,11 @@
             }
         },
         methods: {
-            close: function() {
-                this.form.project_id = this.state.project_id;
-                this.form.dev_id = this.state.project_id;
+            closeSubmit: function() {
                 this.$store.dispatch("closeModal", this.form);
+            },
+            close: function(){
+                this.$store.commit("CLOSE_MODAL");
             },
             showModal: function() {
                 console.log("showModal");
@@ -130,8 +131,8 @@
         },
         mounted: function() {
             document.addEventListener('keydown', (e) => {
-                console.log("ESC");
-                if(this.show && e.keyCode == 27){
+                if(this.showModal && e.keyCode == 27){
+                    console.log("ESC");
                     this.close();
                 }
             });

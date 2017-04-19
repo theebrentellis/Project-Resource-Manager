@@ -49,7 +49,7 @@ Route::group([
     Route::resource('developerSchedules', 'CalendarController@developerSchedules');
     Route::resource('allProjects', 'ProjectsController');
     Route::resource('allDevelopers', 'DevelopersController');
-    Route::resource('assignTask', 'ProjectsController@addTask');
+    Route::resource('addTimeCard', 'TimeCardController');
 });
 
 
