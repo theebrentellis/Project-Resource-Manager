@@ -30,7 +30,9 @@
     margin-top: 0;
     color: #42b983;
 }
-
+.headline {
+    display: inline-flex;
+}
 .modal-body {
     margin: 20px 0;
 }
@@ -38,6 +40,12 @@
 .modal-default-button {
     float: right;
 }
+
+// button.close {
+//     vertical-align: middle;
+//     // display: block;
+//     margin: 0 auto;
+// }
 
 
 /*

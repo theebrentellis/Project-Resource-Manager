@@ -26,13 +26,17 @@ Route::group(['middleware' => ['web']], function(){
 
     Route::get('project/{id}/show', 'Projects\ShowProjectController@showProject');
 
-    Route::get('project/{id}/edit', 'Projects\EditProjectController@editProject');
+    Route::get('project/{id}/edit', 'Projects\EditProjectController@showProject');
+
+    Route::post('project/edit', 'Projects\EditProjectController@editProject');
 
     Route::get('project/{id}/addProjectDeveloper', 'Projects\EditProjectController@addDeveloper');
 
     Route::post('project/{id}/addProjectDeveloper', 'Projects\ProjectController@addNewDeveloper');
 
     Route::get('developer/{id}/show', 'Developers\ShowDeveloperController@showDev');
+
+    Route::post('assignTask', 'Projects\AssignTaskController@addTask');
 
     // Route::get('calendar', 'CalendarController@index');
 });
@@ -43,6 +47,9 @@ Route::group([
 ], function(){
     Route::resource('projectDueDates', 'DueDatesCalendarController');
     Route::resource('developerSchedules', 'CalendarController@developerSchedules');
+    Route::resource('allProjects', 'ProjectsController');
+    Route::resource('allDevelopers', 'DevelopersController');
+    Route::resource('assignTask', 'ProjectsController@addTask');
 });
 
 

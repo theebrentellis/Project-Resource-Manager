@@ -10,11 +10,24 @@ use App\Http\Controllers\Controller;
 
 class EditProjectController extends Controller
 {
-    public function editProject($id)
+    public function showProject($id)
     {
         $project = Project::find($id);
 
         return view('projects.editProject', compact('project'));
+    }
+
+    public function editProject(Request $request)
+    {
+        $project = Project::find($request->editProjectId);
+        
+        $project->description = $request->editProjectDescription;
+        $project->dueDate = $request->editProjectDueDate;
+        $project->totalHours = $request->editProjectBuildHours;
+
+        $project->save();
+
+        return redirect('home');
     }
 
     public function addDeveloper($id)

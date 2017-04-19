@@ -6,8 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    public function users()
+    protected $fillable = [
+        'name', 'description', 'totalHours', 'dueDate', 'project_time_card_id'
+    ];
+    // public function users()
+    // {
+    //     return $this->belongsToMany('App\User', 'user_project')->withTimestamps();
+    // }
+    public function timeCards()
     {
-        return $this->belongsToMany('App\User', 'user_project')->withTimestamps();
+        return $this->hasMany('App\ProjectTimeCard');
     }
 }

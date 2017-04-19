@@ -19,13 +19,6 @@ class AddProject extends Migration
             $table->string('description');
             $table->double('totalHours');
             $table->date('dueDate');
-            $table->integer('user_id');
-            $table->timestamps();
-        });
-
-        Schema::create('project_user', function(Blueprint $table){
-            $table->integer('project_id')->unsigned()->index();
-            $table->integer('user_id')->unsigned()->index();
             $table->timestamps();
         });
     }
@@ -38,6 +31,5 @@ class AddProject extends Migration
     public function down()
     {
         Schema::dropIfExists('projects');
-        Schema::dropIfExists('project_user');
     }
 }

@@ -1,9 +1,18 @@
 <template>
     <div class="cal"></div>
 </template>
-
+<style>
+.fc-title {
+    display: block;
+}
+.fc-content {
+    white-space: inherit !important;
+    text-align: center;
+}
+</style>
 <script>  
     require('fullcalendar');
+    require('moment');
 
     const moment = require('moment');
 
@@ -13,9 +22,9 @@
     export default {
         namedspaced: true,
         methods: {
-            openModal(){
-                console.log(this.$store.state.modal)
-                // this.$store.dispatch('openModal');
+            openModal(date){
+                this.$store.dispatch("openModal", {date: date});
+                // console.log(this.$store.state.modal)
             }
         },
         mounted: function(){
@@ -50,45 +59,10 @@
 
                     dayClick: function (date, jsEvent, view) {
                         console.log('dayClick');
-                        // vm.openModal();
+                        // date = moment(date).format("MMMM Do YYYY");
+                        vm.openModal(date);
                     }
                 });
-
-            // $(()=>{
-            //     $('.cal-container').fullCalendar({
-            //         header: {
-            //             left: 'prev, next today',
-            //             center: 'title',
-            //             right: 'month, agendaWeek, agendaDay'
-            //         },
-            //         editable: true,
-            //         droppable: true,
-            //         eventLimit: true,
-            //         weekends: true,
-            //         eventSources: [{
-            //             //Project Due Dates
-            //             url: '/api/projectDueDates',
-            //             color: 'red',
-            //         }],
-            //         navLinks: true,
-            //         eventRender: function (event, element) {
-            //             element.click(function () {
-            //                 console.log("eventRender element.click");
-            //             })
-            //         },
-
-            //         eventClick: function (event, jsEvent, view) {
-            //             console.log(event);
-            //             openModal();
-            //         },
-
-            //         dayClick: function (date, jsEvent, view) {
-            //             console.log('dayClick');
-            //             // $emit("openModal");
-            //             openModal();
-            //         }
-            //     });
-            // });
         },
     }
 

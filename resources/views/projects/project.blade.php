@@ -9,7 +9,7 @@
             <a href="/home"><p>Back</p></a>
             <ul>
                 @foreach ($projects as $project)
-                <li><a href="/projects/show/{{$project->id}}">{{$project->name}}</a></li>
+                <li><a href="/project/{{$project->id}}/show">{{$project->name}}</a></li>
                 @endforeach
             </ul>
         </div>
@@ -37,7 +37,6 @@
             </form>
         </div>
     </div>
-    {{var_dump($errors)}}
 </div>
 
 

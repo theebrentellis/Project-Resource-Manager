@@ -37650,6 +37650,26 @@ module.exports = Vue$3;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"_process":4}],7:[function(require,module,exports){
+var inserted = exports.cache = {}
+
+exports.insert = function (css) {
+  if (inserted[css]) return
+  inserted[css] = true
+
+  var elem = document.createElement('style')
+  elem.setAttribute('type', 'text/css')
+
+  if ('textContent' in elem) {
+    elem.textContent = css
+  } else {
+    elem.styleSheet.cssText = css
+  }
+
+  document.getElementsByTagName('head')[0].appendChild(elem)
+  return elem
+}
+
+},{}],8:[function(require,module,exports){
 /**
  * vuex v2.1.2
  * (c) 2017 Evan You
@@ -38456,7 +38476,9 @@ return index;
 
 })));
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n.fc-title {\n    display: block;\n}\n.fc-content {\n    white-space: inherit !important;\n    text-align: center;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38466,15 +38488,16 @@ Object.defineProperty(exports, "__esModule", {
 var _vuex = require('vuex');
 
 require('fullcalendar');
+require('moment');
 
 var moment = require('moment');
 
 exports.default = {
     namedspaced: true,
     methods: {
-        openModal: function openModal() {
-            console.log(this.$store.state.modal);
-            // this.$store.dispatch('openModal');
+        openModal: function openModal(date) {
+            this.$store.dispatch("openModal", { date: date });
+            // console.log(this.$store.state.modal)
         }
     },
     mounted: function mounted() {
@@ -38509,45 +38532,10 @@ exports.default = {
 
             dayClick: function dayClick(date, jsEvent, view) {
                 console.log('dayClick');
-                // vm.openModal();
+                // date = moment(date).format("MMMM Do YYYY");
+                vm.openModal(date);
             }
         });
-
-        // $(()=>{
-        //     $('.cal-container').fullCalendar({
-        //         header: {
-        //             left: 'prev, next today',
-        //             center: 'title',
-        //             right: 'month, agendaWeek, agendaDay'
-        //         },
-        //         editable: true,
-        //         droppable: true,
-        //         eventLimit: true,
-        //         weekends: true,
-        //         eventSources: [{
-        //             //Project Due Dates
-        //             url: '/api/projectDueDates',
-        //             color: 'red',
-        //         }],
-        //         navLinks: true,
-        //         eventRender: function (event, element) {
-        //             element.click(function () {
-        //                 console.log("eventRender element.click");
-        //             })
-        //         },
-
-        //         eventClick: function (event, jsEvent, view) {
-        //             console.log(event);
-        //             openModal();
-        //         },
-
-        //         dayClick: function (date, jsEvent, view) {
-        //             console.log('dayClick');
-        //             // $emit("openModal");
-        //             openModal();
-        //         }
-        //     });
-        // });
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
@@ -38556,13 +38544,17 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n.fc-title {\n    display: block;\n}\n.fc-content {\n    white-space: inherit !important;\n    text-align: center;\n}\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
   if (!module.hot.data) {
     hotAPI.createRecord("_v-0b7ce525", module.exports)
   } else {
     hotAPI.update("_v-0b7ce525", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"fullcalendar":1,"moment":3,"vue":6,"vue-hot-reload-api":5,"vuex":7}],9:[function(require,module,exports){
+},{"fullcalendar":1,"moment":3,"vue":6,"vue-hot-reload-api":5,"vueify/lib/insert-css":7,"vuex":8}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38571,27 +38563,56 @@ Object.defineProperty(exports, "__esModule", {
 
 var _vuex = require('vuex');
 
-// const modalActions = require('../modalActions.js');
-// const store = require('../store.js');
+require('moment');
+var moment = require('moment');
+
 exports.default = {
     namedspaced: true,
-    // computed: {
-    //     modalState: ()=>{
-    //         return this.$store.modal.state;
-    //     }
-    // },
+    computed: {
+        state: {
+            get: function get() {
+                return this.$store.state.modal;
+            },
+            set: function set(state) {
+                this.$store.dispatch("updateState", state);
+            }
+        },
+        message: {
+            get: function get() {
+                return this.$store.state.modal.message;
+            },
+            set: function set(message) {
+                this.$store.dispatch("UPDATE_MESSAGE", material);
+            }
+        },
+        dev_id: {
+            get: function get() {
+                return this.$store.state.modal.dev_id;
+            }
+        }
+    },
     methods: {
         close: function close() {
-            console.log("Close Modal");
-            // this.$state.closeModal()
-            // this.closeModal();
-            // this.showModal = false;
-            // this.title = "";
-            // this.body = "";
+            this.form.project_id = this.state.project_id;
+            this.form.dev_id = this.state.project_id;
+            this.$store.dispatch("closeModal", this.form);
         },
         showModal: function showModal() {
             console.log("showModal");
+        },
+        updateProjectId: function updateProjectId(value) {
+            this.$store.commit("SELECT_PROJECT_ID", value);
+        },
+        updateDeveloperId: function updateDeveloperId(value) {
+            this.$store.commit("SELECT_DEV_ID", value);
         }
+    },
+    data: function data() {
+        return {
+            form: {},
+            project: {},
+            developer: {}
+        };
     },
     mounted: function mounted() {
         var _this = this;
@@ -38602,10 +38623,15 @@ exports.default = {
                 _this.close();
             }
         });
+    },
+    filters: {
+        dateFormat: function dateFormat(date) {
+            return moment(date).format("MMMM Do, YYYY");
+        }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n  <transition name=\"modal\">\n  <div class=\"modal-mask\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container\">\n\n        <div class=\"modal-header\">\n          <slot name=\"header\">\n            default header\n          </slot>\n        </div>\n\n        <div class=\"modal-body\">\n          <slot name=\"body\">\n            default body\n          </slot>\n        </div>\n\n        <div class=\"modal-footer\">\n          <slot name=\"footer\">\n            default footer\n            <button class=\"modal-default-button\" @click=\"$emit('close')\">\n              OK\n            </button>\n          </slot>\n        </div>\n      </div>\n    </div>\n  </div>\n</transition>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<transition name=\"modal\">\n  <div class=\"modal-mask\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container\">\n\n        <div class=\"modal-header\">\n              <h4>Add Hours:\n              <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" @click=\"$emit('close')\">\n                  <span aria-hidden=\"true\">×</span>\n              </button>\n              </h4>\n        </div>\n        <div class=\"modal-body\">\n          <slot name=\"body\">\n              <p><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>\n              <form @submit.prevent=\"close\">\n                  <div class=\"form-group\">\n                      <label for=\"dev\">Developer:</label>\n                      <select name=\"\" id=\"developer\" class=\"custom-select\" v-on:input=\"updateDeveloperId($event.target.value)\">\n                          <option selected=\"\">Choose...</option>\n                          <option v-for=\"developer in state.allDevelopers\" v-bind:value=\"developer.id\">{{developer.name}}</option>\n                      </select>\n                  </div>\n                  <div class=\"form-group\">\n                      <label for=\"project\">Project:</label>\n                      <select name=\"\" id=\"project\" class=\"custom-select\" v-on:input=\"updateProjectId($event.target.value)\">\n                          <option selected=\"\">Choose...</option>\n                          <option v-for=\"project in state.allProjects\" v-bind:value=\"project.id\">{{project.name}}</option>\n                          {{project.id}} {{project.name}}\n                      </select>\n                  </div>\n                  <div class=\"form-group\">\n                      <label for=\"notes\">Notes:</label>\n                      <textarea name=\"\" id=\"comments\" class=\"form-control\" rows=\"5\" v-model=\"form.notes\"></textarea>\n                  </div>\n                  <div class=\"form-group\">\n                      <label for=\"hours\">Hours: </label>\n                      <input type=\"number\" id=\"hours\" class=\"form-control\" v-model=\"form.hours\">\n                  </div>\n                  <div class=\"form-group\">\n                      <label for=\"start_time\">From: </label>\n                      <input type=\"time\" class=\"form-control\" id=\"startTime\" v-model=\"form.start_time\">\n                  </div>\n                  <div class=\"form-group\">\n                      <label for=\"end_time\">End: </label>\n                      <input type=\"time\" class=\"form-control\" id=\"endTime\" v-model=\"form.end_time\">\n                  </div>\n                  <div class=\"form-check\">\n                      <label class=\"form-check-label\">\n                        <input type=\"checkbox\" class=\"form-check-input\" id=\"allDay\" value=\"true\" v-model=\"form.allDay\">\n                        All Day\n                      </label>\n                  </div>\n              </form>\n          </slot>\n        </div>\n\n        <div class=\"modal-footer\">\n          <slot name=\"footer\"></slot>\n          <button class=\"btn btn-primary\" @click=\"close()\">Assign Time</button>  \n        </div>\n        \n      </div>\n    </div>\n  </div>\n</transition>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -38616,7 +38642,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-615bc2d6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":6,"vue-hot-reload-api":5,"vuex":7}],10:[function(require,module,exports){
+},{"moment":3,"vue":6,"vue-hot-reload-api":5,"vuex":8}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38646,6 +38672,6 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6fb237ac", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":6,"vue-hot-reload-api":5,"vuex":7}]},{},[8,9,10]);
+},{"vue":6,"vue-hot-reload-api":5,"vuex":8}]},{},[9,10,11]);
 
 //# sourceMappingURL=bundle.js.map

@@ -20,14 +20,6 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-
-            $table->integer('project_id');
-        });
-
-        Schema::create('user_project', function(Blueprint $table){
-            $table->integer('user_id');
-            $table->integer('project_id');
-            $table->timestamps();
         });
     }
 
@@ -39,6 +31,5 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
-        Schema::dropIfExists('user_project');
     }
 }
