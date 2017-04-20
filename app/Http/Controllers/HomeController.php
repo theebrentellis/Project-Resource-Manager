@@ -26,7 +26,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::with(array("timeCards" => function($query){
+            $query->addSelect(array('project_id', 'totalTime'));
+        }))->get();
+
+        // dd($projects);
+        // $projects = Project::all();
+
+        // $projectTime = TimeCard::
 
         $developers = User::all();
 

@@ -17,4 +17,15 @@ class Project extends Model
     {
         return $this->hasMany('App\TimeCard');
     }
+
+    public function getTotalTimeCardsTime()
+    {
+        $total = 0;
+
+        foreach($this->timeCards as $timecard) {
+            $total += $timecard->totalTime;
+        }
+
+        return $total;
+    }
 }

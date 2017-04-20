@@ -11,7 +11,8 @@
                     <th>Project Name</th>
                     <th>Build Description</th>
                     <th>Due Date</th>
-                    <th>Build Time (Hours)</th>
+                    <th>Total Build Time (Hours)</th>
+                    <th>Assigned Hours</th>
                 </thead>
                 <tbody>
                     @foreach ($projects as $project)
@@ -20,6 +21,9 @@
                             <td>{{$project->description}}</td>
                             <td>{{date('F d, Y', strtotime($project->dueDate))}}</td>
                             <td>{{$project->totalHours}}</td>
+                            <td>
+                               {{ $project->getTotalTimeCardsTime() }}
+                            </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -46,7 +50,12 @@
         </div>
     </div>
     <modal v-if="$store.state.modal.showModal" @close="$store.state.modal.showModal = false"></modal>
-    <thebutton></thebutton>
+    <div class="row">
+        <div class="col-md-12">
+            <thebutton></thebutton>
+        </div>
+    </div>
+    
     <calendar></calendar>
     {{var_dump($errors)}}
 </div>
