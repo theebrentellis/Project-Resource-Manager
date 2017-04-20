@@ -15,6 +15,6 @@ class Project extends Model
     // }
     public function timeCards()
     {
-        return $this->hasMany('App\ProjectTimeCard');
+        return $this->hasMany('App\TimeCard');
     }
 }

@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         <label for="hours">Hours: </label>
-                        <input type="number" id="hours" class="form-control" v-model="form.hours">
+                        <input type="number" id="hours" class="form-control" v-model="form.hours" required>
                     </div>
                     <div class="form-group">
                         <label for="start_time">From: </label>

@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\TimeCard;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -27,8 +29,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function projects()
+    public function timeCards()
     {
-        return $this->belongsToMany('App\Project', 'project_user')->withTimestamps();
+        return $this->hasMany('App\TimeCard');
     }
 }

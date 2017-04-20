@@ -14,13 +14,12 @@ const actions = {
         commit('OPEN_MODAL', date);
     },
     closeModal({ commit }, formData) {
-        
+        formData.date = state.date.date
         formData.project_id = state.project_id;
         formData.dev_id = state.dev_id;
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         formData._token = CSRF_TOKEN;
         formData._method = "POST";
-
         return Vue.http.post('/api/addTimeCard', formData)
             .then((response) => {
                 console.log(response);
