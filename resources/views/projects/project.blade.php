@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label for="projectDueDate" class="control-label">Due Date: <input type="date" class="form-control" id="projectDueDate" name="newProjectDueDate"></label>
                 </div>
-                <button type="submit" class="btn btn-primary">Create New Project</button>
+                <button type="submit" class="btn btn-success">Create New Project</button>
             </form>
         </div>
     </div>

@@ -11,7 +11,7 @@
                     <th>Project Name</th>
                     <th>Build Description</th>
                     <th>Due Date</th>
-                    <th>Total Build Time (Hours)</th>
+                    <th>Total Build Time</th>
                     <th>Assigned Hours</th>
                 </thead>
                 <tbody>
@@ -22,7 +22,7 @@
                             <td>{{date('F d, Y', strtotime($project->dueDate))}}</td>
                             <td>{{$project->totalHours}}</td>
                             <td>
-                               {{ $project->getTotalTimeCardsTime() }}
+                               {{ $project->getProjectAssignedTime() }}
                             </td>
                     </tr>
                     @endforeach

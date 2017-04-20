@@ -1,5 +1,5 @@
 <template>
-        <button type="button" class="btn btn-primary btn-sm" id="show-modal" @click="openModal()">Vue Component Button</button>
+        <button type="button" class="btn btn-default btn-sm" id="assign" @click="openModal()">Assign Time</button>
 </template>
 
 <script>
@@ -12,8 +12,6 @@
             openModal: function(){
                 this.$store.dispatch("openModal");
             },
-            
-
         }
     }
 </script>

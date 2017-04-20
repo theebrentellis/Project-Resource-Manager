@@ -21,6 +21,6 @@ class TimeCardController extends Controller
 
         $timeCard->save();
 
-        return "Return statement!";
+        return redirect('home');
     }
 }

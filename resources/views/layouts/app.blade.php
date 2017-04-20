@@ -13,6 +13,7 @@
     <!-- Styles -->
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/modal.css" rel="stylesheet" >
@@ -71,15 +72,18 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a href="/settings/{{Auth::user()->id}}"><i class="fa fa-fw fa-btn fa-cog"></i>Settings</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            <i class="fa fa-fw fa-btn fa-sign-out" aria-hidden="true"></i>Logout
                                         </a>
-
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
+                                        
                                     </li>
                                 </ul>
                             </li>

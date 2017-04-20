@@ -30,11 +30,6 @@ class HomeController extends Controller
             $query->addSelect(array('project_id', 'totalTime'));
         }))->get();
 
-        // dd($projects);
-        // $projects = Project::all();
-
-        // $projectTime = TimeCard::
-
         $developers = User::all();
 
         return view('home', compact(['projects', 'developers']));

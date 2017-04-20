@@ -38507,7 +38507,7 @@ exports.default = {
             header: {
                 left: 'prev, next today',
                 center: 'title',
-                right: 'month, agendaWeek, agendaDay'
+                right: 'month, agendaWeek, agendaDay, list'
             },
             editable: true,
             droppable: true,
@@ -38658,11 +38658,10 @@ exports.default = {
         openModal: function openModal() {
             this.$store.dispatch("openModal");
         }
-
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<button type=\"button\" class=\"btn btn-primary btn-sm\" id=\"show-modal\" @click=\"openModal()\">Vue Component Button</button>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<button type=\"button\" class=\"btn btn-default btn-sm\" id=\"assign\" @click=\"openModal()\">Assign Time</button>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

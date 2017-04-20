@@ -18,7 +18,7 @@ class Project extends Model
         return $this->hasMany('App\TimeCard');
     }
 
-    public function getTotalTimeCardsTime()
+    public function getProjectAssignedTime()
     {
         $total = 0;
 
