@@ -1,5 +1,7 @@
 <template>
-        <button type="button" class="btn btn-default btn-sm" id="assign" @click="openModal()">Assign Time</button>
+        <button type="button" class="btn btn-default" @click="openModal()">
+            <i class="fa fa-clock-o" style="margin-right: 2%;"></i>Assign Time
+        </button>
 </template>
 
 <script>

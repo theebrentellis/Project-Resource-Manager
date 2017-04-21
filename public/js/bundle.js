@@ -38661,7 +38661,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<button type=\"button\" class=\"btn btn-default btn-sm\" id=\"assign\" @click=\"openModal()\">Assign Time</button>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<button type=\"button\" class=\"btn btn-default\" @click=\"openModal()\">\n    <i class=\"fa fa-clock-o\" style=\"margin-right: 2%;\"></i>Assign Time\n</button>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

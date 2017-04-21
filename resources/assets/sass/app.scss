@@ -3,9 +3,17 @@
 // Variables
 @import "variables";
 // Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "node_modules/bootstrap/scss/bootstrap";
 
 #assign {
     margin-top: 2.5%;
     margin-bottom: 2.5%;
+}
+
+.row {
+    margin-top: 2.5%;
+}
+
+a.btn.btn-link {
+    font-size: 12px;
 }
