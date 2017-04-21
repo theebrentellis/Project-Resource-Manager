@@ -46,14 +46,20 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        @if (Auth::guest())
-                            <img src="./images/twelve23-logo-blue.png" alt="Twelve23 Logo">
-                        @else
-                            <img src="./images/1223-logo-blue.png" alt="Twelve23 Logo">
-                        @endif
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
+                    
+                    @if (Auth::guest())
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                        <img src="./images/twelve23-logo-blue.png" alt="Twelve23 Logo">
+                        {{ config('app.name') }}
+                        </a>
+                    @else
+                        <a class="navbar-brand" href="{{ url('/home') }}">
+                        <img src="./images/1223-logo-blue.png" alt="Twelve23 Logo">
+                        {{ config('app.name') }}
+                        </a>
+                    @endif
+                        
+                    
                 </div>
 
                 <div class="collapse navbar-collapse" id="navbarText">
@@ -74,17 +80,13 @@
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <!--<li>-->
-                                        <a class="dropdown-item" href="/settings/{{Auth::user()->id}}"><i class="fa fa-fw fa-btn fa-cog"></i>Settings</a>
-                                    <!--</li>-->
-                                    <!--<li >-->
-                                        <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            <i class="fa fa-fw fa-btn fa-sign-out" aria-hidden="true"></i>Logout
-                                        </a>
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    <!--</li>-->
+                                    <a class="dropdown-item" href="/settings/{{Auth::user()->id}}"><i class="fa fa-fw fa-btn fa-cog"></i>Settings</a>
+                                    <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-fw fa-btn fa-sign-out" aria-hidden="true"></i>Logout
+                                    </a>
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
                                 </div>
                             </li>
                         @endif

@@ -25,13 +25,21 @@
                         <tbody>
                             @foreach ($projects as $project)
                             <tr>
-                                    <td><a href="/project/{{$project->id}}/show">{{$project->name}}</a></td>
-                                    <td>{{$project->description}}</td>
-                                    <td>{{date('F d, Y', strtotime($project->dueDate))}}</td>
-                                    <td>{{$project->totalHours}}</td>
-                                    <td>
+                                <td>
+                                    <a href="/project/{{$project->id}}/show">{{$project->name}}</a>
+                                </td>
+                                <td>
+                                    {{$project->description}}
+                                </td>
+                                <td>
+                                    {{date('F d, Y', strtotime($project->dueDate))}}
+                                </td>
+                                <td>
+                                    {{$project->totalHours}}
+                                </td>
+                                <td>
                                     {{ $project->getProjectAssignedTime() }}
-                                    </td>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -69,7 +77,6 @@
             <thebutton></thebutton>
         </div>
     </div>
-    
     <calendar></calendar>
     {{var_dump($errors)}}
 </div>
