@@ -29,13 +29,6 @@ class ProjectController extends Controller
 
         $project->users()->attach($devId);
 
-        // return $project;
-
-        // return $devId;
-
-        // $projects = Project::all();
-        // $developers = User::all();
-
         return view('projects.showProject', compact(['project']));
     }    
 }

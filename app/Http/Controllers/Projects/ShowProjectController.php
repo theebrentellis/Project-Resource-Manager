@@ -15,21 +15,7 @@ class ShowProjectController extends Controller
         // $project = Project::find($id)->with('users')->first();
 
         $project = Project::find($id);
-
-        // dd($project);
         
         return view("projects.showProject", compact('project'));
-
-        // return $project;
-    }
-
-    public function editProject(){
-
-        // return view("projects.showProject", compact('project'));
-    }
-
-    public function deleteProject()
-    {
-        // return view(home);
     }
 }

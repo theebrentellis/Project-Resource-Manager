@@ -2,17 +2,16 @@
 
 namespace App;
 
+use App\TimeCard;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
     protected $fillable = [
-        'name', 'description', 'totalHours', 'dueDate', 'project_time_card_id'
+        'name', 'description', 'totalHours', 'dueDate'
     ];
-    // public function users()
-    // {
-    //     return $this->belongsToMany('App\User', 'user_project')->withTimestamps();
-    // }
+    
     public function timeCards()
     {
         return $this->hasMany('App\TimeCard');
@@ -22,8 +21,8 @@ class Project extends Model
     {
         $total = 0;
 
-        foreach($this->timeCards as $timecard) {
-            $total += $timecard->totalTime;
+        foreach($this->timeCards as $time_card) {
+            $total += $time_card->time;
         }
 
         return $total;

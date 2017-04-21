@@ -16,8 +16,8 @@ class CreateTimeCardTable extends Migration
         Schema::create('time_cards', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('project_id');
-            $table->integer('developer_id');
-            $table->integer('totalTime');
+            $table->integer('user_id');
+            $table->integer('time');
             $table->date('date');
             $table->string('notes')->nullable();
             $table->string('comments')->nullable();

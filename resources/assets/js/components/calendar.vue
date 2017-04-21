@@ -28,7 +28,6 @@
         methods: {
             openModal(date){
                 this.$store.dispatch("openModal", {date: date});
-                // console.log(this.$store.state.modal)
             }
         },
         mounted: function(){
@@ -63,8 +62,7 @@
 
                     dayClick: function (date, jsEvent, view) {
                         console.log('dayClick');
-                        // date = moment(date).format("MMMM Do YYYY");
-                        vm.openModal(date);
+                        // vm.openModal(date);
                     }
                 });
         },

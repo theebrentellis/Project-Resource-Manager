@@ -19,6 +19,7 @@ class AddProject extends Migration
             $table->string('description');
             $table->double('totalHours');
             $table->date('dueDate');
+            $table->integer('client_id')->nullable();
             $table->timestamps();
         });
     }

@@ -22,6 +22,7 @@ class CreateUserType extends Migration
         $type = [
             'dev' => 'Developer',
             'designer' => 'Designer',
+            'pm' => 'Project Manager',
             'admin' => 'Admin'
         ];
         foreach($type as $slug => $label){

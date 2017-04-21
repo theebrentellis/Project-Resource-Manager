@@ -27,10 +27,12 @@ class HomeController extends Controller
     public function index()
     {
         $projects = Project::with(array("timeCards" => function($query){
-            $query->addSelect(array('project_id', 'totalTime'));
+            $query->addSelect(array('project_id', 'time'));
         }))->get();
 
-        $developers = User::all();
+        $developers = User::with(array("timeCards" => function($query){
+            $query->addSelect(array('user_id', 'time'));
+        }))->get();
 
         return view('home', compact(['projects', 'developers']));
     }

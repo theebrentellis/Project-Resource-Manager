@@ -63,7 +63,7 @@
                             @foreach ($developers as $developer)
                             <tr>
                                 <td><a href="/developer/{{$developer->id}}/show">{{$developer->name}}</a></td>
-                                <td>{{$developer->totalHours}}</td>
+                                <td>{{$developer->getTotalAssignedTime()}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -71,6 +71,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div>
+        {{$developers[0]}}
     </div>
     <modal v-if="$store.state.modal.showModal" @close="$store.state.modal.showModal = false"></modal>
     <div class="row">

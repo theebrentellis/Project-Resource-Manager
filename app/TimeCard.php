@@ -28,13 +28,13 @@ class TimeCard extends Model
      *
      * @var array
      */
-    protected $fillable = ['project_id', 'develper_id', 'totalTime', 'date', 'notes', 'comments'];
+    protected $fillable = ['project_id', 'user_id', 'time', 'date', 'notes', 'comments'];
 
     public function project()
     {
         return $this->belongsTo('App\Project');
     }
-    public function developer()
+    public function user()
     {
         return $this->belongsTo('App\User');
     }

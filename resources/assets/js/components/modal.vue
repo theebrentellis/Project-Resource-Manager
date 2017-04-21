@@ -15,7 +15,8 @@
                 <p v-if="state.date"><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>
                 <form @submit.prevent="close">
                     <div class="form-group">
-                    
+                        <label for="timeCard_date">Date:</label>
+                        <input type="date" class="form-control" id="timeCard_date" v-model="form.date" required>
                     </div>
                     <div class="form-group">
                         <label for="project">Project:</label>
@@ -46,15 +47,6 @@
                     <div class="form-group">
                         <label for="notes">Notes:</label>
                         <textarea name="" id="comments" class="form-control" rows="5" v-model="form.notes"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="start_time">From: </label>
-                        <input type="time" class="form-control" id="startTime" v-model="form.start_time">
-                    </div>
-                    <div class="form-group">
-                        <label for="end_time">End: </label>
-                        <input type="time" class="form-control" id="endTime" v-model="form.end_time">
                     </div>
                     
                     <div class="form-group">
@@ -94,11 +86,6 @@
                     this.$store.dispatch("UPDATE_MESSAGE", material);
                 }  
             },
-            dev_id: {
-                get(){
-                    return this.$store.state.modal.dev_id
-                }
-            }
         },
         methods: {
             closeSubmit: function() {
@@ -125,7 +112,7 @@
                 project: {
                     
                 },
-                developer: {
+                develoepr: {
                     
                 }
             }

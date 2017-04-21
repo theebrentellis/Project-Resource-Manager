@@ -33,4 +33,20 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\TimeCard');
     }
+    public function getTotalAssignedTime()
+    {
+        $total = 0;
+
+        foreach($this->timeCards as $time_card){
+            $total += $time_card->time;
+        }
+
+        return $total;
+    }
+    public function getProjectAssignedTime($project_id)
+    {
+        $total = 0;
+
+        return $total;
+    }
 }

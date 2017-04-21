@@ -14,9 +14,9 @@ class TimeCardController extends Controller
         $timeCard = new TimeCard;
 
         $timeCard->project_id = $request->project_id;
-        $timeCard->developer_id = $request->dev_id;
+        $timeCard->user_id = $request->developer_id;
         $timeCard->date = $request->date;
-        $timeCard->totalTime = $request->hours;
+        $timeCard->time = $request->hours;
         $timeCard->notes = $request->notes;
 
         $timeCard->save();

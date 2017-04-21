@@ -38497,7 +38497,6 @@ exports.default = {
     methods: {
         openModal: function openModal(date) {
             this.$store.dispatch("openModal", { date: date });
-            // console.log(this.$store.state.modal)
         }
     },
     mounted: function mounted() {
@@ -38532,8 +38531,7 @@ exports.default = {
 
             dayClick: function dayClick(date, jsEvent, view) {
                 console.log('dayClick');
-                // date = moment(date).format("MMMM Do YYYY");
-                vm.openModal(date);
+                // vm.openModal(date);
             }
         });
     }
@@ -38584,11 +38582,6 @@ exports.default = {
             set: function set(message) {
                 this.$store.dispatch("UPDATE_MESSAGE", material);
             }
-        },
-        dev_id: {
-            get: function get() {
-                return this.$store.state.modal.dev_id;
-            }
         }
     },
     methods: {
@@ -38612,7 +38605,7 @@ exports.default = {
         return {
             form: {},
             project: {},
-            developer: {}
+            develoepr: {}
         };
     },
     mounted: function mounted() {
@@ -38632,7 +38625,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n  <transition name=\"modal\">\n    <div class=\"modal-mask\">\n      <div class=\"modal-wrapper\">\n        <div class=\"modal-container\">\n          <div class=\"card\">\n            <div class=\"card-header\">\n                <h4>Assign Time\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" @click=\"$emit('close')\">\n                        <span aria-hidden=\"true\">×</span>\n                    </button>\n                </h4>\n            </div> \n            <div class=\"card-block\">\n                <p v-if=\"state.date\"><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>\n                <form @submit.prevent=\"close\">\n                    <div class=\"form-group\">\n                    \n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"project\">Project:</label>\n                        <select name=\"\" id=\"project\" class=\"custom-select\" v-on:input=\"updateProjectId($event.target.value)\">\n                            <option selected=\"\">Choose...</option>\n                            <option v-for=\"project in state.allProjects\" v-bind:value=\"project.id\">{{project.name}}</option>\n                            {{project.id}} {{project.name}}\n                        </select>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"dev\">Developer:</label>\n                        <select name=\"\" id=\"developer\" class=\"custom-select\" v-on:input=\"updateDeveloperId($event.target.value)\">\n                            <option selected=\"\">Choose...</option>\n                            <option v-for=\"developer in state.allDevelopers\" v-bind:value=\"developer.id\">{{developer.name}}</option>\n                        </select>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"hours\">Hours:\n                            <input type=\"number\" id=\"hours\" class=\"form-control\" v-model=\"form.hours\" required=\"\">\n                        </label>\n                    </div>\n                    <div class=\"form-check\">\n                        <label class=\"form-check-label\">\n                          <input type=\"checkbox\" class=\"form-check-input\" id=\"allDay\" value=\"true\" v-model=\"form.allDay\">\n                          All Day\n                        </label>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"notes\">Notes:</label>\n                        <textarea name=\"\" id=\"comments\" class=\"form-control\" rows=\"5\" v-model=\"form.notes\"></textarea>\n                    </div>\n                    \n                    <div class=\"form-group\">\n                        <label for=\"start_time\">From: </label>\n                        <input type=\"time\" class=\"form-control\" id=\"startTime\" v-model=\"form.start_time\">\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"end_time\">End: </label>\n                        <input type=\"time\" class=\"form-control\" id=\"endTime\" v-model=\"form.end_time\">\n                    </div>\n                    \n                    <div class=\"form-group\">\n                        <button class=\"btn btn-outline-primary\" @click=\"closeSubmit()\">Assign Time</button>\n                    </div>\n                </form>\n            </div>\n        </div>\n      </div>\n    </div>\n  \n</div></transition>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n  <transition name=\"modal\">\n    <div class=\"modal-mask\">\n      <div class=\"modal-wrapper\">\n        <div class=\"modal-container\">\n          <div class=\"card\">\n            <div class=\"card-header\">\n                <h4>Assign Time\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" @click=\"$emit('close')\">\n                        <span aria-hidden=\"true\">×</span>\n                    </button>\n                </h4>\n            </div> \n            <div class=\"card-block\">\n                <p v-if=\"state.date\"><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>\n                <form @submit.prevent=\"close\">\n                    <div class=\"form-group\">\n                        <label for=\"timeCard_date\">Date:</label>\n                        <input type=\"date\" class=\"form-control\" id=\"timeCard_date\" v-model=\"form.date\" required=\"\">\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"project\">Project:</label>\n                        <select name=\"\" id=\"project\" class=\"custom-select\" v-on:input=\"updateProjectId($event.target.value)\">\n                            <option selected=\"\">Choose...</option>\n                            <option v-for=\"project in state.allProjects\" v-bind:value=\"project.id\">{{project.name}}</option>\n                            {{project.id}} {{project.name}}\n                        </select>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"dev\">Developer:</label>\n                        <select name=\"\" id=\"developer\" class=\"custom-select\" v-on:input=\"updateDeveloperId($event.target.value)\">\n                            <option selected=\"\">Choose...</option>\n                            <option v-for=\"developer in state.allDevelopers\" v-bind:value=\"developer.id\">{{developer.name}}</option>\n                        </select>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"hours\">Hours:\n                            <input type=\"number\" id=\"hours\" class=\"form-control\" v-model=\"form.hours\" required=\"\">\n                        </label>\n                    </div>\n                    <div class=\"form-check\">\n                        <label class=\"form-check-label\">\n                          <input type=\"checkbox\" class=\"form-check-input\" id=\"allDay\" value=\"true\" v-model=\"form.allDay\">\n                          All Day\n                        </label>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"notes\">Notes:</label>\n                        <textarea name=\"\" id=\"comments\" class=\"form-control\" rows=\"5\" v-model=\"form.notes\"></textarea>\n                    </div>\n                    \n                    <div class=\"form-group\">\n                        <button class=\"btn btn-outline-primary\" @click=\"closeSubmit()\">Assign Time</button>\n                    </div>\n                </form>\n            </div>\n        </div>\n      </div>\n    </div>\n  \n</div></transition>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
