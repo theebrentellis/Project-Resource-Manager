@@ -3,24 +3,19 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-
-          <div class="modal-header">
-                <h4>Add Hours:
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="$emit('close')">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+          <div class="card">
+            <div class="card-header">
+                <h4>Assign Time
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="$emit('close')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </h4>
-          </div>
-          <div class="modal-body">
-            <slot name="body">
+            </div> 
+            <div class="card-block">
                 <p v-if="state.date"><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>
                 <form @submit.prevent="close">
                     <div class="form-group">
-                        <label for="dev">Developer:</label>
-                        <select name="" id="developer" class="custom-select" v-on:input="updateDeveloperId($event.target.value)">
-                            <option selected>Choose...</option>
-                            <option v-for="developer in state.allDevelopers" v-bind:value="developer.id">{{developer.name}}</option>
-                        </select>
+                    
                     </div>
                     <div class="form-group">
                         <label for="project">Project:</label>
@@ -31,13 +26,28 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="dev">Developer:</label>
+                        <select name="" id="developer" class="custom-select" v-on:input="updateDeveloperId($event.target.value)">
+                            <option selected>Choose...</option>
+                            <option v-for="developer in state.allDevelopers" v-bind:value="developer.id">{{developer.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hours">Hours:
+                            <input type="number" id="hours" class="form-control" v-model="form.hours" required>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input" id="allDay" value="true" v-model="form.allDay">
+                          All Day
+                        </label>
+                    </div>
+                    <div class="form-group">
                         <label for="notes">Notes:</label>
                         <textarea name="" id="comments" class="form-control" rows="5" v-model="form.notes"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="hours">Hours: </label>
-                        <input type="number" id="hours" class="form-control" v-model="form.hours" required>
-                    </div>
+                    
                     <div class="form-group">
                         <label for="start_time">From: </label>
                         <input type="time" class="form-control" id="startTime" v-model="form.start_time">
@@ -46,21 +56,12 @@
                         <label for="end_time">End: </label>
                         <input type="time" class="form-control" id="endTime" v-model="form.end_time">
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input" id="allDay" value="true" v-model="form.allDay">
-                          All Day
-                        </label>
+                    
+                    <div class="form-group">
+                        <button class="btn btn-outline-primary" @click="closeSubmit()">Assign Time</button>
                     </div>
                 </form>
-            </slot>
-          </div>
-
-          <div class="modal-footer">
-            <slot name="footer"></slot>
-            <button class="btn btn-primary" @click="closeSubmit()">Assign Time</button>  
-          </div>
-          
+            </div>
         </div>
       </div>
     </div>

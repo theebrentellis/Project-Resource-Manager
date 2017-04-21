@@ -4,6 +4,10 @@
 <style>
 .fc-title {
     display: block;
+    color: white;
+}
+.fc-event-container a {
+    border-color: #ddd !important;
 }
 .fc-content {
     white-space: inherit !important;

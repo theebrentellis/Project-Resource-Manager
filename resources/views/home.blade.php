@@ -50,9 +50,10 @@
     </div>
     <div class="row">
         <div class="col col-md-12">
-            <div class="card">
+            <div class="card w-75">
                 <div class="card-block">
                     <h2 class="card-title">Developers</h2>
+                    <thebutton></thebutton>
                     <table class="table">
                         <thead class="thead-default">
                             <th>Name</th>
@@ -74,10 +75,10 @@
     <modal v-if="$store.state.modal.showModal" @close="$store.state.modal.showModal = false"></modal>
     <div class="row">
         <div class="col">
-            <thebutton></thebutton>
+            <calendar></calendar>
         </div>
     </div>
-    <calendar></calendar>
+    
     {{var_dump($errors)}}
 </div>
 

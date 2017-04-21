@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url(https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600);
 /*!
  * Bootstrap v4.0.0-alpha.6 (https://getbootstrap.com)
  * Copyright 2011-2017 The Bootstrap Authors
@@ -8545,17 +8545,34 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   }
 }
 
-#assign {
-  margin-top: 2.5%;
-  margin-bottom: 2.5%;
-}
-
 .row {
   margin-top: 2.5%;
 }
 
 a.btn.btn-link {
   font-size: 12px;
+}
+
+.welcome {
+  color: #636b6f;
+  font-weight: 100;
+  margin-top: 25%;
+  text-align: center;
+}
+
+.welcome_title {
+  font-size: 64px;
+  margin-bottom: 2.5%;
+}
+
+.welcome_link > a {
+  color: #636b6f;
+  padding: 0 25px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1rem;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
 /*# sourceMappingURL=app.css.map */

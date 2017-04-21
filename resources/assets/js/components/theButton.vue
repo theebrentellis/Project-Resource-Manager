@@ -1,7 +1,7 @@
 <template>
-        <button type="button" class="btn btn-default" @click="openModal()">
-            <i class="fa fa-clock-o" style="margin-right: 2%;"></i>Assign Time
-        </button>
+        <a href="#" role="button" class="btn btn-outline-danger btn-sm" @click="openModal()">
+            <i class="fa fa-clock-o" ></i>  Assign Time
+        </a>
 </template>
 
 <script>
