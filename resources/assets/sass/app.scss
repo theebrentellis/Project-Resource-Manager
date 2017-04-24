@@ -35,3 +35,12 @@ a.btn.btn-link {
     text-decoration: none;
     text-transform: uppercase;
 }
+
+.nav-tabs {
+    display: block;
+    border-bottom: none !important;
+}
+a.nav-link {
+    border: none !important;
+    color: #464a4c;
+}

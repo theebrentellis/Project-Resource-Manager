@@ -38,12 +38,12 @@
                     <!-- Branding Image -->
                     @if (Auth::guest())
                         <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="./images/twelve23-logo-blue.png" alt="Twelve23 Logo">
+                        <img src="../images/twelve23-logo-blue.png" alt="Twelve23 Logo">
                         {{ config('app.name') }}
                         </a>
                     @else
                         <a class="navbar-brand" href="{{ url('/home') }}">
-                        <img src="./images/1223-logo-blue.png" alt="Twelve23 Logo">
+                        <img src="../images/1223-logo-blue.png" alt="Twelve23 Logo">
                         {{ config('app.name') }}
                         </a>
                     @endif

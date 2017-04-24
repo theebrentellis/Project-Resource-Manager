@@ -20,6 +20,8 @@ Auth::routes();
 Route::group(['middleware' => ['web']], function(){
     Route::get('/home', 'HomeController@index');
 
+    Route::get('/settings/{id}', 'Settings\SettingsController@index');
+
     Route::get('projects', 'Projects\ProjectController@index');
 
     Route::post('projects', 'Projects\AddNewProjectController@addNew');
@@ -38,7 +40,6 @@ Route::group(['middleware' => ['web']], function(){
 
     Route::post('assignTask', 'Projects\AssignTaskController@addTask');
 
-    // Route::get('calendar', 'CalendarController@index');
 });
 
 Route::group([
