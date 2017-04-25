@@ -48,6 +48,7 @@ const mutations = {
         state.showModal = false;
         state.developer_id = "";
         state.project_id = "";
+        location.reload();
     },
     SELECT_DEV_ID(state, id) {
         state.developer_id = id;

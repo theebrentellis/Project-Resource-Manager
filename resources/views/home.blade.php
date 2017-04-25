@@ -3,7 +3,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col col-md-12">
+        <div class="col">
             <div>
                 <div class="card card-inverse" style="background-color: #333; border-color: #333;">
                     <div class="card-block">
@@ -49,11 +49,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="col col-md-12">
+        <div class="col">
             <div class="card w-75">
                 <div class="card-block">
-                    <h2 class="card-title">Developers</h2>
-                    <thebutton></thebutton>
+                    <h2 class="card-title">
+                        Developers
+                        <thebutton></thebutton>
+                    </h2>
                     <table class="table">
                         <thead class="thead-default">
                             <th>Name</th>
