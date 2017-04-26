@@ -52,25 +52,33 @@
         <div class="col">
             <div class="card w-75">
                 <div class="card-block">
-                    <h2 class="card-title">
+                    <h2 class="card-title home">
                         Developers
-                        <thebutton></thebutton>
                     </h2>
+                    <div style="margin-top: 1%; margin-bottom: 1%;">
+                        <thebutton></thebutton>
+                    </div>
                     <table class="table">
                         <thead class="thead-default">
                             <th>Name</th>
                             <th>Total Assigned Hours</th>
+                            @foreach ($projects as $project)
+                                <th>{{$project->name}}</th>
+                            @endforeach
                         </thead>
                         <tbody>
                             @foreach ($developers as $developer)
-                            <tr>
-                                <td><a href="/developer/{{$developer->id}}/show">{{$developer->name}}</a></td>
-                                <td>{{$developer->getTotalAssignedTime()}}</td>
-                            </tr>
+                                <tr>
+                                    <td><a href="/developer/{{$developer->id}}/show">{{$developer->name}}</a></td>
+                                    <td>{{$developer->getTotalAssignedTime()}}</td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div>
+                
             </div>
         </div>
     </div>

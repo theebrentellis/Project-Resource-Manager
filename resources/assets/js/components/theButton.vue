@@ -1,6 +1,6 @@
 <template>
-        <a href="#" role="button" class="btn btn-outline-danger btn-sm" @click="openModal()">
-            <i class="fa fa-clock-o" ></i>  Assign Time
+        <a href="#" role="button" class="btn btn-outline-success btn-sm" @click="openModal()">
+            <i class="fa fa-fw fa-btn fa-clock-o" ></i>New Time Card
         </a>
 </template>
 

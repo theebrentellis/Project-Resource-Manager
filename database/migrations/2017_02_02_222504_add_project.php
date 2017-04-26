@@ -16,8 +16,8 @@ class AddProject extends Migration
         Schema::create('projects', function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
-            $table->double('totalHours');
+            $table->text('description');
+            $table->integer('totalHours');
             $table->date('dueDate');
             $table->integer('client_id')->nullable();
             $table->timestamps();

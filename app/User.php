@@ -33,6 +33,7 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\TimeCard');
     }
+
     public function getTotalAssignedTime()
     {
         $total = 0;
@@ -43,7 +44,13 @@ class User extends Authenticatable
 
         return $total;
     }
-    public function getProjectAssignedTime($project_id)
+
+    public function getProjectName()
+    {
+        return $this;
+    }
+
+    public function getProjectAssignedTime()
     {
         $total = 0;
 

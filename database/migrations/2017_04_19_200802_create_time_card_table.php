@@ -17,10 +17,12 @@ class CreateTimeCardTable extends Migration
             $table->increments('id');
             $table->integer('project_id');
             $table->integer('user_id');
+            $table->integer('role_id');
             $table->integer('time');
             $table->date('date');
-            $table->string('notes')->nullable();
-            $table->string('comments')->nullable();
+            $table->boolean('completed');
+            $table->text('notes')->nullable();
+            $table->text('comments')->nullable();
             $table->timestamps();
         });
     }
