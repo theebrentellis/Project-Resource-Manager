@@ -10,7 +10,8 @@ import Vue from 'vue';
 
 import calendar from './components/calendar.vue';
 import modal from './components/modal.vue';
-import thebutton from './components/theButton.vue';
+import projectdashboard from './components/ProjectDashboard.vue';
+import roledashboard from './components/RoleDashboard.vue';
 
 import store from './store';
 
@@ -24,6 +25,6 @@ import store from './store';
 window.App = new Vue({
     el: '#app',
     store,
-    components: { calendar, modal, thebutton },
+    components: { calendar, modal, projectdashboard, roledashboard },
 
 });

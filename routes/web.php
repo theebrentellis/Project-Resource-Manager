@@ -18,13 +18,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['web']], function(){
-    Route::get('/home', 'HomeController@index');
+    Route::get('home', 'HomeController@index');
 
-    Route::get('/settings/{id}', 'Settings\SettingsController@index');
+    Route::get('settings', 'Settings\SettingsController@index');
 
     Route::get('projects', 'Projects\ProjectController@index');
 
     Route::post('projects', 'Projects\AddNewProjectController@addNew');
+
+    Route::get('timecards', 'Timecards\TimecardController@index');
+
+    Route::post('timecards/{id}/edit', 'Timecards\TimecardController@edit');
 
     Route::get('project/{id}/show', 'Projects\ShowProjectController@showProject');
 
@@ -48,9 +52,16 @@ Route::group([
 ], function(){
     Route::resource('projectDueDates', 'DueDatesCalendarController');
     Route::resource('developerSchedules', 'CalendarController@developerSchedules');
-    Route::resource('allProjects', 'ProjectsController');
-    Route::resource('allDevelopers', 'DevelopersController');
-    Route::resource('addTimeCard', 'TimeCardController');
+
+    Route::resource('developers', 'DevelopersController');
+    
+    Route::resource('projects', 'ProjectsController');
+    
+    Route::resource('users', 'UserController');
+
+    Route::resource('roles', 'RoleController');
+    
+    Route::resource('timecards', 'TimeCardController');
 });
 
 

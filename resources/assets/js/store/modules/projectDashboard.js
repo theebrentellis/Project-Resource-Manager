@@ -10,10 +10,8 @@ const mutations = {
 
 }
 
-const methods = {
+const getters = {
     openModal: () => {
-        console.log("methods openModal");
-        return console.log("methods openModal");
     }
 }
 
@@ -21,5 +19,5 @@ export default {
     state,
     actions,
     mutations,
-    methods
+    getters
 }

@@ -5,11 +5,16 @@
 // Bootstrap
 @import "node_modules/bootstrap/scss/bootstrap";
 
-
+body {
+    font-family: $font-family-sans-serif;
+}
 .row {
     margin-top: 2.5%;
 }
 
+.btn {
+    font-family: $font-family-sans-serif;
+}
 a.btn.btn-link {
     font-size: 12px;
 }
@@ -43,4 +48,27 @@ a.btn.btn-link {
 a.nav-link {
     border: none !important;
     color: #464a4c;
+}
+
+.card .form-control .form-group {
+    font-family: "Raleway", sans-serif !important;
+    font-size: 1rem;
+    font-weight: normal;
+    color: #292b2c;
+}
+.form-control {
+    font-family: "Raleway", sans-serif !important;
+    font-size: 1rem;
+    font-weight: normal;
+    color: #292b2c;
+}
+label {
+    font-family: "Raleway", sans-serif !important;
+    font-size: 1rem;
+    font-weight: normal;
+    color: #292b2c;
+}
+
+.card-block.dashboard li {
+    list-style: none;
 }

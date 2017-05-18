@@ -2,13 +2,37 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\User;
+use App\UserRole;
+use App\Role;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 class SettingsController extends Controller
 {
-    public function index($id)
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        return view('settings.settings');
+        $this->middleware('auth');
+    }
+
+    public function index()
+    {
+        $user = Auth::user();
+
+        $users = User::with('userRoles.roles')->get();
+
+        return view('settings.settings', ['user' => $user, 'users' => $users]);
+    }
+
+    public function update()
+    {
+
     }
 }

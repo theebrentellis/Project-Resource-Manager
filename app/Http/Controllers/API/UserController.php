@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Projects;
+namespace App\Http\Controllers\API;
 
 use App\User;
+use App\TimeCard;
 use App\Project;
+use App\UserRole;
+use App\Role;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ShowProjectController extends Controller
+class UserController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -20,12 +23,15 @@ class ShowProjectController extends Controller
         $this->middleware('auth');
     }
     
-    public function showProject($id){
+    public function index()
+    {
+        $users = User::with('userRoles.role')->get();
 
-        // $project = Project::find($id)->with('users')->first();
+        return $users;
+    }
 
-        $project = Project::find($id);
+    public function show(Request $request)
+    {
         
-        return view("projects.showProject", compact('project'));
     }
 }

@@ -15,9 +15,9 @@
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="E-mail" required>
                             </div>
                             @if ($errors->has('email'))
-                                <span class="help-block">
+                                <div class="alert alert-danger" role="alert">
                                     <strong>{{ $errors->first('email') }}</strong>
-                                </span>
+                                </div>
                             @endif
                         </div>
                         <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
@@ -26,9 +26,9 @@
                                 <input id="password" type="password" class="form-control" name="password" placeholder="Password" required>
                             </div>
                             @if ($errors->has('password'))
-                                <span class="help-block">
+                                <div class="alert alert-danger" role="alert">
                                     <strong>{{ $errors->first('password') }}</strong>
-                                </span>
+                                </div>
                             @endif
                         </div>
                         <div class="form-group">

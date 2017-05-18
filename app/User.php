@@ -29,6 +29,16 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function userRoles()
+    {
+        return $this->hasMany('App\UserRole', 'user_id');
+    }
+
+    public function roles()
+    {
+        return $this->hasManyThrough('App\Role', 'App\UserRole', 'user_id', 'id');
+    }
+
     public function timeCards()
     {
         return $this->hasMany('App\TimeCard');
@@ -43,11 +53,6 @@ class User extends Authenticatable
         }
 
         return $total;
-    }
-
-    public function getProjectName()
-    {
-        return $this;
     }
 
     public function getProjectAssignedTime()

@@ -1,17 +1,7 @@
-@extends('layouts.app')
-@section('content')
-
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <div>
-                <a href="/timecards">My Timecards <span class="badge">1</span></a>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div>
+<template>
+    <div class="container">
+        <div class="row">
+            <div class="col">
                 <div class="card card-inverse" style="background-color: #333; border-color: #333;">
                     <div class="card-block">
                         <h2 class="card-title">Projects</h2>
@@ -29,47 +19,52 @@
                             <th>Progress</th>
                             <th>Completed Hours</th>
                             <th>Assigned Hours</th>
-                            
+
                         </thead>
                         <tbody>
-                            @foreach ($projects as $project)
+                            <!--@foreach ($projects as $project)-->
                             <tr>
                                 <td>
-                                    <a href="/project/{{$project->id}}/show">{{ $project->name }}</a>
+                                    <!--<a href="/project/{{$project->id}}/show">{{ $project->name }}</a>-->
                                 </td>
                                 <td>
-                                    {{  date('F d, Y', strtotime($project->dueDate)) }}
+                                    <!--{{ date('F d, Y', strtotime($project->dueDate)) }}-->
                                 </td>
                                 <td>
-                                    {{ $project->totalHours }}
+                                    <!--{{ $project->totalHours }}-->
                                 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: {{ $project->percentTime() }}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{ $project->percentTime().'%' }}</div>
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </td>
                                 <td>
-                                    {{ $project->cTime() }}
+                                    <!--{{ $project->getProjectCompletedTime() }}-->
                                 </td>
                                 <td>
-                                    {{ $project->aTime() }}
+                                    <!--{{ $project->getProjectAssignedTime() }}-->
                                 </td>
                             </tr>
-                            @endforeach
+                            <!--@endforeach-->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <!--<projectdashboard></projectdashboard>-->
-    <RoleDashboard></RoleDashboard>
-    <modal v-if="$store.state.modal.showModal" @close="$store.state.modal.showModal = false"></modal>
-    <div class="row">
-        <div class="col">
-            <calendar></calendar>
-        </div>
-    </div>
-</div>
+        
+</template>
 
-@endsection
+<script>
+    import {mapActions} from 'vuex';
+    import {mapState} from 'vuex';
+
+    export default {
+        namedspaced: true,
+        methods: {
+            openModal: function(){
+                this.$store.dispatch("openModal");
+            },
+        }
+    }
+</script>

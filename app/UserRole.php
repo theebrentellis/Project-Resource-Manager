@@ -2,6 +2,10 @@
 
 namespace App;
 
+use App\User;
+use App\TimeCard;
+use App\Role;
+
 use Illuminate\Database\Eloquent\Model;
 
 class UserRole extends Model
@@ -29,4 +33,13 @@ class UserRole extends Model
         'user_id', 'role_id'
     ];
     
+    public function role()
+    {
+        return $this->belongsTo('App\Role');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

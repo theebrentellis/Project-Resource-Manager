@@ -16,8 +16,6 @@
     <link href="/css/fullcalendar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -43,7 +41,7 @@
                         </a>
                     @else
                         <a class="navbar-brand" href="{{ url('/home') }}">
-                        <img src="../images/1223-logo-blue.png" alt="Twelve23 Logo">
+                        <img src="/images/1223-logo-blue.png" alt="Twelve23 Logo">
                         {{ config('app.name') }}
                         </a>
                     @endif
@@ -62,7 +60,7 @@
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="/settings/{{Auth::user()->id}}"><i class="fa fa-fw fa-btn fa-cog"></i>Settings</a>
+                                    <a class="dropdown-item" href="/settings"><i class="fa fa-fw fa-btn fa-cog"></i>Settings</a>
                                     <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-fw fa-btn fa-sign-out" aria-hidden="true"></i>Logout
                                     </a>
