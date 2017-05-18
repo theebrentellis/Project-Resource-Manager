@@ -36,12 +36,6 @@
                                     <label for="hours" class="col-form-label">Hours:</label>
                                     <input type="number" id="hours" class="form-control" v-model="form.hours" required>
                                 </div>
-                                <!--<div class="form-check">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input" id="allDay" value="true" v-model="form.allDay">
-                          All Day
-                        </label>
-                    </div>-->
                                 <div class="form-group row">
                                     <label for="notes">Notes:</label>
                                     <textarea name="" id="comments" class="form-control" rows="5" v-model="form.notes"></textarea>
