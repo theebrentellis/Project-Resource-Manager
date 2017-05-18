@@ -5,37 +5,36 @@
                 <div class="modal-container">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Assign Time
+                            <h4 class="card-title">New Timecard
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="$emit('close')">
-                                <span aria-hidden="true">&times;</span>
+                                    <span aria-hidden="true">&times;</span>
                                 </button>
                             </h4>
                         </div>
                         <div class="card-block">
                             <p v-if="state.date"><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>
                             <form @submit.prevent="close">
-                                <div class="form-group">
-                                    <label for="timeCard_date">Date:</label>
+                                <div class="form-group row">
+                                    <label for="timeCard_date" class="col-form-label">Date:</label>
                                     <input type="date" class="form-control" id="timeCard_date" v-model="form.date" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="project">Project:</label>
+                                <div class="form-group row">
+                                    <label for="project" class="col-form-label">Project:</label>
                                     <select name="" id="project" class="custom-select" v-on:input="updateProjectId($event.target.value)">
                                         <option selected>Choose...</option>
                                         <option v-for="project in state.allProjects" v-bind:value="project.id">{{project.name}}</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="dev">Developer:</label>
+                                <div class="form-group row">
+                                    <label for="dev" class="col-form-label">Developer:</label>
                                     <select name="" id="developer" class="custom-select" v-on:input="updateDeveloperId($event.target.value)">
                                         <option selected>Choose...</option>
                                         <option v-for="developer in state.allDevelopers" v-bind:value="developer.id">{{developer.name}}</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="hours">Hours:
-                                        <input type="number" id="hours" class="form-control" v-model="form.hours" required>
-                                    </label>
+                                <div class="form-group row">
+                                    <label for="hours" class="col-form-label">Hours:</label>
+                                    <input type="number" id="hours" class="form-control" v-model="form.hours" required>
                                 </div>
                                 <!--<div class="form-check">
                         <label class="form-check-label">
@@ -43,11 +42,11 @@
                           All Day
                         </label>
                     </div>-->
-                                <div class="form-group">
+                                <div class="form-group row">
                                     <label for="notes">Notes:</label>
                                     <textarea name="" id="comments" class="form-control" rows="5" v-model="form.notes"></textarea>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group row">
                                     <button class="btn btn-outline-primary" @click="closeSubmit()">Assign Time</button>
                                 </div>
                             </form>

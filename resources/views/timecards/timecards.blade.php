@@ -37,12 +37,12 @@
             </div>
         @endforeach
     </div>
-    <div class="row">
+    <!--<div class="row">
         <ul>
             @foreach($timecards as $timecard)
             <li>{{ $timecard }}</li>
             @endforeach
         </ul>
-    </div>
+    </div>-->
 </div>
 @endsection
