@@ -30,7 +30,6 @@
                 <div class="card-header">
                     <i class="fa fa-fw fa-btn fa-cog"></i>Settings
                 </div>
-            
                 <div class="card-block">
                     <ul class="nav nav-tabs settings" role="tablist">
                         <li class="nav-item">
@@ -63,13 +62,13 @@
                                 <div class="form-group row justify-content-md-center">
                                     <label for="name" class="col-1 col-form-label">Name</label>
                                     <div class="col col-md-auto">
-                                        <input type="text" id="name" class="form-control" placeholder="{{ $user->name }}">
+                                        <input type="text" id="name" name="name" class="form-control" placeholder="{{ $user->name }}" value="">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label for="email" class="col-1 col-form-label">Email</label>
                                     <div class="col col-md-auto">
-                                        <input type="email" id="email" class="form-control" placeholder="{{ $user->email }}">
+                                        <input type="email" id="email" name="email" class="form-control" placeholder="{{ $user->email }}" value="">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
@@ -124,20 +123,38 @@
                             <h5>Admin Panel</h5>
                         </div>
                         <div class="card-block">
-                            <form action="/settings" method="POST">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" name="user_id" value="{{ $user->id }}">
+                            <div class="row">
                                 @foreach($users as $user)
-                                    <div class="form-group">
-                                        <label>{{ $user->name }}</label>
-                                        <div class="col">
-                                            <div class="form-check">
-                                                
-                                            </div>
-                                        </div>
+                                    <div class="col">
+                                        <label><strong>{{ $user->name }}</strong></label>
+                                        @foreach($roles as $role)
+                                            @if($user->hasRole($role))
+                                                <form action="/settings" method="POST">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
+                                                    <div class="form-check">
+                                                        <label class="form-check-label" for="">
+                                                            <input class="form-check-input" type="checkbox" id="" name="{{ $user->id }}" value="{{ $role }}" onChange="submit();" checked> {{ $role->label }}
+                                                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                                            <input type="hidden" name="remove_role_id" value="{{ $role->id }}">
+                                                        </label>
+                                                    </div>
+                                                    </form>
+                                            @else
+                                                <form action="/settings" method="POST">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
+                                                    <div class="form-check">
+                                                        <label class="form-check-label" for="">
+                                                            <input class="form-check-input" type="checkbox" id="" name="" value="" onChange="submit();"> {{ $role->label }}
+                                                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                                            <input type="hidden" name="add_role_id" value="{{ $role->id }}">
+                                                        </label>
+                                                    </div>
+                                                </form>
+                                            @endif
+                                        @endforeach
                                     </div>
                                 @endforeach
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -145,6 +162,5 @@
         </div>
     </div>
 </div>
-
 
 @endsection

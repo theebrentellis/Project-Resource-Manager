@@ -19,13 +19,14 @@ class Role extends Model
 
     public function user()
     {
-        return $this->belongsToMany('App\User');
+        return $this->hasMany('App\User');
     }
 
     public function timeCard()
     {
-        return $this->belongsTo('App\TimeCard');
+        return $this->hasMany('App\TimeCard');
     }
+
     public function project()
     {
         return $this->hasMany('App\Project');

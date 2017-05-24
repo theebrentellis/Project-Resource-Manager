@@ -31,12 +31,22 @@ class User extends Authenticatable
 
     public function userRoles()
     {
-        return $this->hasMany('App\UserRole', 'user_id');
+        return $this->hasMany('App\UserRole');
     }
 
     public function roles()
     {
-        return $this->hasManyThrough('App\Role', 'App\UserRole', 'user_id', 'id');
+        return $this->hasManyThrough('App\UserRole', 'App\Role', 'id', 'user_id');
+    }
+
+    public function hasRole($role)
+    {
+        foreach($this->roles as $userRole) {
+            if($userRole->role_id == $role->id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function timeCards()

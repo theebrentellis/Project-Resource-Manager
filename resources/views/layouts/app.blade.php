@@ -21,7 +21,8 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
-
+    
+    
 </head>
 <body>
     <div id="app">
@@ -77,8 +78,10 @@
         @yield('content')
     </div>
 
+
     <!-- Scripts -->
-    <script src='{{elixir("/js/app.js")}}'></script>
+    <script src='{{elixir("/js/app.js")}}' type="text/javascript"></script>
+    <!--<script src="/js/app.js" type="text/javascript"></script>-->
     
 </body>
 </html>

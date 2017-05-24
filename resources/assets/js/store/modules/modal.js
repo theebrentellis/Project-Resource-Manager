@@ -18,22 +18,22 @@ const actions = {
     loadModalProjects: function ({ commit }) {
         axios.get('/api/projects')
             .then((response) => {
-                commit('SET_MODAL_PROJECTS', {allProjects: response.data})
+                commit('SET_MODAL_PROJECTS', { allProjects: response.data })
             }, (error) => {
                 console.log(error);
             })
     },
-    openModal: function({ commit }) {
+    openModal: function ({ commit }) {
         commit('OPEN_MODAL');
     },
-    closeModal: function({ commit }, formData) {
+    closeModal: function ({ commit }, formData) {
 
         formData.project_id = state.project_id;
         formData.developer_id = state.developer_id;
         formData.role_id = 1;
-        formData._method = "POST";
+        // formData._method = "POST";
 
-        return axios.post('/api/timeCards', formData)
+        return axios.post('/api/timecards', formData)
             .then((response) => {
                 console.log(response);
                 if (response.status == 200) {
@@ -70,7 +70,7 @@ const mutations = {
 }
 
 const getters = {
-    
+
 }
 
 export default {

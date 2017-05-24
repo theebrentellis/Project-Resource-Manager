@@ -21,28 +21,22 @@ Route::group(['middleware' => ['web']], function(){
     Route::get('home', 'HomeController@index');
 
     Route::get('settings', 'Settings\SettingsController@index');
+    Route::post('settings', 'Settings\SettingsController@update');
 
     Route::get('projects', 'Projects\ProjectController@index');
-
     Route::post('projects', 'Projects\AddNewProjectController@addNew');
 
     Route::get('timecards', 'Timecards\TimecardController@index');
-
     Route::post('timecards/{id}/edit', 'Timecards\TimecardController@edit');
 
     Route::get('project/{id}/show', 'Projects\ShowProjectController@showProject');
-
     Route::get('project/{id}/edit', 'Projects\EditProjectController@showProject');
-
     Route::post('project/edit', 'Projects\EditProjectController@editProject');
 
     Route::get('project/{id}/addProjectDeveloper', 'Projects\EditProjectController@addDeveloper');
-
     Route::post('project/{id}/addProjectDeveloper', 'Projects\ProjectController@addNewDeveloper');
 
     Route::get('developer/{id}/show', 'Developers\ShowDeveloperController@showDev');
-
-    Route::post('assignTask', 'Projects\AssignTaskController@addTask');
 
 });
 
