@@ -44,7 +44,11 @@ class SettingsController extends Controller
             $user->save();
         }
         if($request->email){
-            if(User::where('email', '=', $request->email)->firstOrFail()){
+            $userEmail = User::where('email', '=', $request->email)->get();
+
+            // dd($userEmail->isNotEmpty());
+
+            if($userEmail->isNotEmpty()){
                 return redirect('settings')->withErrors("Email Already Exists!")->withInput();
             }
             else{
