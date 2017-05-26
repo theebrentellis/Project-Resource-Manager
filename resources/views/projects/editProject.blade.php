@@ -4,15 +4,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <h2>Project Name: </h2><h5>{{$project->name}}</h5>
-
+            <h2>Project: </h2><h5>{{$project->name}}</h5>
         </div>
     </div>
     <div class="row">
         <div class="col-md-8">
-            <form method="POST" action="/project/edit">
+            <form method="POST" action="/project/{{ $project->id }}/edit">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="editProjectId" value="{{$project->id}}">
+                <input type="hidden" name="edit" value="editProject">
+                <div class="form-group">
+                    <label class="control-label" for="">Edit Project Name:</label>
+                    <input class="form-control" type="text" name="editProjectTitle" value="{{$project->name}}">
+                </div>
                 <div class="form-group">
                     <label class="control-label" for="">Edit Project Description:</label>
                     <input class="form-control" type="text" name="editProjectDescription" value="{{$project->description}}">
@@ -31,7 +34,17 @@
             </form>
         </div>
     </div>
-    <button type="button" class="btn btn-sm btn-danger">Delete Project</button>
+    <div class="row">
+        <div class="col">
+            <form action="/project/{{ $project->id }}/edit" method="POST">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="edit" value="deleteProject">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @endsection

@@ -28,10 +28,11 @@ Route::group(['middleware' => ['web']], function(){
 
     Route::get('timecards', 'Timecards\TimecardController@index');
     Route::post('timecards/{id}/edit', 'Timecards\TimecardController@edit');
+    Route::post('timecards/{id}/delete', 'Timecards\TimecardController@delete');
 
     Route::get('project/{id}/show', 'Projects\ShowProjectController@showProject');
     Route::get('project/{id}/edit', 'Projects\EditProjectController@showProject');
-    Route::post('project/edit', 'Projects\EditProjectController@editProject');
+    Route::post('project/{id}/edit', 'Projects\EditProjectController@editProject');
 
     Route::get('project/{id}/addProjectDeveloper', 'Projects\EditProjectController@addDeveloper');
     Route::post('project/{id}/addProjectDeveloper', 'Projects\ProjectController@addNewDeveloper');

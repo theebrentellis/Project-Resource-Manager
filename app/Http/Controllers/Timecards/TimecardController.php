@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Timecards;
 
 use App\TimeCard;
+use App\User;
+use App\Project;
+use App\Role;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,18 +25,43 @@ class TimecardController extends Controller
 
     public function index()
     {
-        $timecards = TimeCard::with('user', 'role')->get();
+        $timecards = TimeCard::all();
+
+        // dd($timecards);
 
         return view('timecards.timecards', ['timecards' => $timecards]);
     }
 
-    public function edit(Request $request)
+    public function edit($id, Request $request)
     {
-        $timecard = TimeCard::findOrFail($request->id);
+        $timecard = TimeCard::findOrFail($id);
 
         if($request->completed){
             $timecard->completed = $request->completed;
             $timecard->save();
+        }
+        if($request->edit == "edit"){
+            $users = User::with('roles')->get();
+            $projects = Project::withTrashed()->get();
+
+            dd($projects);
+            
+            $roles = Role::all();
+            return view('timecards.editTimecards', ['timecard' => $timecard, 'users' => $users, 'projects' => $projects, 'roles' => $roles]);
+        }
+        if($request->edit == "updateTimecard"){
+
+            $timecard->notes = $request->editTimecardNotes;
+            $timecard->time = $request->editTimecardTime;
+            $timecard->date = $request->editTimecardDate;
+
+            $timecard->save();
+
+            return redirect('home');
+        }
+        if($request->delete == 'deleteTimecard'){
+            $timecard->delete();
+            return redirect('home');
         }
 
         return redirect('timecards');

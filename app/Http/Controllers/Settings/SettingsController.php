@@ -35,7 +35,6 @@ class SettingsController extends Controller
 
     public function update(Request $request)
     {
-        // dd($request);
 
         $user = User::findOrFail($request->user_id);
 
@@ -45,8 +44,6 @@ class SettingsController extends Controller
         }
         if($request->email){
             $userEmail = User::where('email', '=', $request->email)->get();
-
-            // dd($userEmail->isNotEmpty());
 
             if($userEmail->isNotEmpty()){
                 return redirect('settings')->withErrors("Email Already Exists!")->withInput();

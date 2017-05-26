@@ -15,6 +15,8 @@
     <link href="/css/modal.css" rel="stylesheet" >
     <link href="/css/fullcalendar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>-->
     
     <script>
         window.Laravel = {!! json_encode([
@@ -81,7 +83,6 @@
 
     <!-- Scripts -->
     <script src='{{elixir("/js/app.js")}}' type="text/javascript"></script>
-    <!--<script src="/js/app.js" type="text/javascript"></script>-->
     
 </body>
 </html>

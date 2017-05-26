@@ -28,3 +28,17 @@ window.App = new Vue({
     components: { calendar, modal, projectdashboard, roledashboard },
 
 });
+
+$(document).ready(() => {
+    $('#editTimecard').on('click', () => {
+        var timecards = document.getElementsByClassName("timecardCheckbox");
+        for (var x = 0; x < timecards.length; x++){
+            if (timecards[x].type === "hidden") {
+                timecards[x].type = 'checkbox';
+            }
+            else if (timecards[x].type == 'checkbox') {
+                timecards[x].type = "hidden";
+            }
+        }
+    });
+})

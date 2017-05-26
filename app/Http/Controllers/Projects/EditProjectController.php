@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Projects;
 
 use App\User;
 use App\Project;
+use App\TimeCard;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,25 +28,31 @@ class EditProjectController extends Controller
         return view('projects.editProject', compact('project'));
     }
 
-    public function editProject(Request $request)
+    public function editProject($id, Request $request)
     {
-        $project = Project::find($request->editProjectId);
-        
-        $project->description = $request->editProjectDescription;
-        $project->dueDate = $request->editProjectDueDate;
-        $project->totalHours = $request->editProjectBuildHours;
+        $project = Project::findorFail($id);
 
-        $project->save();
+        if($request->edit == "editProject"){
+            
+            $project->description = $request->editProjectDescription;
+            $project->dueDate = $request->editProjectDueDate;
+            $project->totalHours = $request->editProjectBuildHours;
 
-        return redirect('home');
-    }
+            $project->save();
 
-    public function addDeveloper($id)
-    {
-        $project = Project::find($id);
+            return redirect()->action(
+                'Projects\ShowProjectController@showProject', ['id' => $project->id]
+            );
+        }
+        if($request->edit == "deleteProject"){
+            
+            $project->delete();
 
-        $developers = User::all();
+            $projectTimecards = TimeCard::where('project_id', '=', $project->id);
 
-        return view('projects.addProjectDeveloper', compact(['project', 'developers']));
+            $projectTimecards->delete();
+
+            return redirect('home');
+        }
     }
 }
