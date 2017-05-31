@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import api from './modules/api';
-import modal from './modules/modal';
+import newTimecard from './modules/newTimecard';
 import projectDashboard from './modules/projectDashboard';
 import dashboard from './modules/roleDashboard';
 
@@ -13,7 +13,7 @@ Vue.config.debug = true;
 export default new Vuex.Store({
     modules: {
         api,
-        modal,
+        newTimecard,
         projectDashboard,
         dashboard
     },

@@ -64,7 +64,7 @@
         computed: {
             state: {
                 get() {
-                    return this.$store.state.modal;
+                    return this.$store.state.newTimecard;
                 },
                 set(state) {
                     this.$store.dispatch("updateState", state);

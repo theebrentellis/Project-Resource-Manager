@@ -37655,8 +37655,8 @@ module.exports = function(module) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_calendar_vue__ = __webpack_require__(172);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_calendar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_calendar_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_modal_vue__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_modal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_newTimecard_vue__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_newTimecard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_newTimecard_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ProjectDashboard_vue__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ProjectDashboard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_ProjectDashboard_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_RoleDashboard_vue__ = __webpack_require__(171);
@@ -37688,7 +37688,7 @@ __webpack_require__(157);
 window.App = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#app',
     store: __WEBPACK_IMPORTED_MODULE_5__store__["a" /* default */],
-    components: { calendar: __WEBPACK_IMPORTED_MODULE_1__components_calendar_vue___default.a, modal: __WEBPACK_IMPORTED_MODULE_2__components_modal_vue___default.a, projectdashboard: __WEBPACK_IMPORTED_MODULE_3__components_ProjectDashboard_vue___default.a, roledashboard: __WEBPACK_IMPORTED_MODULE_4__components_RoleDashboard_vue___default.a }
+    components: { calendar: __WEBPACK_IMPORTED_MODULE_1__components_calendar_vue___default.a, newtimecard: __WEBPACK_IMPORTED_MODULE_2__components_newTimecard_vue___default.a, projectdashboard: __WEBPACK_IMPORTED_MODULE_3__components_ProjectDashboard_vue___default.a, roledashboard: __WEBPACK_IMPORTED_MODULE_4__components_RoleDashboard_vue___default.a }
 
 });
 
@@ -38952,7 +38952,7 @@ var moment = __webpack_require__(0);
     computed: {
         state: {
             get: function get() {
-                return this.$store.state.modal;
+                return this.$store.state.newTimecard;
             },
             set: function set(state) {
                 this.$store.dispatch("updateState", state);
@@ -39063,7 +39063,7 @@ window.axios.defaults.headers.common = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_api__ = __webpack_require__(159);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_modal__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_newTimecard__ = __webpack_require__(160);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_projectDashboard__ = __webpack_require__(161);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_roleDashboard__ = __webpack_require__(162);
 
@@ -39081,7 +39081,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.config.debug = true;
 /* harmony default export */ __webpack_exports__["a"] = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     modules: {
         api: __WEBPACK_IMPORTED_MODULE_2__modules_api__["a" /* default */],
-        modal: __WEBPACK_IMPORTED_MODULE_3__modules_modal__["a" /* default */],
+        newTimecard: __WEBPACK_IMPORTED_MODULE_3__modules_newTimecard__["a" /* default */],
         projectDashboard: __WEBPACK_IMPORTED_MODULE_4__modules_projectDashboard__["a" /* default */],
         dashboard: __WEBPACK_IMPORTED_MODULE_5__modules_roleDashboard__["a" /* default */]
     }
@@ -77886,9 +77886,9 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/BrentEllis/Code/Project Resource Manager/resources/assets/js/components/modal.vue"
+Component.options.__file = "/Users/BrentEllis/Code/Project Resource Manager/resources/assets/js/components/newTimecard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] modal.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] newTimecard.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -77897,9 +77897,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-615bc2d6", Component.options)
+    hotAPI.createRecord("data-v-66e90c86", Component.options)
   } else {
-    hotAPI.reload("data-v-615bc2d6", Component.options)
+    hotAPI.reload("data-v-66e90c86", Component.options)
   }
 })()}
 
@@ -78184,7 +78184,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-615bc2d6", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-66e90c86", module.exports)
   }
 }
 

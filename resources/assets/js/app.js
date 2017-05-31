@@ -9,7 +9,7 @@ require('./bootstrap');
 import Vue from 'vue';
 
 import calendar from './components/calendar.vue';
-import modal from './components/modal.vue';
+import newtimecard from './components/newTimecard.vue';
 import projectdashboard from './components/ProjectDashboard.vue';
 import roledashboard from './components/RoleDashboard.vue';
 
@@ -25,14 +25,14 @@ import store from './store';
 window.App = new Vue({
     el: '#app',
     store,
-    components: { calendar, modal, projectdashboard, roledashboard },
+    components: { calendar, newtimecard, projectdashboard, roledashboard },
 
 });
 
 $(document).ready(() => {
     $('#editTimecard').on('click', () => {
         var timecards = document.getElementsByClassName("timecardCheckbox");
-        for (var x = 0; x < timecards.length; x++){
+        for (var x = 0; x < timecards.length; x++) {
             if (timecards[x].type === "hidden") {
                 timecards[x].type = 'checkbox';
             }
@@ -41,4 +41,4 @@ $(document).ready(() => {
             }
         }
     });
-})
+});

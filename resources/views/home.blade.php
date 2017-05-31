@@ -64,7 +64,7 @@
     </div>
     <!--<projectdashboard></projectdashboard>-->
     <RoleDashboard></RoleDashboard>
-    <modal v-if="$store.state.modal.showModal" @close="$store.state.modal.showModal = false"></modal>
+    <newTimecard v-if="$store.state.newTimecard.showModal" @close="$store.state.newTimecard.showModal = false"></newTimecard>
     <div class="row">
         <div class="col">
             <calendar></calendar>
