@@ -29,20 +29,26 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" class="form-check-input timecardCheckbox" id="" onChange="submit();">
                         <input type="hidden" name="edit" value="edit">
-                        <div class="card">
-                            <div class="card-header">
-                                {{ $timecard->user->name }}
-                            </div>
-                            <div class="card-block">
-                                <p class="card-text"><strong>Role: </strong>{{ $timecard->role->label }}</p>
-                                <p class="card-text"><strong>Time: </strong>{{ $timecard->time }}</p>
-                                <p class="card-text"><strong>Description: </strong>{{ $timecard->notes }}</p>
-                                @if($timecard->completed)
-                                    <button class="btn btn-outline-success btn-sm" disabled><i class="fa fa-fw fa-btn fa-check-square-o"></i>Completed</button>
-                                @endif
-                            </div>
-                        </div>
                     </form>
+                    <div class="card">
+                        <div class="card-header">
+                            {{ $timecard->user->name }}
+                        </div>
+                        <div class="card-block">
+                            <p class="card-text"><strong>Role: </strong>{{ $timecard->role->label }}</p>
+                            <p class="card-text"><strong>Time: </strong>{{ $timecard->time }}</p>
+                            <p class="card-text"><strong>Description: </strong>{{ $timecard->notes }}</p>
+                            @if($timecard->completed)
+                                <button class="btn btn-outline-success btn-sm" disabled><i class="fa fa-fw fa-btn fa-check-square-o"></i>Completed</button>
+                            @else
+                                <form id="" action="/timecards/{{ $timecard->id }}/edit" method="POST">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="completed" value="1">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fa fa-fw fa-btn fa-check-square-o"></i>Complete Timecard</button>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
                 </div>
         @endforeach
     </div>

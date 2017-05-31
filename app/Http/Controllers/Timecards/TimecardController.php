@@ -34,19 +34,21 @@ class TimecardController extends Controller
 
     public function edit($id, Request $request)
     {
+        // dd($request);
         $timecard = TimeCard::findOrFail($id);
 
         if($request->completed){
+            
             $timecard->completed = $request->completed;
             $timecard->save();
+
         }
         if($request->edit == "edit"){
+            
             $users = User::with('roles')->get();
             $projects = Project::withTrashed()->get();
-
-            dd($projects);
-            
             $roles = Role::all();
+
             return view('timecards.editTimecards', ['timecard' => $timecard, 'users' => $users, 'projects' => $projects, 'roles' => $roles]);
         }
         if($request->edit == "updateTimecard"){
@@ -64,6 +66,7 @@ class TimecardController extends Controller
             return redirect('home');
         }
 
-        return redirect('timecards');
+        return back()->withInput();
+        // return redirect('timecards');
     }
 }

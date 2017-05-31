@@ -25,19 +25,17 @@
                         <p class="card-text"><strong>Time: </strong>{{ $timecard->time }}</p>
                         <p class="card-text"><strong>Notes: </strong>{{ $timecard->notes }}</p>
                         @if($timecard->completed == 0)
-                            <form id="timecardCompleteForm" action="/timecards/{{ $timecard->id }}/edit" method="POST">
+                            <form id="" action="/timecards/{{ $timecard->id }}/edit" method="POST">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" name="timecard_id" value="{{ $timecard->id }}">
-                                <input type="hidden" name="completed" value='1'>
+                                <input type="hidden" name="completed" value="1">
                                 <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fa fa-fw fa-btn fa-check-square-o"></i>Complete Timecard</button>
                             </form>
                         @else
                             <button class="btn btn-outline-success btn-sm" disabled><i class="fa fa-fw fa-btn fa-check-square-o"></i>Completed</button>
                             <form id="" action="/timecards/{{ $timecard->id }}/edit" method="POST">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" name="timecard_id" value="{{ $timecard->id }}">
-                                <input type="hidden" name="completed" value='false'>
-                                <a href="#" onclick="submit();" style="font-size: 10px;">Undo</a>
+                                <input type="hidden" name="completed" value="'0'">
+                                <a href="#" onclick="$(this).closest('form').submit();" style="font-size: 10px;">Undo</a>
                             </form>
                         @endif
                     </div>
