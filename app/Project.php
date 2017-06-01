@@ -77,4 +77,10 @@ class Project extends Model
 
         return round($this->cTime()/$this->totalHours*100);
     }
+
+    public function availableTime()
+    {
+        $time = 0;
+        return $this->totalHours - $this->cTime() - $this->aTime();
+    }
 }

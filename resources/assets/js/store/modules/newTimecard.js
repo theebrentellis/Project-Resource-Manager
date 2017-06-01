@@ -4,8 +4,8 @@ const state = {
     timecardRoles: [],
     timecardUsers: [],
     role_id: "",
-    // user_id: "",
-    // project_id: "",
+    user_id: "",
+    project_id: "",
     errors: ""
 }
 

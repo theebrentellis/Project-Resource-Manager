@@ -29,7 +29,7 @@
                             <th>Progress</th>
                             <th>Completed Hours</th>
                             <th>Assigned Hours</th>
-                            
+                            <th>Available Hours</th>
                         </thead>
                         <tbody>
                             @foreach ($projects as $project)
@@ -53,6 +53,9 @@
                                 </td>
                                 <td>
                                     {{ $project->aTime() }}
+                                </td>
+                                <td>
+                                    {{ $project->availableTime() }}
                                 </td>
                             </tr>
                             @endforeach
