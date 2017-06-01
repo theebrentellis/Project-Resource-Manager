@@ -48,7 +48,7 @@ Route::group([
     Route::resource('projectDueDates', 'DueDatesCalendarController');
     Route::resource('developerSchedules', 'CalendarController@developerSchedules');
 
-    Route::resource('developers', 'DevelopersController');
+    // Route::resource('developers', 'DevelopersController');
     
     Route::resource('projects', 'ProjectsController');
     

@@ -6,42 +6,67 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">New Timecard
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="$emit('close')">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close()">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </h4>
                         </div>
+                        <div v-if="state.errors" class="alert alert-danger" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="state.errors = ''">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ state.errors }}
+                        </div>
                         <div class="card-block">
-                            <p v-if="state.date"><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>
-                            <form @submit.prevent="close">
+                            <form>
+                                <!--<div class="form-group">
+                                    <p v-if="state.date"><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>
+                                </div>-->
                                 <div class="form-group row">
-                                    <label for="timeCard_date" class="col-form-label">Date:</label>
-                                    <input type="date" class="form-control" id="timeCard_date" v-model="form.date" required>
+                                    <label for="timecard_date" class="col-3 col-form-label"><strong>Date:</strong></label>
+                                    <div class="col-9">
+                                        <input type="date" class="form-control" id="timecard_date" v-model="form.date">
+                                    </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="project" class="col-form-label">Project:</label>
-                                    <select name="" id="project" class="custom-select" v-on:input="updateProjectId($event.target.value)">
-                                        <option selected>Choose...</option>
-                                        <option v-for="project in state.allProjects" v-bind:value="project.id">{{project.name}}</option>
-                                    </select>
+                                    <label for="project" class="col-3 col-form-label"><strong>Project:</strong></label>
+                                    <div class="col-9">
+                                        <select name="" id="project" class="custom-select form-control" v-on:input="form.project_id = $event.target.value">
+                                            <option selected>Choose...</option>
+                                            <option v-for="project in state.timecardProjects" v-bind:value="project.id">{{project.name}}</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="dev" class="col-form-label">Developer:</label>
-                                    <select name="" id="developer" class="custom-select" v-on:input="updateDeveloperId($event.target.value)">
-                                        <option selected>Choose...</option>
-                                        <option v-for="developer in state.allDevelopers" v-bind:value="developer.id">{{developer.name}}</option>
-                                    </select>
+                                    <label for="role" class="col-3 col-form-label"><strong>Role:</strong></label>
+                                    <div class="col-9">
+                                        <select name="" id="role" class="custom-select form-control" v-on:input="updateRole($event.target.value); form.role_id = $event.target.value">
+                                            <option value="">Choose...</option>
+                                            <option v-for="role in state.timecardRoles" v-bind:value="role.id">{{ role.label }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div v-if="state.role_id" class="form-group row">
+                                    <label for="user" class="col-3 col-form-label"><strong>{{ getters.timecardRole.label }}</strong></label>
+                                    <div class="col-9">
+                                        <select name="" id="user" class="custom-select form-control" v-on:input="form.user_id = $event.target.value">
+                                            <option value="">Choose...</option>
+                                            <option v-for="user in getters.timecardUsersByRole" v-bind:value="user.id">{{user.name}}</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="hours" class="col-form-label">Hours:</label>
-                                    <input type="number" id="hours" class="form-control" v-model="form.hours" required>
+                                    <label for="hours" class="col-3 col-form-label"><strong>Hours:</strong></label>
+                                    <div class="col-9">
+                                        <input type="number" id="hours" class="form-control" v-model="form.hours" required>
+                                    </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="notes">Notes:</label>
-                                    <textarea name="" id="comments" class="form-control" rows="5" v-model="form.notes"></textarea>
+                                <div class="form-group">
+                                    <label for="notes"><strong>Notes:</strong></label>
+                                    <textarea name="" id="notes" class="form-control" rows="5" v-model="form.notes"></textarea>
                                 </div>
-                                <div class="form-group row">
-                                    <button class="btn btn-outline-primary" @click="closeSubmit()">Assign Time</button>
+                                <div class="form-group">
+                                    <button class="btn btn-outline-primary" type="button" @click="closeSubmit()">Assign Time</button>
                                 </div>
                             </form>
                         </div>
@@ -70,6 +95,14 @@
                     this.$store.dispatch("updateState", state);
                 }
             },
+            getters: {
+                get(){
+                    return this.$store.getters;
+                },
+                set(getters){
+
+                }
+            }
         },
         methods: {
             closeSubmit: function () {
@@ -81,11 +114,14 @@
             showModal: function () {
                 console.log("showModal");
             },
-            updateProjectId: function (value) {
-                this.$store.commit("SELECT_PROJECT_ID", value);
+            updateProjectId: function (id) {
+                this.$store.commit("SELECT_PROJECT_ID", id);
             },
-            updateDeveloperId: function (value) {
-                this.$store.commit("SELECT_DEV_ID", value)
+            updateUserId: function (id) {
+                this.$store.commit("SELECT_USER_ID", id);
+            },
+            updateRole: function(value){
+                this.$store.commit("SELECT_ROLE_ID", value);
             }
         },
         data: () => {
@@ -93,17 +129,18 @@
                 form: {
 
                 },
-                project: {
+                // project: {
 
-                },
-                developer: {
+                // },
+                // developer: {
 
-                }
+                // }
             }
         },
         mounted: function () {
-            this.$store.dispatch('loadModalDevelopers');
-            this.$store.dispatch('loadModalProjects');
+            this.$store.dispatch('loadTimecardRoles');
+            this.$store.dispatch('loadTimecardUsers');
+            this.$store.dispatch('loadTimecardProjects');
             document.addEventListener('keydown', (e) => {
                 if (this.showModal && e.keyCode == 27) {
                     console.log("ESC");

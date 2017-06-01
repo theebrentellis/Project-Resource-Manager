@@ -38940,6 +38940,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 __webpack_require__(0);
 var moment = __webpack_require__(0);
@@ -38957,6 +38982,12 @@ var moment = __webpack_require__(0);
             set: function set(state) {
                 this.$store.dispatch("updateState", state);
             }
+        },
+        getters: {
+            get: function get() {
+                return this.$store.getters;
+            },
+            set: function set(getters) {}
         }
     },
     methods: {
@@ -38969,25 +39000,27 @@ var moment = __webpack_require__(0);
         showModal: function showModal() {
             console.log("showModal");
         },
-        updateProjectId: function updateProjectId(value) {
-            this.$store.commit("SELECT_PROJECT_ID", value);
+        updateProjectId: function updateProjectId(id) {
+            this.$store.commit("SELECT_PROJECT_ID", id);
         },
-        updateDeveloperId: function updateDeveloperId(value) {
-            this.$store.commit("SELECT_DEV_ID", value);
+        updateUserId: function updateUserId(id) {
+            this.$store.commit("SELECT_USER_ID", id);
+        },
+        updateRole: function updateRole(value) {
+            this.$store.commit("SELECT_ROLE_ID", value);
         }
     },
     data: function data() {
         return {
-            form: {},
-            project: {},
-            developer: {}
+            form: {}
         };
     },
     mounted: function mounted() {
         var _this = this;
 
-        this.$store.dispatch('loadModalDevelopers');
-        this.$store.dispatch('loadModalProjects');
+        this.$store.dispatch('loadTimecardRoles');
+        this.$store.dispatch('loadTimecardUsers');
+        this.$store.dispatch('loadTimecardProjects');
         document.addEventListener('keydown', function (e) {
             if (_this.showModal && e.keyCode == 27) {
                 console.log("ESC");
@@ -39163,66 +39196,83 @@ var getters = {};
 "use strict";
 var state = {
     showModal: false,
-    allProjects: [],
-    allDevelopers: [],
-    developer_id: "",
-    project_id: ""
+    timecardProjects: [],
+    timecardRoles: [],
+    timecardUsers: [],
+    role_id: "",
+    // user_id: "",
+    // project_id: "",
+    errors: ""
 };
 
 var actions = {
-    loadModalDevelopers: function loadModalDevelopers(_ref) {
+    loadTimecardUsers: function loadTimecardUsers(_ref) {
         var commit = _ref.commit;
 
-        axios.get('/api/developers').then(function (response) {
-            commit('SET_MODAL_DEVELOPERS', { allDevelopers: response.data });
+        axios.get('/api/users').then(function (response) {
+            commit('SET_TIMECARD_USERS', { allUsers: response.data });
         }, function (error) {
             console.log(error);
         });
     },
-    loadModalProjects: function loadModalProjects(_ref2) {
+    loadTimecardProjects: function loadTimecardProjects(_ref2) {
         var commit = _ref2.commit;
 
         axios.get('/api/projects').then(function (response) {
-            commit('SET_MODAL_PROJECTS', { allProjects: response.data });
+            commit('SET_TIMECARD_PROJECTS', { allProjects: response.data });
         }, function (error) {
             console.log(error);
         });
     },
-    openModal: function openModal(_ref3) {
+    loadTimecardRoles: function loadTimecardRoles(_ref3) {
         var commit = _ref3.commit;
+
+        axios.get('api/roles').then(function (response) {
+            commit('SET_TIMECARD_ROLES', { allRoles: response.data });
+        }, function (error) {
+            console.log(error);
+        });
+    },
+    openModal: function openModal(_ref4) {
+        var commit = _ref4.commit;
 
         commit('OPEN_MODAL');
     },
-    closeModal: function closeModal(_ref4, formData) {
-        var commit = _ref4.commit;
+    closeModal: function closeModal(_ref5, formData) {
+        var commit = _ref5.commit;
 
 
-        formData.project_id = state.project_id;
-        formData.developer_id = state.developer_id;
-        formData.role_id = 1;
-        // formData._method = "POST";
+        //Form Validation
+        if (!formData.hours || !formData.project_id || !formData.role_id || !formData.user_id || !formData.date || !formData.notes) {
+            state.errors = "Please Complete Timecard";
+        } else {
 
-        return axios.post('/api/timecards', formData).then(function (response) {
-            console.log(response);
-            if (response.status == 200) {
-                commit('CLOSE_MODAL');
-            }
-        }, function (error) {
-            console.log("Error: " + error);
-        });
+            return axios.post('/api/timecards', formData).then(function (response) {
+                if (response.status == 200) {
+                    commit('CLOSE_MODAL');
+                }
+            }, function (error) {
+                console.log(error);
+            });
+        }
     }
 };
 
 var mutations = {
-    SET_MODAL_PROJECTS: function SET_MODAL_PROJECTS(state, _ref5) {
-        var allProjects = _ref5.allProjects;
+    SET_TIMECARD_PROJECTS: function SET_TIMECARD_PROJECTS(state, _ref6) {
+        var allProjects = _ref6.allProjects;
 
-        state.allProjects = allProjects;
+        state.timecardProjects = allProjects;
     },
-    SET_MODAL_DEVELOPERS: function SET_MODAL_DEVELOPERS(state, _ref6) {
-        var allDevelopers = _ref6.allDevelopers;
+    SET_TIMECARD_USERS: function SET_TIMECARD_USERS(state, _ref7) {
+        var allUsers = _ref7.allUsers;
 
-        state.allDevelopers = allDevelopers;
+        state.timecardUsers = allUsers;
+    },
+    SET_TIMECARD_ROLES: function SET_TIMECARD_ROLES(state, _ref8) {
+        var allRoles = _ref8.allRoles;
+
+        state.timecardRoles = allRoles;
     },
     OPEN_MODAL: function OPEN_MODAL(state) {
         state.showModal = true;
@@ -39231,17 +39281,42 @@ var mutations = {
         state.showModal = false;
         state.developer_id = "";
         state.project_id = "";
-        location.reload();
+        state.errors = "";
+        // location.reload();
     },
-    SELECT_DEV_ID: function SELECT_DEV_ID(state, id) {
-        state.developer_id = id;
+    SELECT_USER_ID: function SELECT_USER_ID(state, id) {
+        state.user_id = id;
     },
     SELECT_PROJECT_ID: function SELECT_PROJECT_ID(state, id) {
         state.project_id = id;
+    },
+    SELECT_ROLE_ID: function SELECT_ROLE_ID(state, id) {
+        state.role_id = id;
     }
 };
 
-var getters = {};
+var getters = {
+    timecardUsersByRole: function timecardUsersByRole(state) {
+        var users = [];
+        state.timecardUsers.filter(function (user) {
+            user.user_roles.filter(function (role) {
+                if (role.role_id == state.role_id) {
+                    return users.push(user);
+                }
+            });
+        });
+        return users;
+    },
+    timecardRole: function timecardRole(state) {
+        var theRole = {};
+        state.timecardRoles.filter(function (role) {
+            if (role.id == state.role_id) {
+                theRole = role;
+            }
+        });
+        return theRole;
+    }
+};
 
 /* harmony default export */ __webpack_exports__["a"] = {
     state: state,
@@ -78008,30 +78083,46 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.$emit('close')
+        _vm.close()
       }
     }
   }, [_c('span', {
     attrs: {
       "aria-hidden": "true"
     }
-  }, [_vm._v("×")])])])]), _vm._v(" "), _c('div', {
-    staticClass: "card-block"
-  }, [(_vm.state.date) ? _c('p', [_c('strong', [_vm._v("Date: ")]), _vm._v(_vm._s(_vm._f("dateFormat")(_vm.state.date.date)))]) : _vm._e(), _vm._v(" "), _c('form', {
+  }, [_vm._v("×")])])])]), _vm._v(" "), (_vm.state.errors) ? _c('div', {
+    staticClass: "alert alert-danger",
+    attrs: {
+      "role": "alert"
+    }
+  }, [_c('button', {
+    staticClass: "close",
+    attrs: {
+      "type": "button",
+      "data-dismiss": "alert",
+      "aria-label": "Close"
+    },
     on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.close($event)
+      "click": function($event) {
+        _vm.state.errors = ''
       }
     }
-  }, [_c('div', {
+  }, [_c('span', {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])]), _vm._v("\n                        " + _vm._s(_vm.state.errors) + "\n                    ")]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "card-block"
+  }, [_c('form', [_c('div', {
     staticClass: "form-group row"
   }, [_c('label', {
-    staticClass: "col-form-label",
+    staticClass: "col-3 col-form-label",
     attrs: {
-      "for": "timeCard_date"
+      "for": "timecard_date"
     }
-  }, [_vm._v("Date:")]), _vm._v(" "), _c('input', {
+  }, [_c('strong', [_vm._v("Date:")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -78041,8 +78132,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "date",
-      "id": "timeCard_date",
-      "required": ""
+      "id": "timecard_date"
     },
     domProps: {
       "value": (_vm.form.date)
@@ -78053,70 +78143,107 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.form.date = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "form-group row"
   }, [_c('label', {
-    staticClass: "col-form-label",
+    staticClass: "col-3 col-form-label",
     attrs: {
       "for": "project"
     }
-  }, [_vm._v("Project:")]), _vm._v(" "), _c('select', {
-    staticClass: "custom-select",
+  }, [_c('strong', [_vm._v("Project:")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('select', {
+    staticClass: "custom-select form-control",
     attrs: {
       "name": "",
       "id": "project"
     },
     on: {
       "input": function($event) {
-        _vm.updateProjectId($event.target.value)
+        _vm.form.project_id = $event.target.value
       }
     }
   }, [_c('option', {
     attrs: {
       "selected": ""
     }
-  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.state.allProjects), function(project) {
+  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.state.timecardProjects), function(project) {
     return _c('option', {
       domProps: {
         "value": project.id
       }
     }, [_vm._v(_vm._s(project.name))])
-  })], 2)]), _vm._v(" "), _c('div', {
+  })], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "form-group row"
   }, [_c('label', {
-    staticClass: "col-form-label",
+    staticClass: "col-3 col-form-label",
     attrs: {
-      "for": "dev"
+      "for": "role"
     }
-  }, [_vm._v("Developer:")]), _vm._v(" "), _c('select', {
-    staticClass: "custom-select",
+  }, [_c('strong', [_vm._v("Role:")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('select', {
+    staticClass: "custom-select form-control",
     attrs: {
       "name": "",
-      "id": "developer"
+      "id": "role"
     },
     on: {
       "input": function($event) {
-        _vm.updateDeveloperId($event.target.value)
+        _vm.updateRole($event.target.value);
+        _vm.form.role_id = $event.target.value
       }
     }
   }, [_c('option', {
     attrs: {
-      "selected": ""
+      "value": ""
     }
-  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.state.allDevelopers), function(developer) {
+  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.state.timecardRoles), function(role) {
     return _c('option', {
       domProps: {
-        "value": developer.id
+        "value": role.id
       }
-    }, [_vm._v(_vm._s(developer.name))])
-  })], 2)]), _vm._v(" "), _c('div', {
+    }, [_vm._v(_vm._s(role.label))])
+  })], 2)])]), _vm._v(" "), (_vm.state.role_id) ? _c('div', {
     staticClass: "form-group row"
   }, [_c('label', {
-    staticClass: "col-form-label",
+    staticClass: "col-3 col-form-label",
+    attrs: {
+      "for": "user"
+    }
+  }, [_c('strong', [_vm._v(_vm._s(_vm.getters.timecardRole.label))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('select', {
+    staticClass: "custom-select form-control",
+    attrs: {
+      "name": "",
+      "id": "user"
+    },
+    on: {
+      "input": function($event) {
+        _vm.form.user_id = $event.target.value
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.getters.timecardUsersByRole), function(user) {
+    return _c('option', {
+      domProps: {
+        "value": user.id
+      }
+    }, [_vm._v(_vm._s(user.name))])
+  })], 2)])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "form-group row"
+  }, [_c('label', {
+    staticClass: "col-3 col-form-label",
     attrs: {
       "for": "hours"
     }
-  }, [_vm._v("Hours:")]), _vm._v(" "), _c('input', {
+  }, [_c('strong', [_vm._v("Hours:")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -78141,13 +78268,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$forceUpdate()
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
   }, [_c('label', {
     attrs: {
       "for": "notes"
     }
-  }, [_vm._v("Notes:")]), _vm._v(" "), _c('textarea', {
+  }, [_c('strong', [_vm._v("Notes:")])]), _vm._v(" "), _c('textarea', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -78157,7 +78284,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "name": "",
-      "id": "comments",
+      "id": "notes",
       "rows": "5"
     },
     domProps: {
@@ -78170,9 +78297,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
+    staticClass: "form-group"
   }, [_c('button', {
     staticClass: "btn btn-outline-primary",
+    attrs: {
+      "type": "button"
+    },
     on: {
       "click": function($event) {
         _vm.closeSubmit()
