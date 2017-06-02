@@ -37703,6 +37703,12 @@ $(document).ready(function () {
             }
         }
     });
+
+    $('button.btn.btn-outline-danger.btn-sm').hover(function () {
+        console.log("Hotdog");
+    }, function () {
+        console.log("Not Hotdog");
+    });
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
