@@ -10,7 +10,7 @@ const state = {
 
 const actions = {
     loadDashboardTimeCards: function ({ commit }) {
-        axios.get('api/timecards')
+        axios.get('/api/timecards')
             .then((response) => {
                 commit('SET_DASHBOARD_TIME_CARDS', { timeCards: response.data })
             }, (error) => {
@@ -19,7 +19,7 @@ const actions = {
     },
     loadDashboardUsers: function ({ commit }) {
         var roleId = state.roleId;
-        axios.get('api/users')
+        axios.get('/api/users')
             .then((response) => {
                 commit('SET_DASHBOARD_USERS', { users: response.data });
             }, (error) => {
@@ -88,7 +88,7 @@ const mutations = {
         state.roleId = roleId;
         state.dashboardRoles.forEach((role) => {
 
-        })
+        });
     }
 }
 

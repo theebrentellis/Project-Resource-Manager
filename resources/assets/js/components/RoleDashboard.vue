@@ -29,9 +29,9 @@
                         <div class="card-header">
                             <h5 v-if="!state.dashboardUser.name">{{ "All " + getters.dashboardRole.label | pluralize }}</h5>
                             <h5 v-else class="card-text">{{ state.dashboardUser.name }}</h5>
-                            <a href="#" role="button" class="btn btn-outline-success btn-sm" @click="newTimeCard()">
+                            <!--<a href="#" role="button" class="btn btn-outline-success btn-sm" @click="newTimeCard()">
                                 <i class="fa fa-fw fa-btn fa-clock-o"></i>New Time Card
-                            </a>
+                            </a>-->
                         </div>
                         <div class="card-block">
                             <table class="table">
@@ -128,7 +128,6 @@
                     if(state.dashboardTimeCards[card].project_id == project.id){
                         time += state.dashboardTimeCards[card].time;
                     }
-
                 }
                 return time;
             },

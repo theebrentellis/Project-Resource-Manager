@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
+    <newTimecard v-if="$store.state.newTimecard.showModal" @close="$store.state.newTimecard.showModal = false"></newTimecard>
     <div class="row">
         <div class="col">
             <div>
@@ -18,6 +19,7 @@
     <div class="row">
         <div class="col">
             <h4>Project Timecards</h4>
+            <newButton></newButton>
             <ul class="nav nav-tabs list-inline" role="tablist">
                 <li class="nav-item list-inline-item">
                     <a href="#listView" class="nav-link active" data-toggle="tab" role="tab"><i class="fa fa-fw fa-btn fa-list"></i>List View</a>

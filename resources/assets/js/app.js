@@ -10,8 +10,11 @@ import Vue from 'vue';
 
 import calendar from './components/calendar.vue';
 import newtimecard from './components/newTimecard.vue';
+import newbutton from './components/newButton.vue';
 import projectdashboard from './components/ProjectDashboard.vue';
 import roledashboard from './components/RoleDashboard.vue';
+
+import { newTimecard } from './store/actions';
 
 import store from './store';
 
@@ -20,14 +23,16 @@ import store from './store';
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 window.App = new Vue({
     el: '#app',
     store,
-    components: { calendar, newtimecard, projectdashboard, roledashboard },
-
+    components: { calendar, newtimecard, projectdashboard, roledashboard, newbutton },
 });
+
+
 
 $(document).ready(() => {
     $('#editTimecard').on('click', () => {

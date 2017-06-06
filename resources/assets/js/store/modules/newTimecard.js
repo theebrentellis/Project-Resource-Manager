@@ -27,7 +27,7 @@ const actions = {
             })
     },
     loadTimecardRoles: function ({ commit }) {
-        axios.get('api/roles')
+        axios.get('/api/roles')
             .then((response) => {
                 commit('SET_TIMECARD_ROLES', { allRoles: response.data })
             }, (error) => {
