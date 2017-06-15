@@ -26223,24 +26223,73 @@ module.exports = function bind(fn, thisArg) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mutations__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mutations___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__mutations__);
-/* unused harmony export newTimecard */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "refreshState", function() { return refreshState; });
 
 
-var newTimecard = function newTimecard(_ref) {
+var refreshState = function refreshState(_ref) {
     var commit = _ref.commit;
 
-    commit('OPEN_MODAL');
-    console.log("Actions New Timecard");
+
+    axios.get('/api/timecards').then(function (response) {
+        commit('SET_STATE_TIMECARDS', { timecards: response.data });
+    }, function (error) {
+        console.log(error);
+    });
+
+    axios.get('/api/users').then(function (response) {
+        commit('SET_STATE_USERS', { users: response.data });
+    }, function (error) {
+        console.log(error);
+    });
+
+    axios.get('/api/projects').then(function (response) {
+        commit('SET_STATE_PROJECTS', { projects: response.data });
+    }, function (error) {
+        console.log(error);
+    });
+
+    axios.get('/api/roles').then(function (response) {
+        commit('SET_STATE_ROLES', { roles: response.data });
+    }, function (error) {
+        console.log(error);
+    });
 };
 
 /***/ }),
 /* 14 */
-/***/ (function(module, __webpack_exports__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_STATE_TIMECARDS", function() { return SET_STATE_TIMECARDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_STATE_USERS", function() { return SET_STATE_USERS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_STATE_PROJECTS", function() { return SET_STATE_PROJECTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_STATE_ROLES", function() { return SET_STATE_ROLES; });
+var SET_STATE_TIMECARDS = function SET_STATE_TIMECARDS(state, _ref) {
+    var timecards = _ref.timecards;
 
+    state.timecards = timecards;
+};
+
+var SET_STATE_USERS = function SET_STATE_USERS(state, _ref2) {
+    var users = _ref2.users;
+
+    state.users = users;
+};
+
+var SET_STATE_PROJECTS = function SET_STATE_PROJECTS(state, _ref3) {
+    var projects = _ref3.projects;
+
+    state.projects = projects;
+};
+
+var SET_STATE_ROLES = function SET_STATE_ROLES(state, _ref4) {
+    var roles = _ref4.roles;
+
+    state.roles = roles;
+};
 
 /***/ }),
 /* 15 */
@@ -37724,7 +37773,11 @@ window.App = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     components: { calendar: __WEBPACK_IMPORTED_MODULE_1__components_calendar_vue___default.a, newtimecard: __WEBPACK_IMPORTED_MODULE_2__components_newTimecard_vue___default.a, projectdashboard: __WEBPACK_IMPORTED_MODULE_4__components_ProjectDashboard_vue___default.a, roledashboard: __WEBPACK_IMPORTED_MODULE_5__components_RoleDashboard_vue___default.a, newbutton: __WEBPACK_IMPORTED_MODULE_3__components_newButton_vue___default.a }
 });
 
+__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__store_actions__["refreshState"])(__WEBPACK_IMPORTED_MODULE_7__store__["a" /* default */]);
+
+//jQuery 
 $(document).ready(function () {
+    //Shows checkbox to edit individual timecards
     $('#editTimecard').on('click', function () {
         var timecards = document.getElementsByClassName("timecardCheckbox");
         for (var x = 0; x < timecards.length; x++) {
@@ -37736,6 +37789,7 @@ $(document).ready(function () {
         }
     });
 
+    //Toggles image on hover
     $('button.btn.btn-outline-danger.btn-sm').hover(function () {
         console.log("Hotdog");
     }, function () {
@@ -38759,6 +38813,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -38769,58 +38857,140 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         state: {
             get: function get() {
                 return this.$store.state.dashboard;
-            },
-            set: function set(state) {
-                this.$store.dispatch('updateDashboardState', state);
             }
         },
         getters: {
             get: function get() {
                 return this.$store.getters;
-            },
-            set: function set(getters) {}
+            }
+        },
+        users: {
+            get: function get() {
+                return this.$store.state.users;
+            }
+        },
+        projects: {
+            get: function get() {
+                return this.$store.state.projects;
+            }
+        },
+        timecards: {
+            get: function get() {
+                return this.$store.state.timecards;
+            }
+        },
+        roles: {
+            get: function get() {
+                return this.$store.state.roles;
+            }
         }
     },
     methods: {
         newTimeCard: function newTimeCard() {
             this.$store.dispatch('openModal');
         },
-        setDashboardUser: function setDashboardUser(id) {
-            this.$store.dispatch('setDashboardUser', id);
+        setDashboardUser: function setDashboardUser(user) {
+            this.$store.dispatch('setDashboardUser', user);
         },
         allRoleTimeCards: function allRoleTimeCards() {
             this.$store.dispatch('allRoleTimeCards');
         },
         setDashBoardRoleId: function setDashBoardRoleId(roleId) {
             this.$store.dispatch('setDashboardRoleId', roleId);
+        },
+        userTimecards: function userTimecards(state, timecards) {
+            var userTimecards = [];
+            timecards.forEach(function (timecard) {
+                console.log(timecard);
+            });
+            return userTimecards;
+        },
+        dashboardRoles: function dashboardRoles(state, roles) {
+            var role = {};
+            roles.forEach(function (element) {
+                if (element.id == state.roleId) {
+                    role = element;
+                }
+            });
+            return role.label;
+        },
+        dashboardUser: function dashboardUser(state, users) {
+            var user = {};
+            users.forEach(function (element) {
+                if (element.id == state.dashboardUser.id) {
+                    user = element;
+                }
+            });
+            return user;
+        },
+        dashboardRoleUsers: function dashboardRoleUsers(state, users) {
+            var roleUsers = [];
+            users.forEach(function (user) {
+                user.user_roles.forEach(function (role) {
+                    if (role.role_id == state.roleId) {
+                        roleUsers.push(user);
+                    }
+                });
+            });
+            return roleUsers;
+        },
+        allAssignedTime: function allAssignedTime(timecards, state) {
+            var time = 0;
+            timecards.forEach(function (timecard) {
+                if (timecard.completed == 0) {
+                    time += timecard.time;
+                }
+            });
+            return time;
+        },
+        allCompletedTime: function allCompletedTime(timecards, state) {
+            var time = 0;
+            timecards.forEach(function (timecard) {
+                if (timecard.completed == 1) {
+                    time += timecard.time;
+                }
+            });
+            return time;
+        },
+        userAssignedTime: function userAssignedTime(timecards, state) {
+            var time = 0;
+            timecards.forEach(function (timecard) {
+                if (timecard.completed == 0 && timecard.user_id == state.dashboardUser.id) {
+                    time += timecard.time;
+                }
+            });
+            return time;
+        },
+        userCompletedTime: function userCompletedTime(timecards, state) {
+            var time = 0;
+            timecards.forEach(function (timecard) {
+                if (timecard.completed == 1 && timecard.user_id == state.dashboardUser.id) {
+                    time += timecard.time;
+                }
+            });
+            return time;
         }
     },
-    mounted: function mounted() {
-        var vm = this;
-        this.$store.dispatch('loadDashboardRoles');
-        this.$store.dispatch('loadDashboardTimeCards');
-        this.$store.dispatch('loadDashboardProjects');
-        this.$store.dispatch('loadDashboardUsers');
-    },
+
     filters: {
-        totalTime: function totalTime(project, state) {
-            var time = 0;
-            for (var card in state.dashboardTimeCards) {
-                if (state.dashboardTimeCards[card].project_id == project.id) {
-                    time += state.dashboardTimeCards[card].time;
-                }
-            }
-            return time;
-        },
-        projectTime: function projectTime(project, getters) {
-            var time = 0;
-            for (var card in getters.userTimeCards) {
-                if (getters.userTimeCards[card].project_id == project.id) {
-                    time += getters.userTimeCards[card].time;
-                }
-            }
-            return time;
-        },
+        // totalTime: (project, state) => {
+        //     var time = 0;
+        //     for (var card in state.dashboardTimeCards) {
+        //         if (state.dashboardTimeCards[card].project_id == project.id) {
+        //             time += state.dashboardTimeCards[card].time;
+        //         }
+        //     }
+        //     return time;
+        // },
+        // projectTime: (project, getters) => {
+        //     var time = 0;
+        //     for (var card in getters.userTimeCards) {
+        //         if (getters.userTimeCards[card].project_id == project.id) {
+        //             time += getters.userTimeCards[card].time;
+        //         }
+        //     }
+        //     return time;
+        // },
         pluralize: function pluralize(name) {
             if (name) {
                 return name + 's';
@@ -38836,6 +39006,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         state: function state() {
             console.log("State Watcher");
         }
+    },
+    mounted: function mounted() {
+        var vm = this;
+        // this.$store.dispatch('loadDashboardRoles');
+        // this.$store.dispatch('loadDashboardTimeCards');
+        // this.$store.dispatch('loadDashboardProjects');
+        // this.$store.dispatch('loadDashboardUsers');
     }
 };
 
@@ -39017,16 +39194,22 @@ var moment = __webpack_require__(0);
         state: {
             get: function get() {
                 return this.$store.state.newTimecard;
-            },
-            set: function set(state) {
-                this.$store.dispatch("updateState", state);
             }
         },
-        getters: {
+        roles: {
             get: function get() {
-                return this.$store.getters;
-            },
-            set: function set(getters) {}
+                return this.$store.state.roles;
+            }
+        },
+        users: {
+            get: function get() {
+                return this.$store.state.users;
+            }
+        },
+        projects: {
+            get: function get() {
+                return this.$store.state.projects;
+            }
         }
     },
     methods: {
@@ -39047,6 +39230,17 @@ var moment = __webpack_require__(0);
         },
         updateRole: function updateRole(value) {
             this.$store.commit("SELECT_ROLE_ID", value);
+        },
+        usersByRole: function usersByRole(users, state) {
+            var roleUsers = [];
+            users.forEach(function (user) {
+                user.user_roles.forEach(function (role) {
+                    if (role.role_id == state.role_id) {
+                        roleUsers.push(user);
+                    }
+                });
+            });
+            return roleUsers;
         }
     },
     data: function data() {
@@ -39057,9 +39251,9 @@ var moment = __webpack_require__(0);
     mounted: function mounted() {
         var _this = this;
 
-        this.$store.dispatch('loadTimecardRoles');
-        this.$store.dispatch('loadTimecardUsers');
-        this.$store.dispatch('loadTimecardProjects');
+        // this.$store.dispatch('loadTimecardRoles');
+        // this.$store.dispatch('loadTimecardUsers');
+        // this.$store.dispatch('loadTimecardProjects');
         document.addEventListener('keydown', function (e) {
             if (_this.showModal && e.keyCode == 27) {
                 console.log("ESC");
@@ -39136,13 +39330,10 @@ window.axios.defaults.headers.common = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mutations__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_api__ = __webpack_require__(162);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_newTimecard__ = __webpack_require__(163);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_projectDashboard__ = __webpack_require__(164);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_roleDashboard__ = __webpack_require__(165);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_newButton__ = __webpack_require__(195);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_newTimecard__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_projectDashboard__ = __webpack_require__(164);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_roleDashboard__ = __webpack_require__(165);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_newButton__ = __webpack_require__(195);
 
 
 
@@ -39159,88 +39350,25 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.config.debug = true;
 
 /* harmony default export */ __webpack_exports__["a"] = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
-    // actions,
-    // mutations,
+    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
     modules: {
-        api: __WEBPACK_IMPORTED_MODULE_4__modules_api__["a" /* default */],
-        newTimecard: __WEBPACK_IMPORTED_MODULE_5__modules_newTimecard__["a" /* default */],
-        projectDashboard: __WEBPACK_IMPORTED_MODULE_6__modules_projectDashboard__["a" /* default */],
-        dashboard: __WEBPACK_IMPORTED_MODULE_7__modules_roleDashboard__["a" /* default */],
-        newButton: __WEBPACK_IMPORTED_MODULE_8__modules_newButton__["a" /* default */]
+        newTimecard: __WEBPACK_IMPORTED_MODULE_4__modules_newTimecard__["a" /* default */],
+        projectDashboard: __WEBPACK_IMPORTED_MODULE_5__modules_projectDashboard__["a" /* default */],
+        dashboard: __WEBPACK_IMPORTED_MODULE_6__modules_roleDashboard__["a" /* default */],
+        newButton: __WEBPACK_IMPORTED_MODULE_7__modules_newButton__["a" /* default */]
+    },
+    state: {
+        users: [],
+        roles: [],
+        projects: [],
+        timecards: []
     },
     strict: true
 });
 
 /***/ }),
-/* 162 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var state = {
-    users: [],
-    projects: [],
-    timecards: []
-};
-
-var actions = {
-    loadAPITimecards: function loadAPITimecards(_ref) {
-        var commit = _ref.commit;
-
-        axios.get('api/timecards').then(function (response) {
-            commit('SET_API_TIMECARDS', { timecards: response.data });
-        }, function (error) {
-            console.log(error);
-        });
-    },
-    loadAPIUsers: function loadAPIUsers(_ref2) {
-        var commit = _ref2.commit;
-
-        var roleId = state.roleId;
-        axios.get('api/users').then(function (response) {
-            commit('SET_API_USERS', { users: response.data });
-        }, function (error) {
-            console.log(error);
-        });
-    },
-    loadAPIProjects: function loadAPIProjects(_ref3) {
-        var commit = _ref3.commit;
-
-        axios.get('/api/projects').then(function (response) {
-            commit('SET_API_PROJECTS', { projects: response.data });
-        }, function (error) {
-            console.log(error);
-        });
-    }
-};
-
-var mutations = {
-    SET_API_TIMECARDS: function SET_API_TIMECARDS(state, _ref4) {
-        var timecards = _ref4.timecards;
-
-        state.timecards = timecards;
-    },
-    SET_API_USERS: function SET_API_USERS(state, _ref5) {
-        var users = _ref5.users;
-
-        state.users = users;
-    },
-    SET_API_PROJECTS: function SET_API_PROJECTS(state, _ref6) {
-        var projects = _ref6.projects;
-
-        state.projects = projects;
-    }
-};
-
-var getters = {};
-
-/* harmony default export */ __webpack_exports__["a"] = {
-    state: state,
-    actions: actions,
-    mutations: mutations,
-    getters: getters
-};
-
-/***/ }),
+/* 162 */,
 /* 163 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -39405,96 +39533,92 @@ var getters = {
 "use strict";
 var state = {
     roleId: '1',
-    dashboardTimeCards: [],
-    dashboardProjects: [],
-    dashboardUsers: [],
+    // dashboardTimeCards: [],
+    // dashboardProjects: [],
+    // dashboardUsers: [],
     dashboardUser: {},
-    dashboardRoles: [],
+    // dashboardRoles: [],
     dashboardRole: {}
 };
 
 var actions = {
-    loadDashboardTimeCards: function loadDashboardTimeCards(_ref) {
+    // loadDashboardTimeCards: function ({ commit }) {
+    //     axios.get('/api/timecards')
+    //         .then((response) => {
+    //             commit('SET_DASHBOARD_TIME_CARDS', { timeCards: response.data })
+    //         }, (error) => {
+    //             console.log(error);
+    //         });
+    // },
+    // loadDashboardUsers: function ({ commit }) {
+    //     var roleId = state.roleId;
+    //     axios.get('/api/users')
+    //         .then((response) => {
+    //             commit('SET_DASHBOARD_USERS', { users: response.data });
+    //         }, (error) => {
+    //             console.log(error);
+    //         });
+    // },
+    // loadDashboardProjects: function ({ commit }) {
+    //     axios.get('/api/projects')
+    //         .then((response) => {
+    //             commit('SET_DASHBOARD_PROJECTS', { projects: response.data });
+    //         }, (error) => {
+    //             console.log(error);
+    //         });
+    // },
+    // loadDashboardRoles: function ({ commit }) {
+    //     axios.get('/api/roles')
+    //         .then((response) => {
+    //             commit('SET_DASHBOARD_ROLES', { roles: response.data });
+    //         }, (error) => {
+    //             console.log(error);
+    //         });
+    // },
+    allRoleTimeCards: function allRoleTimeCards(_ref) {
         var commit = _ref.commit;
-
-        axios.get('/api/timecards').then(function (response) {
-            commit('SET_DASHBOARD_TIME_CARDS', { timeCards: response.data });
-        }, function (error) {
-            console.log(error);
-        });
-    },
-    loadDashboardUsers: function loadDashboardUsers(_ref2) {
-        var commit = _ref2.commit;
-
-        var roleId = state.roleId;
-        axios.get('/api/users').then(function (response) {
-            commit('SET_DASHBOARD_USERS', { users: response.data });
-        }, function (error) {
-            console.log(error);
-        });
-    },
-    loadDashboardProjects: function loadDashboardProjects(_ref3) {
-        var commit = _ref3.commit;
-
-        axios.get('/api/projects').then(function (response) {
-            commit('SET_DASHBOARD_PROJECTS', { projects: response.data });
-        }, function (error) {
-            console.log(error);
-        });
-    },
-    loadDashboardRoles: function loadDashboardRoles(_ref4) {
-        var commit = _ref4.commit;
-
-        axios.get('/api/roles').then(function (response) {
-            commit('SET_DASHBOARD_ROLES', { roles: response.data });
-        }, function (error) {
-            console.log(error);
-        });
-    },
-    allRoleTimeCards: function allRoleTimeCards(_ref5) {
-        var commit = _ref5.commit;
 
         commit('SET_ALL_ROLE_TIME_CARDS');
     },
-    setDashboardUser: function setDashboardUser(_ref6, id) {
-        var commit = _ref6.commit;
+    setDashboardUser: function setDashboardUser(_ref2, user) {
+        var commit = _ref2.commit;
 
-        state.dashboardUsers.forEach(function (user) {
-            if (user.id == id) {
-                commit('SET_DASHBOARD_USER', { user: user });
-            }
-        });
+        // state.dashboardUsers.forEach(function (user) {
+        //     if (user.id == id) {
+        commit('SET_DASHBOARD_USER', { user: user });
+        //     }
+        // });
     },
-    setDashboardRoleId: function setDashboardRoleId(_ref7, roleId) {
-        var commit = _ref7.commit;
+    setDashboardRoleId: function setDashboardRoleId(_ref3, roleId) {
+        var commit = _ref3.commit;
 
         commit('SET_DASHBOARD_ROLE_ID', roleId);
     }
 };
 
 var mutations = {
-    SET_DASHBOARD_TIME_CARDS: function SET_DASHBOARD_TIME_CARDS(state, _ref8) {
-        var timeCards = _ref8.timeCards;
+    SET_DASHBOARD_TIME_CARDS: function SET_DASHBOARD_TIME_CARDS(state, _ref4) {
+        var timeCards = _ref4.timeCards;
 
         state.dashboardTimeCards = timeCards;
     },
-    SET_DASHBOARD_USERS: function SET_DASHBOARD_USERS(state, _ref9) {
-        var users = _ref9.users;
+    SET_DASHBOARD_USERS: function SET_DASHBOARD_USERS(state, _ref5) {
+        var users = _ref5.users;
 
         state.dashboardUsers = users;
     },
-    SET_DASHBOARD_PROJECTS: function SET_DASHBOARD_PROJECTS(state, _ref10) {
-        var projects = _ref10.projects;
+    SET_DASHBOARD_PROJECTS: function SET_DASHBOARD_PROJECTS(state, _ref6) {
+        var projects = _ref6.projects;
 
         state.dashboardProjects = projects;
     },
-    SET_DASHBOARD_USER: function SET_DASHBOARD_USER(state, _ref11) {
-        var user = _ref11.user;
+    SET_DASHBOARD_USER: function SET_DASHBOARD_USER(state, _ref7) {
+        var user = _ref7.user;
 
         state.dashboardUser = user;
     },
-    SET_DASHBOARD_ROLES: function SET_DASHBOARD_ROLES(state, _ref12) {
-        var roles = _ref12.roles;
+    SET_DASHBOARD_ROLES: function SET_DASHBOARD_ROLES(state, _ref8) {
+        var roles = _ref8.roles;
 
         state.dashboardRoles = roles;
         state.dashboardRoles.forEach(function (role) {
@@ -39503,8 +39627,8 @@ var mutations = {
             }
         });
     },
-    SET_DASHBOARD_ROLE: function SET_DASHBOARD_ROLE(state, _ref13) {
-        var role = _ref13.role;
+    SET_DASHBOARD_ROLE: function SET_DASHBOARD_ROLE(state, _ref9) {
+        var role = _ref9.role;
 
         state.dashboardRole = role;
     },
@@ -39518,32 +39642,31 @@ var mutations = {
 };
 
 var getters = {
-    userTimeCards: function userTimeCards(state) {
-        return state.dashboardTimeCards.filter(function (timeCard) {
-            return timeCard.user_id === state.dashboardUser.id;
-        });
-    },
-    dashboardRole: function dashboardRole(state) {
-        var theRole = {};
-        state.dashboardRoles.filter(function (role) {
-            if (role.id == state.roleId) {
-                theRole = role;
-            }
-        });
-        return theRole;
-    },
-    dashboardUsersByRole: function dashboardUsersByRole(state) {
-        var users = [];
-        state.dashboardUsers.filter(function (user) {
-            user.user_roles.filter(function (role) {
-                if (role.role_id == state.roleId) {
-                    return users.push(user);
-                }
-            });
-        });
-        return users;
-    }
-
+    // userTimeCards: (state, getters) => {
+    //     return state.dashboardTimeCards.filter((timeCard) => {
+    //         return timeCard.user_id === state.dashboardUser.id;
+    //     });
+    // },
+    // dashboardRole: (state) => {
+    //     let theRole = {};
+    //     state.dashboardRoles.filter((role) => {
+    //         if (role.id == state.roleId) {
+    //             theRole = role;
+    //         }
+    //     });
+    //     return theRole;
+    // },
+    // dashboardUsersByRole: (state) => {
+    //     var users = [];
+    //     state.dashboardUsers.filter((user) => {
+    //         user.user_roles.filter((role) => {
+    //             if (role.role_id == state.roleId) {
+    //                 return users.push(user);
+    //             }
+    //         });
+    //     });
+    //     return users;
+    // }
 };
 
 /* harmony default export */ __webpack_exports__["a"] = {
@@ -43118,7 +43241,7 @@ exports = module.exports = __webpack_require__(15)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*.dashboard.card-header {\n    background: black;\n}*/\n.dashboard {\n    width: 100%;\n}\n#roleButtonDisplay {\n    width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /*.dashboard.card-header {\n    background: black;\n}*/\n.dashboard {\n        width: 100%;\n}\n#roleButtonDisplay {\n        width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -78220,7 +78343,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "selected": ""
     }
-  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.state.timecardProjects), function(project) {
+  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.projects), function(project) {
     return _c('option', {
       domProps: {
         "value": project.id
@@ -78251,7 +78374,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": ""
     }
-  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.state.timecardRoles), function(role) {
+  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.roles), function(role) {
     return _c('option', {
       domProps: {
         "value": role.id
@@ -78281,7 +78404,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": ""
     }
-  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.getters.timecardUsersByRole), function(user) {
+  }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.usersByRole(_vm.users, _vm.state)), function(user) {
     return _c('option', {
       domProps: {
         "value": user.id
@@ -78390,9 +78513,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "btn-group dashboard"
-  }, [_c('button', {
+  }, [(!_vm.dashboardRoles(_vm.state, _vm.roles)) ? _c('button', {
+    staticClass: "btn btn-outline-secondary"
+  }, [_c('i', {
+    staticClass: "fa fa-spinner fa-pulse fa-fw fa-btn"
+  })]) : _c('button', {
     staticClass: "btn btn-outline-secondary",
     attrs: {
+      "type": "button",
       "id": "roleButtonDisplay"
     },
     on: {
@@ -78400,9 +78528,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.allRoleTimeCards()
       }
     }
-  }, [_vm._v(_vm._s(_vm._f("pluralize")(_vm.getters.dashboardRole.label)))]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm._f("pluralize")(_vm.dashboardRoles(_vm.state, _vm.roles))))]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "dropdown-menu"
-  }, _vm._l((_vm.state.dashboardRoles), function(role) {
+  }, _vm._l((_vm.roles), function(role) {
     return _c('a', {
       key: role.id,
       ref: role.label,
@@ -78419,7 +78547,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v(_vm._s(_vm._f("pluralize")(role.label)))])
   }))])]), _vm._v(" "), _c('div', {
     staticClass: "card-block"
-  }, _vm._l((_vm.getters.dashboardUsersByRole), function(user) {
+  }, _vm._l((_vm.dashboardRoleUsers(_vm.state, _vm.users)), function(user) {
     return _c('ul', {
       key: user.id,
       staticClass: "nav flex-column"
@@ -78429,7 +78557,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.setDashboardUser(user.id)
+          _vm.setDashboardUser(user)
         }
       }
     }, [_c('a', {
@@ -78454,25 +78582,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "card"
   }, [_c('div', {
     staticClass: "card-header"
-  }, [(!_vm.state.dashboardUser.name) ? _c('h5', [_vm._v(_vm._s(_vm._f("pluralize")("All " + _vm.getters.dashboardRole.label)))]) : _c('h5', {
+  }, [(!_vm.dashboardRoles(_vm.state, _vm.roles)) ? _c('h5', [_c('i', {
+    staticClass: "fa fa-spinner fa-pulse fa-fw fa-btn"
+  })]) : (!_vm.state.dashboardUser.name) ? _c('h5', [_vm._v(_vm._s(_vm._f("pluralize")("All " + _vm.dashboardRoles(_vm.state, _vm.roles))))]) : _c('h5', {
     staticClass: "card-text"
   }, [_vm._v(_vm._s(_vm.state.dashboardUser.name))])]), _vm._v(" "), _c('div', {
     staticClass: "card-block"
   }, [_c('table', {
     staticClass: "table"
-  }, [_c('thead', [_c('tr', _vm._l((_vm.state.dashboardProjects), function(project) {
-    return _c('th', {
-      key: project.id
-    }, [_vm._v("\n                                        " + _vm._s(project.name) + "\n                                    ")])
-  }))]), _vm._v(" "), _c('tbody', [(!_vm.state.dashboardUser.name) ? _c('tr', _vm._l((_vm.state.dashboardProjects), function(project) {
-    return _c('td', {
-      key: project.id
-    }, [_vm._v("\n                                        " + _vm._s(_vm._f("totalTime")(project, _vm.state)) + "\n                                    ")])
-  })) : _c('tr', _vm._l((_vm.state.dashboardProjects), function(project) {
-    return _c('td', {
-      key: project.id
-    }, [_vm._v("\n                                        " + _vm._s(_vm._f("projectTime")(project, _vm.getters)) + "\n                                    ")])
-  }))])])])])])])])])
+  }, [_vm._m(1), _vm._v(" "), _c('tbody', [(!_vm.state.dashboardUser.name) ? _c('tr', [_c('td', [_vm._v("\n                                        " + _vm._s(_vm.allAssignedTime(_vm.timecards)) + "\n                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                        " + _vm._s(_vm.allCompletedTime(_vm.timecards)) + "\n                                    ")])]) : _c('tr', [_c('td', [_vm._v("\n                                        " + _vm._s(_vm.userAssignedTime(_vm.timecards, _vm.state)) + "\n                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                        " + _vm._s(_vm.userCompletedTime(_vm.timecards, _vm.state)) + "\n                                    ")])])])])])])])])]), _vm._v(" "), _c('div')])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "btn btn-outline-secondary dropdown-toggle dropdown-toggle-split",
@@ -78485,6 +78603,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('span', {
     staticClass: "sr-only"
   }, [_vm._v("Toggle Dropdown")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("\n                                         Assigned Time\n                                    ")]), _vm._v(" "), _c('th', [_vm._v("\n                                        Completed Time\n                                    ")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

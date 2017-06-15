@@ -4,7 +4,6 @@ import Vuex from 'vuex';
 import * as actions from './actions';
 import * as mutations from './mutations';
 
-import api from './modules/api';
 import newTimecard from './modules/newTimecard';
 import projectDashboard from './modules/projectDashboard';
 import dashboard from './modules/roleDashboard';
@@ -15,14 +14,19 @@ Vue.use(Vuex);
 Vue.config.debug = true;
 
 export default new Vuex.Store({
-    // actions,
-    // mutations,
+    actions,
+    mutations,
     modules: {
-        api,
         newTimecard,
         projectDashboard,
         dashboard,
         newButton,
+    },
+    state: {
+        users: [],
+        roles: [],
+        projects: [],
+        timecards: []
     },
     strict: true,
 });

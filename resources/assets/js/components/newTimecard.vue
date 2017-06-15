@@ -14,8 +14,7 @@
                         <div v-if="state.errors" class="alert alert-danger" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="state.errors = ''">
                                 <span aria-hidden="true">&times;</span>
-                            </button>
-                            {{ state.errors }}
+                            </button> {{ state.errors }}
                         </div>
                         <div class="card-block">
                             <form>
@@ -33,7 +32,7 @@
                                     <div class="col-9">
                                         <select name="" id="project" class="custom-select form-control" v-on:input="form.project_id = $event.target.value">
                                             <option selected>Choose...</option>
-                                            <option v-for="project in state.timecardProjects" v-bind:value="project.id">{{project.name}}</option>
+                                            <option v-for="project in projects" v-bind:value="project.id">{{project.name}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -42,7 +41,7 @@
                                     <div class="col-9">
                                         <select name="" id="role" class="custom-select form-control" v-on:input="updateRole($event.target.value); form.role_id = $event.target.value">
                                             <option value="">Choose...</option>
-                                            <option v-for="role in state.timecardRoles" v-bind:value="role.id">{{ role.label }}</option>
+                                            <option v-for="role in roles" v-bind:value="role.id">{{ role.label }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -51,7 +50,7 @@
                                     <div class="col-9">
                                         <select name="" id="user" class="custom-select form-control" v-on:input="form.user_id = $event.target.value">
                                             <option value="">Choose...</option>
-                                            <option v-for="user in getters.timecardUsersByRole" v-bind:value="user.id">{{user.name}}</option>
+                                            <option v-for="user in usersByRole(users, state)" v-bind:value="user.id">{{user.name}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -91,16 +90,20 @@
                 get() {
                     return this.$store.state.newTimecard;
                 },
-                set(state) {
-                    this.$store.dispatch("updateState", state);
+            },
+            roles: {
+                get() {
+                    return this.$store.state.roles;
                 }
             },
-            getters: {
-                get(){
-                    return this.$store.getters;
-                },
-                set(getters){
-
+            users: {
+                get() {
+                    return this.$store.state.users;
+                }
+            },
+            projects: {
+                get() {
+                    return this.$store.state.projects;
                 }
             }
         },
@@ -120,8 +123,20 @@
             updateUserId: function (id) {
                 this.$store.commit("SELECT_USER_ID", id);
             },
-            updateRole: function(value){
+            updateRole: (value) => {
+                console.log(value);
                 this.$store.commit("SELECT_ROLE_ID", value);
+            },
+            usersByRole: (users, state) => {
+                let roleUsers = [];
+                users.forEach((user) => {
+                    user.user_roles.forEach((role) => {
+                        if (role.role_id == state.role_id) {
+                            roleUsers.push(user);
+                        }
+                    });
+                });
+                return roleUsers;
             }
         },
         data: () => {
@@ -138,9 +153,9 @@
             }
         },
         mounted: function () {
-            this.$store.dispatch('loadTimecardRoles');
-            this.$store.dispatch('loadTimecardUsers');
-            this.$store.dispatch('loadTimecardProjects');
+            // this.$store.dispatch('loadTimecardRoles');
+            // this.$store.dispatch('loadTimecardUsers');
+            // this.$store.dispatch('loadTimecardProjects');
             document.addEventListener('keydown', (e) => {
                 if (this.showModal && e.keyCode == 27) {
                     console.log("ESC");

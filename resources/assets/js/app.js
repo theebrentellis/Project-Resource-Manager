@@ -14,7 +14,7 @@ import newbutton from './components/newButton.vue';
 import projectdashboard from './components/ProjectDashboard.vue';
 import roledashboard from './components/RoleDashboard.vue';
 
-import { newTimecard } from './store/actions';
+import { refreshState } from './store/actions';
 
 import store from './store';
 
@@ -32,9 +32,12 @@ window.App = new Vue({
     components: { calendar, newtimecard, projectdashboard, roledashboard, newbutton },
 });
 
+refreshState(store);
 
 
+//jQuery 
 $(document).ready(() => {
+    //Shows checkbox to edit individual timecards
     $('#editTimecard').on('click', () => {
         var timecards = document.getElementsByClassName("timecardCheckbox");
         for (var x = 0; x < timecards.length; x++) {
@@ -47,6 +50,7 @@ $(document).ready(() => {
         }
     });
 
+    //Toggles image on hover
     $('button.btn.btn-outline-danger.btn-sm').hover(function() {
         console.log("Hotdog");
     }, function() {
