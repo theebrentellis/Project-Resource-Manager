@@ -44,6 +44,7 @@ return [
     |
     */
 
+    // mysql://bf13bfb53229d1:2739392b@us-cdbr-iron-east-03.cleardb.net/heroku_c1373f8a537779e?reconnect=true
     'connections' => [
 
         'sqlite' => [
@@ -54,11 +55,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', 'us-cdbr-iron-east-03.cleardb.net'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'homestead'),
-            'username' => env('DB_USERNAME', 'homestead'),
-            'password' => env('DB_PASSWORD', 'secret'),
+            'database' => env('DB_DATABASE', 'heroku_c1373f8a537779e'),
+            'username' => env('DB_USERNAME', 'bf13bfb53229d1'),
+            'password' => env('DB_PASSWORD', '2739392b'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
