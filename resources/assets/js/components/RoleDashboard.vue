@@ -11,7 +11,7 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
-                            <a href="#" v-for="role in roles" :key="role.id" :ref="role.label" class="dropdown-item" v-on:click="setDashBoardRoleId(role.id)">{{ role.label | pluralize }}</a>
+                            <a href="#" v-for="role in roles" :key="role.slug" :ref="role.label" class="dropdown-item" v-on:click="setDashboardRole(role)">{{ role.label | pluralize }}</a>
                         </div>
                     </div>
                 </div>
@@ -44,29 +44,14 @@
                                             Completed Time
                                         </th>
                                     </tr>
-                                    <!--<tr>
-                                        <th v-for="project in projects" :key="project.id">
-                                            {{ project.name }}
-                                        </th>
-                                    </tr>-->
                                 </thead>
                                 <tbody>
-                                    <!--<tr v-if="!users">
-                                        <td v-for="project in state.dashboardProjects" :key="project.id">
-                                            {{ project | totalTime(state) }} total time
-                                        </td>
-                                    </tr>-->
-                                    <!--<tr>
-                                        <td v-for="project in state.dashboardProjects" :key="project.id">
-                                            {{ project | projectTime(getters) }} project time
-                                        </td>
-                                    </tr>-->
                                     <tr v-if="!state.dashboardUser.name">
                                         <td>
-                                            {{ allAssignedTime(timecards) }}
+                                            {{ allRoleUsersAssTime(timecards, state) }}
                                         </td>
                                         <td>
-                                            {{ allCompletedTime(timecards) }}
+                                            {{ allRoleUsersCompTime(timecards, state) }}
                                         </td>
                                     </tr>
                                     <tr v-else>
@@ -158,21 +143,22 @@
             allRoleTimeCards: function () {
                 this.$store.dispatch('allRoleTimeCards');
             },
-            setDashBoardRoleId: function (roleId) {
-                this.$store.dispatch('setDashboardRoleId', roleId);
+            setDashboardRole: function (role) {
+                this.$store.dispatch('setDashboardRole', role);
             },
             userTimecards: (state, timecards) => {
-                let userTimecards = [];
-                timecards.forEach((timecard) => {
-                    console.log(timecard);
-                });
-                return userTimecards;
+                console.log("What userTimecards?");
+                // let userTimecards = [];
+                // timecards.forEach((timecard) => {
+                //     console.log("Timecard: " + timecard);
+                // });
+                // return userTimecards;
 
             },
             dashboardRoles: (state, roles) => {
                 let role = {};
                 roles.forEach(function (element) {
-                    if (element.id == state.roleId) {
+                    if (element.slug == state.role) {
                         role = element;
                     }
                 });
@@ -191,26 +177,26 @@
                 let roleUsers = [];
                 users.forEach((user) => {
                     user.user_roles.forEach((role) => {
-                        if (role.role_id == state.roleId) {
+                        if (role.role.slug == state.role) {
                             roleUsers.push(user);
                         }
                     });
                 });
                 return roleUsers;
             },
-            allAssignedTime: (timecards, state) => {
+            allRoleUsersAssTime: (timecards, state) => {
                 let time = 0;
                 timecards.forEach((timecard)=>{
-                    if(timecard.completed == 0){
+                    if(timecard.completed == 0 && timecard.role.slug == state.role){
                         time += timecard.time;
                     }
                 });
                 return time;
             },
-            allCompletedTime: (timecards, state) => {
+            allRoleUsersCompTime: (timecards, state) => {
                 let time = 0;
                 timecards.forEach((timecard)=>{
-                    if(timecard.completed == 1){
+                    if(timecard.completed == 1 && timecard.role.slug == state.role){
                         time += timecard.time;
                     }
                 });
@@ -219,7 +205,7 @@
             userAssignedTime: (timecards, state) => {
                 let time = 0;
                 timecards.forEach((timecard)=>{
-                    if(timecard.completed == 0 && timecard.user_id == state.dashboardUser.id){
+                    if(timecard.completed == 0 && timecard.user_id == state.dashboardUser.id && timecard.role.slug == state.role){
                         time += timecard.time;
                     }
                 });
@@ -228,7 +214,7 @@
             userCompletedTime: (timecards, state) => {
                 let time = 0;
                 timecards.forEach((timecard)=>{
-                    if(timecard.completed == 1 && timecard.user_id == state.dashboardUser.id){
+                    if(timecard.completed == 1 && timecard.user_id == state.dashboardUser.id && timecard.role.slug == state.role){
                         time += timecard.time;
                     }
                 });
@@ -273,10 +259,6 @@
         },
         mounted: function () {
                 var vm = this;
-                // this.$store.dispatch('loadDashboardRoles');
-                // this.$store.dispatch('loadDashboardTimeCards');
-                // this.$store.dispatch('loadDashboardProjects');
-                // this.$store.dispatch('loadDashboardUsers');
         },
     }
 

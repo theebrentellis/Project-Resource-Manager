@@ -4538,312 +4538,6 @@ return hooks;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bind = __webpack_require__(12);
-
-/*global toString:true*/
-
-// utils is a library of generic helper functions non-specific to axios
-
-var toString = Object.prototype.toString;
-
-/**
- * Determine if a value is an Array
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an Array, otherwise false
- */
-function isArray(val) {
-  return toString.call(val) === '[object Array]';
-}
-
-/**
- * Determine if a value is an ArrayBuffer
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an ArrayBuffer, otherwise false
- */
-function isArrayBuffer(val) {
-  return toString.call(val) === '[object ArrayBuffer]';
-}
-
-/**
- * Determine if a value is a FormData
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an FormData, otherwise false
- */
-function isFormData(val) {
-  return (typeof FormData !== 'undefined') && (val instanceof FormData);
-}
-
-/**
- * Determine if a value is a view on an ArrayBuffer
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
- */
-function isArrayBufferView(val) {
-  var result;
-  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
-    result = ArrayBuffer.isView(val);
-  } else {
-    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
-  }
-  return result;
-}
-
-/**
- * Determine if a value is a String
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a String, otherwise false
- */
-function isString(val) {
-  return typeof val === 'string';
-}
-
-/**
- * Determine if a value is a Number
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Number, otherwise false
- */
-function isNumber(val) {
-  return typeof val === 'number';
-}
-
-/**
- * Determine if a value is undefined
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if the value is undefined, otherwise false
- */
-function isUndefined(val) {
-  return typeof val === 'undefined';
-}
-
-/**
- * Determine if a value is an Object
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an Object, otherwise false
- */
-function isObject(val) {
-  return val !== null && typeof val === 'object';
-}
-
-/**
- * Determine if a value is a Date
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Date, otherwise false
- */
-function isDate(val) {
-  return toString.call(val) === '[object Date]';
-}
-
-/**
- * Determine if a value is a File
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a File, otherwise false
- */
-function isFile(val) {
-  return toString.call(val) === '[object File]';
-}
-
-/**
- * Determine if a value is a Blob
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Blob, otherwise false
- */
-function isBlob(val) {
-  return toString.call(val) === '[object Blob]';
-}
-
-/**
- * Determine if a value is a Function
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Function, otherwise false
- */
-function isFunction(val) {
-  return toString.call(val) === '[object Function]';
-}
-
-/**
- * Determine if a value is a Stream
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Stream, otherwise false
- */
-function isStream(val) {
-  return isObject(val) && isFunction(val.pipe);
-}
-
-/**
- * Determine if a value is a URLSearchParams object
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a URLSearchParams object, otherwise false
- */
-function isURLSearchParams(val) {
-  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
-}
-
-/**
- * Trim excess whitespace off the beginning and end of a string
- *
- * @param {String} str The String to trim
- * @returns {String} The String freed of excess whitespace
- */
-function trim(str) {
-  return str.replace(/^\s*/, '').replace(/\s*$/, '');
-}
-
-/**
- * Determine if we're running in a standard browser environment
- *
- * This allows axios to run in a web worker, and react-native.
- * Both environments support XMLHttpRequest, but not fully standard globals.
- *
- * web workers:
- *  typeof window -> undefined
- *  typeof document -> undefined
- *
- * react-native:
- *  typeof document.createElement -> undefined
- */
-function isStandardBrowserEnv() {
-  return (
-    typeof window !== 'undefined' &&
-    typeof document !== 'undefined' &&
-    typeof document.createElement === 'function'
-  );
-}
-
-/**
- * Iterate over an Array or an Object invoking a function for each item.
- *
- * If `obj` is an Array callback will be called passing
- * the value, index, and complete array for each item.
- *
- * If 'obj' is an Object callback will be called passing
- * the value, key, and complete object for each property.
- *
- * @param {Object|Array} obj The object to iterate
- * @param {Function} fn The callback to invoke for each item
- */
-function forEach(obj, fn) {
-  // Don't bother if no value provided
-  if (obj === null || typeof obj === 'undefined') {
-    return;
-  }
-
-  // Force an array if not already something iterable
-  if (typeof obj !== 'object' && !isArray(obj)) {
-    /*eslint no-param-reassign:0*/
-    obj = [obj];
-  }
-
-  if (isArray(obj)) {
-    // Iterate over array values
-    for (var i = 0, l = obj.length; i < l; i++) {
-      fn.call(null, obj[i], i, obj);
-    }
-  } else {
-    // Iterate over object keys
-    for (var key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        fn.call(null, obj[key], key, obj);
-      }
-    }
-  }
-}
-
-/**
- * Accepts varargs expecting each argument to be an object, then
- * immutably merges the properties of each object and returns result.
- *
- * When multiple objects contain the same key the later object in
- * the arguments list will take precedence.
- *
- * Example:
- *
- * ```js
- * var result = merge({foo: 123}, {foo: 456});
- * console.log(result.foo); // outputs 456
- * ```
- *
- * @param {Object} obj1 Object to merge
- * @returns {Object} Result of all merge properties
- */
-function merge(/* obj1, obj2, obj3, ... */) {
-  var result = {};
-  function assignValue(val, key) {
-    if (typeof result[key] === 'object' && typeof val === 'object') {
-      result[key] = merge(result[key], val);
-    } else {
-      result[key] = val;
-    }
-  }
-
-  for (var i = 0, l = arguments.length; i < l; i++) {
-    forEach(arguments[i], assignValue);
-  }
-  return result;
-}
-
-/**
- * Extends object a by mutably adding to it the properties of object b.
- *
- * @param {Object} a The object to be extended
- * @param {Object} b The object to copy properties from
- * @param {Object} thisArg The object to bind function to
- * @return {Object} The resulting value of object a
- */
-function extend(a, b, thisArg) {
-  forEach(b, function assignValue(val, key) {
-    if (thisArg && typeof val === 'function') {
-      a[key] = bind(val, thisArg);
-    } else {
-      a[key] = val;
-    }
-  });
-  return a;
-}
-
-module.exports = {
-  isArray: isArray,
-  isArrayBuffer: isArrayBuffer,
-  isFormData: isFormData,
-  isArrayBufferView: isArrayBufferView,
-  isString: isString,
-  isNumber: isNumber,
-  isObject: isObject,
-  isUndefined: isUndefined,
-  isDate: isDate,
-  isFile: isFile,
-  isBlob: isBlob,
-  isFunction: isFunction,
-  isStream: isStream,
-  isURLSearchParams: isURLSearchParams,
-  isStandardBrowserEnv: isStandardBrowserEnv,
-  forEach: forEach,
-  merge: merge,
-  extend: extend,
-  trim: trim
-};
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5653,6 +5347,312 @@ var index_esm = {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = index_esm;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bind = __webpack_require__(12);
+
+/*global toString:true*/
+
+// utils is a library of generic helper functions non-specific to axios
+
+var toString = Object.prototype.toString;
+
+/**
+ * Determine if a value is an Array
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Array, otherwise false
+ */
+function isArray(val) {
+  return toString.call(val) === '[object Array]';
+}
+
+/**
+ * Determine if a value is an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an ArrayBuffer, otherwise false
+ */
+function isArrayBuffer(val) {
+  return toString.call(val) === '[object ArrayBuffer]';
+}
+
+/**
+ * Determine if a value is a FormData
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an FormData, otherwise false
+ */
+function isFormData(val) {
+  return (typeof FormData !== 'undefined') && (val instanceof FormData);
+}
+
+/**
+ * Determine if a value is a view on an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
+ */
+function isArrayBufferView(val) {
+  var result;
+  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
+    result = ArrayBuffer.isView(val);
+  } else {
+    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+  }
+  return result;
+}
+
+/**
+ * Determine if a value is a String
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a String, otherwise false
+ */
+function isString(val) {
+  return typeof val === 'string';
+}
+
+/**
+ * Determine if a value is a Number
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Number, otherwise false
+ */
+function isNumber(val) {
+  return typeof val === 'number';
+}
+
+/**
+ * Determine if a value is undefined
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if the value is undefined, otherwise false
+ */
+function isUndefined(val) {
+  return typeof val === 'undefined';
+}
+
+/**
+ * Determine if a value is an Object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Object, otherwise false
+ */
+function isObject(val) {
+  return val !== null && typeof val === 'object';
+}
+
+/**
+ * Determine if a value is a Date
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Date, otherwise false
+ */
+function isDate(val) {
+  return toString.call(val) === '[object Date]';
+}
+
+/**
+ * Determine if a value is a File
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a File, otherwise false
+ */
+function isFile(val) {
+  return toString.call(val) === '[object File]';
+}
+
+/**
+ * Determine if a value is a Blob
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Blob, otherwise false
+ */
+function isBlob(val) {
+  return toString.call(val) === '[object Blob]';
+}
+
+/**
+ * Determine if a value is a Function
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Function, otherwise false
+ */
+function isFunction(val) {
+  return toString.call(val) === '[object Function]';
+}
+
+/**
+ * Determine if a value is a Stream
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Stream, otherwise false
+ */
+function isStream(val) {
+  return isObject(val) && isFunction(val.pipe);
+}
+
+/**
+ * Determine if a value is a URLSearchParams object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+ */
+function isURLSearchParams(val) {
+  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+}
+
+/**
+ * Trim excess whitespace off the beginning and end of a string
+ *
+ * @param {String} str The String to trim
+ * @returns {String} The String freed of excess whitespace
+ */
+function trim(str) {
+  return str.replace(/^\s*/, '').replace(/\s*$/, '');
+}
+
+/**
+ * Determine if we're running in a standard browser environment
+ *
+ * This allows axios to run in a web worker, and react-native.
+ * Both environments support XMLHttpRequest, but not fully standard globals.
+ *
+ * web workers:
+ *  typeof window -> undefined
+ *  typeof document -> undefined
+ *
+ * react-native:
+ *  typeof document.createElement -> undefined
+ */
+function isStandardBrowserEnv() {
+  return (
+    typeof window !== 'undefined' &&
+    typeof document !== 'undefined' &&
+    typeof document.createElement === 'function'
+  );
+}
+
+/**
+ * Iterate over an Array or an Object invoking a function for each item.
+ *
+ * If `obj` is an Array callback will be called passing
+ * the value, index, and complete array for each item.
+ *
+ * If 'obj' is an Object callback will be called passing
+ * the value, key, and complete object for each property.
+ *
+ * @param {Object|Array} obj The object to iterate
+ * @param {Function} fn The callback to invoke for each item
+ */
+function forEach(obj, fn) {
+  // Don't bother if no value provided
+  if (obj === null || typeof obj === 'undefined') {
+    return;
+  }
+
+  // Force an array if not already something iterable
+  if (typeof obj !== 'object' && !isArray(obj)) {
+    /*eslint no-param-reassign:0*/
+    obj = [obj];
+  }
+
+  if (isArray(obj)) {
+    // Iterate over array values
+    for (var i = 0, l = obj.length; i < l; i++) {
+      fn.call(null, obj[i], i, obj);
+    }
+  } else {
+    // Iterate over object keys
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        fn.call(null, obj[key], key, obj);
+      }
+    }
+  }
+}
+
+/**
+ * Accepts varargs expecting each argument to be an object, then
+ * immutably merges the properties of each object and returns result.
+ *
+ * When multiple objects contain the same key the later object in
+ * the arguments list will take precedence.
+ *
+ * Example:
+ *
+ * ```js
+ * var result = merge({foo: 123}, {foo: 456});
+ * console.log(result.foo); // outputs 456
+ * ```
+ *
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+function merge(/* obj1, obj2, obj3, ... */) {
+  var result = {};
+  function assignValue(val, key) {
+    if (typeof result[key] === 'object' && typeof val === 'object') {
+      result[key] = merge(result[key], val);
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+  return result;
+}
+
+/**
+ * Extends object a by mutably adding to it the properties of object b.
+ *
+ * @param {Object} a The object to be extended
+ * @param {Object} b The object to copy properties from
+ * @param {Object} thisArg The object to bind function to
+ * @return {Object} The resulting value of object a
+ */
+function extend(a, b, thisArg) {
+  forEach(b, function assignValue(val, key) {
+    if (thisArg && typeof val === 'function') {
+      a[key] = bind(val, thisArg);
+    } else {
+      a[key] = val;
+    }
+  });
+  return a;
+}
+
+module.exports = {
+  isArray: isArray,
+  isArrayBuffer: isArrayBuffer,
+  isFormData: isFormData,
+  isArrayBufferView: isArrayBufferView,
+  isString: isString,
+  isNumber: isNumber,
+  isObject: isObject,
+  isUndefined: isUndefined,
+  isDate: isDate,
+  isFile: isFile,
+  isBlob: isBlob,
+  isFunction: isFunction,
+  isStream: isStream,
+  isURLSearchParams: isURLSearchParams,
+  isStandardBrowserEnv: isStandardBrowserEnv,
+  forEach: forEach,
+  merge: merge,
+  extend: extend,
+  trim: trim
+};
 
 
 /***/ }),
@@ -15975,7 +15975,7 @@ module.exports = function normalizeComponent (
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var normalizeHeaderName = __webpack_require__(152);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
@@ -25960,7 +25960,7 @@ module.exports = Vue$3;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var settle = __webpack_require__(144);
 var buildURL = __webpack_require__(147);
 var parseHeaders = __webpack_require__(153);
@@ -37726,11 +37726,11 @@ module.exports = function(module) {
 /* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_calendar_vue__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_calendar_vue__ = __webpack_require__(175);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_calendar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_calendar_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_newTimecard_vue__ = __webpack_require__(177);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_newTimecard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_newTimecard_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_newButton_vue__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_newButton_vue__ = __webpack_require__(176);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_newButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_newButton_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ProjectDashboard_vue__ = __webpack_require__(173);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ProjectDashboard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_ProjectDashboard_vue__);
@@ -37738,7 +37738,7 @@ module.exports = function(module) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_RoleDashboard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_RoleDashboard_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__store_actions__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__store__ = __webpack_require__(161);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vuex__ = __webpack_require__(1);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -37823,7 +37823,7 @@ module.exports = __webpack_require__(138);
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var bind = __webpack_require__(12);
 var Axios = __webpack_require__(140);
 var defaults = __webpack_require__(5);
@@ -37947,7 +37947,7 @@ module.exports = CancelToken;
 
 
 var defaults = __webpack_require__(5);
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var InterceptorManager = __webpack_require__(141);
 var dispatchRequest = __webpack_require__(142);
 var isAbsoluteURL = __webpack_require__(150);
@@ -38038,7 +38038,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -38097,7 +38097,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var transformData = __webpack_require__(145);
 var isCancel = __webpack_require__(10);
 var defaults = __webpack_require__(5);
@@ -38241,7 +38241,7 @@ module.exports = function settle(resolve, reject, response) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 /**
  * Transform the data for a request or a response
@@ -38311,7 +38311,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -38405,7 +38405,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -38486,7 +38486,7 @@ module.exports = function isAbsoluteURL(url) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -38561,7 +38561,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -38580,7 +38580,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 /**
  * Parse headers into an object
@@ -38657,7 +38657,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(1);
 //
 //
 //
@@ -38734,22 +38734,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(1);
 //
 //
 //
@@ -38895,20 +38880,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         allRoleTimeCards: function allRoleTimeCards() {
             this.$store.dispatch('allRoleTimeCards');
         },
-        setDashBoardRoleId: function setDashBoardRoleId(roleId) {
-            this.$store.dispatch('setDashboardRoleId', roleId);
+        setDashboardRole: function setDashboardRole(role) {
+            this.$store.dispatch('setDashboardRole', role);
         },
         userTimecards: function userTimecards(state, timecards) {
-            var userTimecards = [];
-            timecards.forEach(function (timecard) {
-                console.log(timecard);
-            });
-            return userTimecards;
+            console.log("What userTimecards?");
+            // let userTimecards = [];
+            // timecards.forEach((timecard) => {
+            //     console.log("Timecard: " + timecard);
+            // });
+            // return userTimecards;
         },
         dashboardRoles: function dashboardRoles(state, roles) {
             var role = {};
             roles.forEach(function (element) {
-                if (element.id == state.roleId) {
+                if (element.slug == state.role) {
                     role = element;
                 }
             });
@@ -38927,26 +38913,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var roleUsers = [];
             users.forEach(function (user) {
                 user.user_roles.forEach(function (role) {
-                    if (role.role_id == state.roleId) {
+                    if (role.role.slug == state.role) {
                         roleUsers.push(user);
                     }
                 });
             });
             return roleUsers;
         },
-        allAssignedTime: function allAssignedTime(timecards, state) {
+        allRoleUsersAssTime: function allRoleUsersAssTime(timecards, state) {
             var time = 0;
             timecards.forEach(function (timecard) {
-                if (timecard.completed == 0) {
+                if (timecard.completed == 0 && timecard.role.slug == state.role) {
                     time += timecard.time;
                 }
             });
             return time;
         },
-        allCompletedTime: function allCompletedTime(timecards, state) {
+        allRoleUsersCompTime: function allRoleUsersCompTime(timecards, state) {
             var time = 0;
             timecards.forEach(function (timecard) {
-                if (timecard.completed == 1) {
+                if (timecard.completed == 1 && timecard.role.slug == state.role) {
                     time += timecard.time;
                 }
             });
@@ -38955,7 +38941,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         userAssignedTime: function userAssignedTime(timecards, state) {
             var time = 0;
             timecards.forEach(function (timecard) {
-                if (timecard.completed == 0 && timecard.user_id == state.dashboardUser.id) {
+                if (timecard.completed == 0 && timecard.user_id == state.dashboardUser.id && timecard.role.slug == state.role) {
                     time += timecard.time;
                 }
             });
@@ -38964,7 +38950,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         userCompletedTime: function userCompletedTime(timecards, state) {
             var time = 0;
             timecards.forEach(function (timecard) {
-                if (timecard.completed == 1 && timecard.user_id == state.dashboardUser.id) {
+                if (timecard.completed == 1 && timecard.user_id == state.dashboardUser.id && timecard.role.slug == state.role) {
                     time += timecard.time;
                 }
             });
@@ -39009,21 +38995,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         var vm = this;
-        // this.$store.dispatch('loadDashboardRoles');
-        // this.$store.dispatch('loadDashboardTimeCards');
-        // this.$store.dispatch('loadDashboardProjects');
-        // this.$store.dispatch('loadDashboardUsers');
     }
 };
 
 /***/ }),
-/* 157 */,
-/* 158 */
+/* 157 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(1);
 //
 //
 //
@@ -39096,13 +39077,36 @@ var moment = __webpack_require__(0);
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
+/* 158 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(1);
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    namespaced: true,
+    methods: {
+        newTimecard: function newTimecard() {
+            this.$store.dispatch('openModal');
+        }
+    }
+};
+
+/***/ }),
 /* 159 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(1);
 //
 //
 //
@@ -39213,14 +39217,19 @@ var moment = __webpack_require__(0);
         }
     },
     methods: {
-        closeSubmit: function closeSubmit() {
-            this.$store.dispatch("closeModal", this.form);
+        closeSubmit: function closeSubmit(state) {
+            event.target.innerHTML = '<i class="fa fa-spinner fa-pulse fa-fw fa-btn"></i>';
+            event.target.disabled = true;
+            this.$store.dispatch("closeSubmit", this.form);
+            Vue.nextTick(function () {
+                if (state.errors) {
+                    event.target.innerHTML = "Assign Time";
+                    event.target.disabled = false;
+                }
+            });
         },
         close: function close() {
-            this.$store.commit("CLOSE_MODAL");
-        },
-        showModal: function showModal() {
-            console.log("showModal");
+            this.$store.dispatch("close");
         },
         updateProjectId: function updateProjectId(id) {
             this.$store.commit("SELECT_PROJECT_ID", id);
@@ -39228,8 +39237,8 @@ var moment = __webpack_require__(0);
         updateUserId: function updateUserId(id) {
             this.$store.commit("SELECT_USER_ID", id);
         },
-        updateRole: function updateRole(value) {
-            this.$store.commit("SELECT_ROLE_ID", value);
+        updateRole: function updateRole(id) {
+            this.$store.dispatch('selectRole', id);
         },
         usersByRole: function usersByRole(users, state) {
             var roleUsers = [];
@@ -39241,6 +39250,18 @@ var moment = __webpack_require__(0);
                 });
             });
             return roleUsers;
+        },
+        displayRole: function displayRole(roles, state) {
+            var role = {};
+            roles.forEach(function (theRole) {
+                if (theRole.id == state.role_id) {
+                    role = theRole;
+                }
+            });
+            return role;
+        },
+        dismissError: function dismissError() {
+            this.$store.dispatch('dismissError');
         }
     },
     data: function data() {
@@ -39251,19 +39272,22 @@ var moment = __webpack_require__(0);
     mounted: function mounted() {
         var _this = this;
 
-        // this.$store.dispatch('loadTimecardRoles');
-        // this.$store.dispatch('loadTimecardUsers');
-        // this.$store.dispatch('loadTimecardProjects');
         document.addEventListener('keydown', function (e) {
             if (_this.showModal && e.keyCode == 27) {
                 console.log("ESC");
                 _this.close();
             }
         });
+        var vm = this;
     },
     filters: {
         dateFormat: function dateFormat(date) {
             return moment(date).format("MMMM Do, YYYY");
+        },
+        pluralize: function pluralize(name) {
+            if (name) {
+                return name + 's';
+            }
         }
     }
 };
@@ -39327,13 +39351,13 @@ window.axios.defaults.headers.common = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_newTimecard__ = __webpack_require__(163);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_projectDashboard__ = __webpack_require__(164);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_roleDashboard__ = __webpack_require__(165);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_newButton__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_newButton__ = __webpack_require__(162);
 
 
 
@@ -39368,16 +39392,32 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.config.debug = true;
 });
 
 /***/ }),
-/* 162 */,
+/* 162 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var state = {};
+
+var actions = {
+    timecardModal: function timecardModal(_ref) {
+        var commit = _ref.commit;
+
+        console.log("timecardModal");
+        commit('OPEN_MODAL');
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = {
+    state: state,
+    actions: actions
+};
+
+/***/ }),
 /* 163 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var state = {
     showModal: false,
-    timecardProjects: [],
-    timecardRoles: [],
-    timecardUsers: [],
     role_id: "",
     user_id: "",
     project_id: "",
@@ -39385,45 +39425,20 @@ var state = {
 };
 
 var actions = {
-    loadTimecardUsers: function loadTimecardUsers(_ref) {
+    openModal: function openModal(_ref) {
         var commit = _ref.commit;
-
-        axios.get('/api/users').then(function (response) {
-            commit('SET_TIMECARD_USERS', { allUsers: response.data });
-        }, function (error) {
-            console.log(error);
-        });
-    },
-    loadTimecardProjects: function loadTimecardProjects(_ref2) {
-        var commit = _ref2.commit;
-
-        axios.get('/api/projects').then(function (response) {
-            commit('SET_TIMECARD_PROJECTS', { allProjects: response.data });
-        }, function (error) {
-            console.log(error);
-        });
-    },
-    loadTimecardRoles: function loadTimecardRoles(_ref3) {
-        var commit = _ref3.commit;
-
-        axios.get('/api/roles').then(function (response) {
-            commit('SET_TIMECARD_ROLES', { allRoles: response.data });
-        }, function (error) {
-            console.log(error);
-        });
-    },
-    openModal: function openModal(_ref4) {
-        var commit = _ref4.commit;
 
         commit('OPEN_MODAL');
     },
-    closeModal: function closeModal(_ref5, formData) {
-        var commit = _ref5.commit;
+    closeSubmit: function closeSubmit(_ref2, formData) {
+        var commit = _ref2.commit;
 
 
         //Form Validation
         if (!formData.hours || !formData.project_id || !formData.role_id || !formData.user_id || !formData.date || !formData.notes) {
-            state.errors = "Please Complete Timecard";
+
+            var error = "Please Complete Timecard";
+            commit("ERRORS", error);
         } else {
 
             return axios.post('/api/timecards', formData).then(function (response) {
@@ -39434,25 +39449,25 @@ var actions = {
                 console.log(error);
             });
         }
+    },
+    close: function close(_ref3) {
+        var commit = _ref3.commit;
+
+        commit("CLOSE_MODAL");
+    },
+    selectRole: function selectRole(_ref4, role_id) {
+        var commit = _ref4.commit;
+
+        commit("SELECT_ROLE", role_id);
+    },
+    dismissError: function dismissError(_ref5) {
+        var commit = _ref5.commit;
+
+        commit("DISMISS_ERROR");
     }
 };
 
 var mutations = {
-    SET_TIMECARD_PROJECTS: function SET_TIMECARD_PROJECTS(state, _ref6) {
-        var allProjects = _ref6.allProjects;
-
-        state.timecardProjects = allProjects;
-    },
-    SET_TIMECARD_USERS: function SET_TIMECARD_USERS(state, _ref7) {
-        var allUsers = _ref7.allUsers;
-
-        state.timecardUsers = allUsers;
-    },
-    SET_TIMECARD_ROLES: function SET_TIMECARD_ROLES(state, _ref8) {
-        var allRoles = _ref8.allRoles;
-
-        state.timecardRoles = allRoles;
-    },
     OPEN_MODAL: function OPEN_MODAL(state) {
         state.showModal = true;
     },
@@ -39461,7 +39476,6 @@ var mutations = {
         state.developer_id = "";
         state.project_id = "";
         state.errors = "";
-        // location.reload();
     },
     SELECT_USER_ID: function SELECT_USER_ID(state, id) {
         state.user_id = id;
@@ -39469,33 +39483,18 @@ var mutations = {
     SELECT_PROJECT_ID: function SELECT_PROJECT_ID(state, id) {
         state.project_id = id;
     },
-    SELECT_ROLE_ID: function SELECT_ROLE_ID(state, id) {
-        state.role_id = id;
+    SELECT_ROLE: function SELECT_ROLE(state, role_id) {
+        state.role_id = role_id;
+    },
+    ERRORS: function ERRORS(state, error) {
+        state.errors = error;
+    },
+    DISMISS_ERROR: function DISMISS_ERROR(state) {
+        state.errors = "";
     }
 };
 
-var getters = {
-    timecardUsersByRole: function timecardUsersByRole(state) {
-        var users = [];
-        state.timecardUsers.filter(function (user) {
-            user.user_roles.filter(function (role) {
-                if (role.role_id == state.role_id) {
-                    return users.push(user);
-                }
-            });
-        });
-        return users;
-    },
-    timecardRole: function timecardRole(state) {
-        var theRole = {};
-        state.timecardRoles.filter(function (role) {
-            if (role.id == state.role_id) {
-                theRole = role;
-            }
-        });
-        return theRole;
-    }
-};
+var getters = {};
 
 /* harmony default export */ __webpack_exports__["a"] = {
     state: state,
@@ -39532,49 +39531,12 @@ var getters = {
 
 "use strict";
 var state = {
-    roleId: '1',
-    // dashboardTimeCards: [],
-    // dashboardProjects: [],
-    // dashboardUsers: [],
+    role: 'dev',
     dashboardUser: {},
-    // dashboardRoles: [],
     dashboardRole: {}
 };
 
 var actions = {
-    // loadDashboardTimeCards: function ({ commit }) {
-    //     axios.get('/api/timecards')
-    //         .then((response) => {
-    //             commit('SET_DASHBOARD_TIME_CARDS', { timeCards: response.data })
-    //         }, (error) => {
-    //             console.log(error);
-    //         });
-    // },
-    // loadDashboardUsers: function ({ commit }) {
-    //     var roleId = state.roleId;
-    //     axios.get('/api/users')
-    //         .then((response) => {
-    //             commit('SET_DASHBOARD_USERS', { users: response.data });
-    //         }, (error) => {
-    //             console.log(error);
-    //         });
-    // },
-    // loadDashboardProjects: function ({ commit }) {
-    //     axios.get('/api/projects')
-    //         .then((response) => {
-    //             commit('SET_DASHBOARD_PROJECTS', { projects: response.data });
-    //         }, (error) => {
-    //             console.log(error);
-    //         });
-    // },
-    // loadDashboardRoles: function ({ commit }) {
-    //     axios.get('/api/roles')
-    //         .then((response) => {
-    //             commit('SET_DASHBOARD_ROLES', { roles: response.data });
-    //         }, (error) => {
-    //             console.log(error);
-    //         });
-    // },
     allRoleTimeCards: function allRoleTimeCards(_ref) {
         var commit = _ref.commit;
 
@@ -39583,91 +39545,31 @@ var actions = {
     setDashboardUser: function setDashboardUser(_ref2, user) {
         var commit = _ref2.commit;
 
-        // state.dashboardUsers.forEach(function (user) {
-        //     if (user.id == id) {
         commit('SET_DASHBOARD_USER', { user: user });
-        //     }
-        // });
     },
-    setDashboardRoleId: function setDashboardRoleId(_ref3, roleId) {
+    setDashboardRole: function setDashboardRole(_ref3, role) {
         var commit = _ref3.commit;
 
-        commit('SET_DASHBOARD_ROLE_ID', roleId);
+        commit('SET_DASHBOARD_ROLE', role);
     }
 };
 
 var mutations = {
-    SET_DASHBOARD_TIME_CARDS: function SET_DASHBOARD_TIME_CARDS(state, _ref4) {
-        var timeCards = _ref4.timeCards;
-
-        state.dashboardTimeCards = timeCards;
+    SET_DASHBOARD_ROLE: function SET_DASHBOARD_ROLE(state, role) {
+        state.dashboardRole = role;
+        state.role = role.slug;
     },
-    SET_DASHBOARD_USERS: function SET_DASHBOARD_USERS(state, _ref5) {
-        var users = _ref5.users;
-
-        state.dashboardUsers = users;
-    },
-    SET_DASHBOARD_PROJECTS: function SET_DASHBOARD_PROJECTS(state, _ref6) {
-        var projects = _ref6.projects;
-
-        state.dashboardProjects = projects;
-    },
-    SET_DASHBOARD_USER: function SET_DASHBOARD_USER(state, _ref7) {
-        var user = _ref7.user;
+    SET_DASHBOARD_USER: function SET_DASHBOARD_USER(state, _ref4) {
+        var user = _ref4.user;
 
         state.dashboardUser = user;
     },
-    SET_DASHBOARD_ROLES: function SET_DASHBOARD_ROLES(state, _ref8) {
-        var roles = _ref8.roles;
-
-        state.dashboardRoles = roles;
-        state.dashboardRoles.forEach(function (role) {
-            if (role.id == state.roleId) {
-                state.dashboardRole = role;
-            }
-        });
-    },
-    SET_DASHBOARD_ROLE: function SET_DASHBOARD_ROLE(state, _ref9) {
-        var role = _ref9.role;
-
-        state.dashboardRole = role;
-    },
     SET_ALL_ROLE_TIME_CARDS: function SET_ALL_ROLE_TIME_CARDS(state) {
         state.dashboardUser = {};
-    },
-    SET_DASHBOARD_ROLE_ID: function SET_DASHBOARD_ROLE_ID(state, roleId) {
-        state.roleId = roleId;
-        state.dashboardRoles.forEach(function (role) {});
     }
 };
 
-var getters = {
-    // userTimeCards: (state, getters) => {
-    //     return state.dashboardTimeCards.filter((timeCard) => {
-    //         return timeCard.user_id === state.dashboardUser.id;
-    //     });
-    // },
-    // dashboardRole: (state) => {
-    //     let theRole = {};
-    //     state.dashboardRoles.filter((role) => {
-    //         if (role.id == state.roleId) {
-    //             theRole = role;
-    //         }
-    //     });
-    //     return theRole;
-    // },
-    // dashboardUsersByRole: (state) => {
-    //     var users = [];
-    //     state.dashboardUsers.filter((user) => {
-    //         user.user_roles.filter((role) => {
-    //             if (role.role_id == state.roleId) {
-    //                 return users.push(user);
-    //             }
-    //         });
-    //     });
-    //     return users;
-    // }
-};
+var getters = {};
 
 /* harmony default export */ __webpack_exports__["a"] = {
     state: state,
@@ -43241,7 +43143,7 @@ exports = module.exports = __webpack_require__(15)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /*.dashboard.card-header {\n    background: black;\n}*/\n.dashboard {\n        width: 100%;\n}\n#roleButtonDisplay {\n        width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /*.dashboard.card-header {\n    background: black;\n}*/\n.dashboard {\n        width: 100%;\n}\n#roleButtonDisplay {\n        width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -78084,8 +77986,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 175 */,
-/* 176 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -78094,7 +77995,7 @@ __webpack_require__(184)
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(158),
+  __webpack_require__(157),
   /* template */
   __webpack_require__(178),
   /* scopeId */
@@ -78116,6 +78017,40 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-0b7ce525", Component.options)
   } else {
     hotAPI.reload("data-v-0b7ce525", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(158),
+  /* template */
+  __webpack_require__(180),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/BrentEllis/Code/Project Resource Manager/resources/assets/js/components/newButton.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] newButton.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-399fb21b", Component.options)
+  } else {
+    hotAPI.reload("data-v-399fb21b", Component.options)
   }
 })()}
 
@@ -78229,7 +78164,30 @@ if (false) {
 }
 
 /***/ }),
-/* 180 */,
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn btn-outline-success btn-sm",
+    on: {
+      "click": function($event) {
+        _vm.newTimecard()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-fw fa-btn fa-clock-o"
+  }), _vm._v("New Timecard")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-399fb21b", module.exports)
+  }
+}
+
+/***/ }),
 /* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -78280,14 +78238,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.state.errors = ''
+        _vm.dismissError()
       }
     }
   }, [_c('span', {
     attrs: {
       "aria-hidden": "true"
     }
-  }, [_vm._v("×")])]), _vm._v("\n                        " + _vm._s(_vm.state.errors) + "\n                    ")]) : _vm._e(), _vm._v(" "), _c('div', {
+  }, [_vm._v("×")])]), _vm._v(" " + _vm._s(_vm.state.errors) + "\n                    ")]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "card-block"
   }, [_c('form', [_c('div', {
     staticClass: "form-group row"
@@ -78376,6 +78334,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Choose...")]), _vm._v(" "), _vm._l((_vm.roles), function(role) {
     return _c('option', {
+      attrs: {
+        "required": ""
+      },
       domProps: {
         "value": role.id
       }
@@ -78387,12 +78348,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "user"
     }
-  }, [_c('strong', [_vm._v(_vm._s(_vm.getters.timecardRole.label))])]), _vm._v(" "), _c('div', {
+  }, [_c('strong', [_vm._v(_vm._s(_vm._f("pluralize")(_vm.displayRole(_vm.roles, _vm.state).label)) + ":")])]), _vm._v(" "), _c('div', {
     staticClass: "col-9"
   }, [_c('select', {
     staticClass: "custom-select form-control",
     attrs: {
-      "name": "",
+      "name": "user",
       "id": "user"
     },
     on: {
@@ -78481,7 +78442,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.closeSubmit()
+        _vm.closeSubmit(_vm.state)
       }
     }
   }, [_vm._v("Assign Time")])])])])])])])])])
@@ -78532,7 +78493,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dropdown-menu"
   }, _vm._l((_vm.roles), function(role) {
     return _c('a', {
-      key: role.id,
+      key: role.slug,
       ref: role.label,
       refInFor: true,
       staticClass: "dropdown-item",
@@ -78541,7 +78502,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.setDashBoardRoleId(role.id)
+          _vm.setDashboardRole(role)
         }
       }
     }, [_vm._v(_vm._s(_vm._f("pluralize")(role.label)))])
@@ -78590,7 +78551,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "card-block"
   }, [_c('table', {
     staticClass: "table"
-  }, [_vm._m(1), _vm._v(" "), _c('tbody', [(!_vm.state.dashboardUser.name) ? _c('tr', [_c('td', [_vm._v("\n                                        " + _vm._s(_vm.allAssignedTime(_vm.timecards)) + "\n                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                        " + _vm._s(_vm.allCompletedTime(_vm.timecards)) + "\n                                    ")])]) : _c('tr', [_c('td', [_vm._v("\n                                        " + _vm._s(_vm.userAssignedTime(_vm.timecards, _vm.state)) + "\n                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                        " + _vm._s(_vm.userCompletedTime(_vm.timecards, _vm.state)) + "\n                                    ")])])])])])])])])]), _vm._v(" "), _c('div')])
+  }, [_vm._m(1), _vm._v(" "), _c('tbody', [(!_vm.state.dashboardUser.name) ? _c('tr', [_c('td', [_vm._v("\n                                        " + _vm._s(_vm.allRoleUsersAssTime(_vm.timecards, _vm.state)) + "\n                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                        " + _vm._s(_vm.allRoleUsersCompTime(_vm.timecards, _vm.state)) + "\n                                    ")])]) : _c('tr', [_c('td', [_vm._v("\n                                        " + _vm._s(_vm.userAssignedTime(_vm.timecards, _vm.state)) + "\n                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                        " + _vm._s(_vm.userCompletedTime(_vm.timecards, _vm.state)) + "\n                                    ")])])])])])])])])]), _vm._v(" "), _c('div')])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "btn btn-outline-secondary dropdown-toggle dropdown-toggle-split",
@@ -80291,111 +80252,6 @@ __webpack_require__(134);
 __webpack_require__(135);
 module.exports = __webpack_require__(136);
 
-
-/***/ }),
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-    namespaced: true,
-    methods: {
-        newTimecard: function newTimecard() {
-            this.$store.dispatch('openModal');
-        }
-    }
-};
-
-/***/ }),
-/* 193 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(4)(
-  /* script */
-  __webpack_require__(192),
-  /* template */
-  __webpack_require__(194),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/BrentEllis/Code/Project Resource Manager/resources/assets/js/components/newButton.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] newButton.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-399fb21b", Component.options)
-  } else {
-    hotAPI.reload("data-v-399fb21b", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 194 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-outline-success btn-sm",
-    on: {
-      "click": function($event) {
-        _vm.newTimecard()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-fw fa-btn fa-clock-o"
-  }), _vm._v("New Timecard")])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-399fb21b", module.exports)
-  }
-}
-
-/***/ }),
-/* 195 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var state = {};
-
-var actions = {
-    timecardModal: function timecardModal(_ref) {
-        var commit = _ref.commit;
-
-        console.log("timecardModal");
-        commit('OPEN_MODAL');
-    }
-};
-/* harmony default export */ __webpack_exports__["a"] = {
-    state: state,
-    actions: actions
-};
 
 /***/ })
 /******/ ]);

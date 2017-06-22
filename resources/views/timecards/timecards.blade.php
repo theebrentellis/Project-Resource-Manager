@@ -66,6 +66,7 @@
                             <th></th>
                             <th>Project</th>
                             <th>Date</th>
+                            <th>Hours</th>
                             <th>User</th>
                             <th>Role</th>
                             <th>Notes</th>
@@ -84,6 +85,7 @@
                                     </td>
                                     <td>{{ $timecard->project->name }}</td>
                                     <td>{{ date('F d',strtotime($timecard->date)) }}</td>
+                                    <td>{{ $timecard->time }}</td>
                                     <td>{{ $timecard->user->name }}</td>
                                     <td>{{ $timecard->role->label }}</td>
                                     <td>{{ $timecard->notes }}</td>
