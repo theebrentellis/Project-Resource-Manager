@@ -51,9 +51,9 @@ $(document).ready(() => {
     });
 
     //Toggles image on hover
-    $('button.btn.btn-outline-danger.btn-sm').hover(function() {
-        console.log("Hotdog");
-    }, function() {
-        console.log("Not Hotdog");
+    $('button.btn.btn-outline-danger.btn-sm').hover((el) => {
+        el.currentTarget.innerHTML = '<i class="fa fa-fw fa-btn fa-check-square-o"></i>Completed';
+    }, (el) => {
+        el.currentTarget.innerHTML = '<i class="fa fa-fw fa-btn fa-square-o"></i>Complete Timecard';
     });
 });

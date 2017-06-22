@@ -37790,10 +37790,10 @@ $(document).ready(function () {
     });
 
     //Toggles image on hover
-    $('button.btn.btn-outline-danger.btn-sm').hover(function () {
-        console.log("Hotdog");
-    }, function () {
-        console.log("Not Hotdog");
+    $('button.btn.btn-outline-danger.btn-sm').hover(function (el) {
+        el.currentTarget.innerHTML = '<i class="fa fa-fw fa-btn fa-check-square-o"></i>Completed';
+    }, function (el) {
+        el.currentTarget.innerHTML = '<i class="fa fa-fw fa-btn fa-square-o"></i>Complete Timecard';
     });
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
