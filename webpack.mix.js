@@ -11,10 +11,25 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js([
-    // 'node_modules/jquery/dist/jquery.min.js',
-    // 'node_modules/bootstrap/dist/js/bootstrap.js',    
-    'resources/assets/js/app.js'
-    ], 'public/js')
+mix.js(['resources/assets/js/app.js'], 'public/js')
+    .extract([
+        'jquery',
+        'vue',
+        'popper.js',
+        'bootstrap',
+    ])
     .sass('resources/assets/sass/app.scss', 'public/css')
-    .sass('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css');
+    .sass('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css')
+    .sourceMaps();
+
+
+mix.webpackConfig({
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+            Popper: ['popper.js', 'default']
+        })
+    ]
+});

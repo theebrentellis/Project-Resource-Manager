@@ -45,6 +45,7 @@ Route::group([
     'prefix' => 'api',
     'namespace' => 'API'
 ], function(){
+    
     Route::resource('projectDueDates', 'DueDatesCalendarController');
     Route::resource('developerSchedules', 'CalendarController@developerSchedules');
 
