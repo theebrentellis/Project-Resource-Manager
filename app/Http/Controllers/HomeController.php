@@ -29,8 +29,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $projects = Project::with('timeCards')->get();
+        // $projects = Project::with('timeCards')->get();
 
-        return view('home', compact(['projects']));
+        return view('welcome');
     }
+
+    
 }
