@@ -15,9 +15,6 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="w-100 welcome">
-                <div>
-                    <img src="./images/twelve23-logo-blue.png" alt="Twelve23 Logo">
-                </div>
                 <div class="welcome_title">
                     Project Resource Manager
                 </div>
