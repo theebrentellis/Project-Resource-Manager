@@ -8,8 +8,10 @@
 // Bootstrap
 @import "node_modules/bootstrap/scss/bootstrap";
 
-//Fonts
+//Font Awesome
 @import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "node_modules/@fortawesome/fontawesome-free/scss/solid";
+
 
 body {
     font-family: $font-family-sans-serif;

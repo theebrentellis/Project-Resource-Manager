@@ -5,7 +5,9 @@
     <div class="row">
         <div class="col">
             <div>
-                <a href="/timecards">My Timecards <span class="badge">1</span></a>
+                <a href="{{ route('timecards') }}" class="btn btn-sm btn-secondary">
+                    My Timecards
+                </a>
             </div>
         </div>
     </div>
@@ -13,10 +15,15 @@
         <div class="col">
             <div>
                 <div class="card card-inverse" style="background-color: #333; border-color: #333;">
-                    <div class="card-block">
+                    <div class="card-body">
                         <h2 class="card-title">Projects</h2>
-                        <a href="/projects" class="btn btn-outline-secondary btn-sm" role="button">
-                            <i class="fa fa-fw fa-btn fa-plus"></i>Add New Project
+                        <a 
+                            href="{{ route('projects') }}" 
+                            class="btn btn-outline-secondary btn-sm" 
+                            role="button"
+                        >
+                            <i class="fas fa-plus-square fa-fw fa-btn"></i>
+                            Add New Project
                         </a>
                     </div>
                 </div>
@@ -70,7 +77,7 @@
     {{-- <newTimecard v-if="$store.state.newTimecard.showModal" @close="$store.state.newTimecard.showModal = false"></newTimecard> --}}
     <div class="row">
         <div class="col">
-            {{-- <calendar></calendar> --}}
+            <calendar></calendar>
         </div>
     </div>
 </div>

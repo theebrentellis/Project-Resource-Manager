@@ -53,7 +53,7 @@
                         <div class="form-group row">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                    <i class="fas fa-sign-in-alt fa-btn fa-fw" aria-hidden="true"></i>
                                     {{ __('Login') }}
                                 </button>
 

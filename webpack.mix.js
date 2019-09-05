@@ -23,6 +23,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     .sourceMaps();
 
 mix.options({
+    extractVueStyles: true,
     processCssUrls: true
 });
 

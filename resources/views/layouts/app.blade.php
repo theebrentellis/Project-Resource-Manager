@@ -10,7 +10,7 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset("/css/app.css") }}"" rel="stylesheet">
+    <link href="{{ asset(mix("/css/app.css")) }}"" rel="stylesheet">
     
     {{-- <link href="/css/modal.css" rel="stylesheet" > --}}
     {{-- <link href="/css/fullcalendar.min.css" rel="stylesheet"> --}}
@@ -38,12 +38,10 @@
                     <!-- Branding Image -->
                     @if (Auth::guest())
                         <a class="navbar-brand" href="{{ url('/') }}">
-                        {{-- <img src="../images/twelve23-logo-blue.png" alt="Twelve23 Logo"> --}}
                         {{ config('app.name') }}
                         </a>
                     @else
                         <a class="navbar-brand" href="{{ url('/home') }}">
-                        {{-- <img src="/images/1223-logo-blue.png" alt="Twelve23 Logo"> --}}
                         {{ config('app.name') }}
                         </a>
                     @endif
@@ -62,9 +60,20 @@
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="{{ route('settings') }}"><i class="fas fa-fw fa-btn fa-user-cog"></i>Settings</a>
-                                    <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-fw fa-btn fa-sign-out" aria-hidden="true"></i>Logout
+                                    <a 
+                                        class="dropdown-item" 
+                                        href="{{ route('settings') }}"
+                                    >
+                                        <i class="fas fa-user-cog fa-fw fa-btn"></i>
+                                        Settings
+                                    </a>
+                                    <a 
+                                        class="dropdown-item" 
+                                        href="{{ url('/logout') }}" 
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                    >   
+                                        <i class="fas fa-sign-out-alt fa-fw fa-btn" aria-hidden="true"></i>
+                                        Logout
                                     </a>
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
@@ -80,9 +89,9 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset("/js/manifest.js") }}"></script>
-    <script src="{{ asset("/js/vendor.js") }}"></script>
-    <script src="{{ asset("/js/app.js") }}"></script>
+    <script src="{{ asset(mix("/js/manifest.js")) }}"></script>
+    <script src="{{ asset(mix("/js/vendor.js")) }}"></script>
+    <script src="{{ asset(mix("/js/app.js")) }}"></script>
     
 </body>
 </html>

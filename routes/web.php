@@ -22,10 +22,10 @@ Route::group(['middleware' => ['web']], function(){
     Route::get('settings', 'Settings\SettingsController@index')->name('settings');
     Route::post('settings', 'Settings\SettingsController@update');
 
-    Route::get('projects', 'Projects\ProjectController@index');
+    Route::get('projects', 'Projects\ProjectController@index')->name('projects');
     Route::post('projects', 'Projects\AddNewProjectController@addNew');
 
-    Route::get('timecards', 'Timecards\TimecardController@index');
+    Route::get('timecards', 'Timecards\TimecardController@index')->name('timecards');
     Route::post('timecards/{id}/edit', 'Timecards\TimecardController@edit');
     Route::post('timecards/{id}/delete', 'Timecards\TimecardController@delete');
 
