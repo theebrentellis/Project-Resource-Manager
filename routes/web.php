@@ -16,9 +16,10 @@ Route::get('/', 'HomeController@index');
 Auth::routes();
 
 Route::group(['middleware' => ['web']], function(){
-    Route::get('home', 'HomeController@index');
 
-    Route::get('settings', 'Settings\SettingsController@index');
+    Route::get('home', 'HomeController@index')->name('home');
+
+    Route::get('settings', 'Settings\SettingsController@index')->name('settings');
     Route::post('settings', 'Settings\SettingsController@update');
 
     Route::get('projects', 'Projects\ProjectController@index');
@@ -47,7 +48,7 @@ Route::group([
     Route::resource('projectDueDates', 'DueDatesCalendarController');
     Route::resource('developerSchedules', 'CalendarController@developerSchedules');
 
-    // Route::resource('developers', 'DevelopersController');
+    Route::resource('developers', 'DevelopersController');
     
     Route::resource('projects', 'ProjectsController');
     
@@ -59,3 +60,7 @@ Route::group([
 });
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

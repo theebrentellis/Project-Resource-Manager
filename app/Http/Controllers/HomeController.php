@@ -2,12 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-
-use App\User;
-use App\Project;
-use App\TimeCard;
-
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,14 +19,14 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        // $projects = Project::with('timeCards')->get();
-
-        return view('welcome');
+        $data = [
+            'projects' => []
+        ];
+        
+        return view('home', $data);
     }
-
-    
 }

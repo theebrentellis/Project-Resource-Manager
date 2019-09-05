@@ -1,4 +1,5 @@
-const { mix } = require('laravel-mix');
+const mix = require('laravel-mix');
+const webpack = require('webpack');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,7 +12,7 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js(['resources/assets/js/app.js'], 'public/js')
+mix.js('resources/assets/js/app.js', 'public/js')
     .extract([
         'jquery',
         'vue',
@@ -19,8 +20,11 @@ mix.js(['resources/assets/js/app.js'], 'public/js')
         'bootstrap',
     ])
     .sass('resources/assets/sass/app.scss', 'public/css')
-    .sass('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css')
     .sourceMaps();
+
+mix.options({
+    processCssUrls: true
+});
 
 
 mix.webpackConfig({
@@ -33,3 +37,5 @@ mix.webpackConfig({
         })
     ]
 });
+
+mix.version();

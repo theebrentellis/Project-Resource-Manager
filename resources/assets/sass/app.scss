@@ -1,9 +1,15 @@
 // Fonts
 @import url(https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600);
-// Variables
+
+// Variables & Additional Sheets
 @import "variables";
+@import "modal";
+
 // Bootstrap
 @import "node_modules/bootstrap/scss/bootstrap";
+
+//Fonts
+@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
 
 body {
     font-family: $font-family-sans-serif;
@@ -13,7 +19,7 @@ body {
 }
 
 .btn {
-    font-family: $font-family-sans-serif;
+    // font-family: $font-family-sans-serif;
 }
 a.btn.btn-link {
     font-size: 12px;
@@ -51,19 +57,19 @@ a.nav-link {
 }
 
 .card .form-control .form-group {
-    font-family: "Raleway", sans-serif !important;
+    // font-family: "Raleway", sans-serif !important;
     font-size: 1rem;
     font-weight: normal;
     color: #292b2c;
 }
 .form-control {
-    font-family: "Raleway", sans-serif !important;
+    // font-family: "Raleway", sans-serif !important;
     font-size: 1rem;
     font-weight: normal;
     color: #292b2c;
 }
 label {
-    font-family: "Raleway", sans-serif !important;
+    // font-family: "Raleway", sans-serif !important;
     font-size: 1rem;
     font-weight: normal;
     color: #292b2c;

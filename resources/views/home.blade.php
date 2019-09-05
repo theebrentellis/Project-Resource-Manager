@@ -66,11 +66,11 @@
         </div>
     </div>
     <!--<newButton></newButton>-->
-    <RoleDashboard></RoleDashboard>
-    <newTimecard v-if="$store.state.newTimecard.showModal" @close="$store.state.newTimecard.showModal = false"></newTimecard>
+    {{-- <RoleDashboard></RoleDashboard> --}}
+    {{-- <newTimecard v-if="$store.state.newTimecard.showModal" @close="$store.state.newTimecard.showModal = false"></newTimecard> --}}
     <div class="row">
         <div class="col">
-            <calendar></calendar>
+            {{-- <calendar></calendar> --}}
         </div>
     </div>
 </div>

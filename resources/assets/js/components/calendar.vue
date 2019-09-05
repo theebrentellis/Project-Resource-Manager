@@ -1,21 +1,7 @@
-<template>
-    <div class="cal"></div>
-</template>
-<style>
-.fc-title {
-    display: block;
-    color: white;
-}
-.fc-event-container a {
-    border-color: #ddd !important;
-}
-.fc-content {
-    white-space: inherit !important;
-    text-align: center;
-}
-</style>
 <script>  
-    require('fullcalendar');
+    import FullCalendar from '@fullcalendar/vue'
+    import dayGridPlugin from '@fullcalendar/daygrid'
+
     require('moment');
 
     const moment = require('moment');
@@ -66,6 +52,17 @@
                     }
                 });
         },
+        components: {
+            FullCalendar // make the <FullCalendar> tag available
+        },
+        data() {
+            return {
+                calendarPlugins: [dayGridPlugin]
+            }
+        }
     }
 
 </script>
+<template>
+    <FullCalendar defaultView="dayGridMonth" :plugins="calendarPlugins" />
+</template>

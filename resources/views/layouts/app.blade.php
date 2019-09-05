@@ -5,16 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
 
     <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
-    <link href="/css/modal.css" rel="stylesheet" >
-    <link href="/css/fullcalendar.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{{ asset("/css/app.css") }}"" rel="stylesheet">
+    
+    {{-- <link href="/css/modal.css" rel="stylesheet" > --}}
+    {{-- <link href="/css/fullcalendar.min.css" rel="stylesheet"> --}}
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <script>
         window.Laravel = {!! json_encode([
@@ -22,11 +24,10 @@
         ]) !!};
     </script>
     
-    
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-toggleable-sm navbar-light bg-faded">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <div class="">
                     <!-- Collapsed Hamburger -->
@@ -61,9 +62,9 @@
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="/settings"><i class="fa fa-fw fa-btn fa-cog"></i>Settings</a>
+                                    <a class="dropdown-item" href="{{ route('settings') }}"><i class="fas fa-fw fa-btn fa-user-cog"></i>Settings</a>
                                     <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="fa fa-fw fa-btn fa-sign-out" aria-hidden="true"></i>Logout
+                                        <i class="fas fa-fw fa-btn fa-sign-out" aria-hidden="true"></i>Logout
                                     </a>
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
@@ -78,9 +79,10 @@
         @yield('content')
     </div>
 
-
     <!-- Scripts -->
-    <script src='{{elixir("/js/app.js")}}' type="text/javascript"></script>
+    <script src="{{ asset("/js/manifest.js") }}"></script>
+    <script src="{{ asset("/js/vendor.js") }}"></script>
+    <script src="{{ asset("/js/app.js") }}"></script>
     
 </body>
 </html>
