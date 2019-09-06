@@ -2,13 +2,11 @@
 @section('content')
 
 <div class="container">
-    <div class="row">
+    <div class="row mb-3">
         <div class="col">
-            <div>
-                <a href="{{ route('timecards') }}" class="btn btn-sm btn-secondary">
-                    My Timecards
-                </a>
-            </div>
+            <a href="{{ route('timecards') }}" class="btn btn-sm btn-secondary">
+                My Timecards
+            </a>
         </div>
     </div>
     <div class="row">
@@ -16,7 +14,7 @@
             <div>
                 <div class="card card-inverse" style="background-color: #333; border-color: #333;">
                     <div class="card-body">
-                        <h2 class="card-title">Projects</h2>
+                        <h2 class="card-title white">Projects</h2>
                         <a 
                             href="{{ route('projects') }}" 
                             class="btn btn-outline-secondary btn-sm" 

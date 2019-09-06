@@ -16600,12 +16600,8 @@ body {
   font-family: "Raleway", sans-serif;
 }
 
-.row {
-  margin-top: 2.5%;
-}
-
-a.btn.btn-link {
-  font-size: 12px;
+.white {
+  color: white;
 }
 
 .welcome {
