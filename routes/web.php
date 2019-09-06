@@ -11,11 +11,11 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@welcome');
 
 Auth::routes();
 
-Route::group(['middleware' => ['web']], function(){
+Route::group(['middleware' => ['auth', 'web']], function(){
 
     Route::get('home', 'HomeController@index')->name('home');
 
@@ -58,9 +58,3 @@ Route::group([
     
     Route::resource('timecards', 'TimeCardController');
 });
-
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
