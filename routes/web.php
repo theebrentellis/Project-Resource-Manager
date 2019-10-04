@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'HomeController@welcome');
+Route::get('/', 'HomeController@welcome')->name('welcome');
 
 Auth::routes();
 
@@ -40,21 +40,21 @@ Route::group(['middleware' => ['auth', 'web']], function(){
 
 });
 
-Route::group([
-    'prefix' => 'api',
-    'namespace' => 'API'
-], function(){
+// Route::group([
+//     'prefix' => 'api',
+//     'namespace' => 'API'
+// ], function(){
     
-    Route::resource('projectDueDates', 'DueDatesCalendarController');
-    Route::resource('developerSchedules', 'CalendarController@developerSchedules');
+//     Route::resource('projectDueDates', 'DueDatesCalendarController');
+//     Route::resource('developerSchedules', 'CalendarController@developerSchedules');
 
-    Route::resource('developers', 'DevelopersController');
+//     Route::resource('developers', 'DevelopersController');
     
-    Route::resource('projects', 'ProjectsController');
+//     Route::resource('projects', 'ProjectsController');
     
-    Route::resource('users', 'UserController');
+//     Route::resource('users', 'UserController');
 
-    Route::resource('roles', 'RoleController');
+//     Route::resource('roles', 'RoleController');
     
-    Route::resource('timecards', 'TimeCardController');
-});
+//     Route::resource('timecards', 'TimeCardController');
+// });

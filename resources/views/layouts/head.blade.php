@@ -9,12 +9,17 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Fonts -->
-    <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
-    <link href="/css/modal.css" rel="stylesheet" >
-    <link href="/css/fullcalendar.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <!-- Styles -->
+    <link href="{{ asset(mix("/css/app.css")) }}"" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script src="{{ asset(mix("/js/manifest.js")) }}"></script>
+    <script src="{{ asset(mix("/js/vendor.js")) }}"></script>
+    <script src="{{ asset(mix("/js/app.js")) }}"></script>
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
