@@ -13,17 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('auth');
-    }
-
-    /**
-     * Show the application welcome page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function welcome()
-    {        
-        return view('welcome');
+        $this->middleware('auth');
     }
 
     /**
@@ -33,10 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data = [
-            'projects' => []
-        ];
-        
-        return view('home', $data);
+        return view('home');
     }
 }

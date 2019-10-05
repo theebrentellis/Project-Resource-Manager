@@ -11,34 +11,37 @@
 |
 */
 
-Route::get('/', 'HomeController@welcome')->name('welcome');
+Route::get('/{any?}', 'SPAController@index');
 
-Auth::routes();
 
-Route::group(['middleware' => ['auth', 'web']], function(){
+// Route::get('/', 'HomeController@welcome')->name('welcome');
 
-    Route::get('home', 'HomeController@index')->name('home');
+// Auth::routes();
 
-    Route::get('settings', 'Settings\SettingsController@index')->name('settings');
-    Route::post('settings', 'Settings\SettingsController@update');
+// Route::group(['middleware' => ['auth', 'web']], function(){
 
-    Route::get('projects', 'Projects\ProjectController@index')->name('projects');
-    Route::post('projects', 'Projects\AddNewProjectController@addNew');
+//     Route::get('home', 'HomeController@index')->name('home');
 
-    Route::get('timecards', 'Timecards\TimecardController@index')->name('timecards');
-    Route::post('timecards/{id}/edit', 'Timecards\TimecardController@edit');
-    Route::post('timecards/{id}/delete', 'Timecards\TimecardController@delete');
+//     Route::get('settings', 'Settings\SettingsController@index')->name('settings');
+//     Route::post('settings', 'Settings\SettingsController@update');
 
-    Route::get('project/{id}/show', 'Projects\ShowProjectController@showProject');
-    Route::get('project/{id}/edit', 'Projects\EditProjectController@showProject');
-    Route::post('project/{id}/edit', 'Projects\EditProjectController@editProject');
+//     Route::get('projects', 'Projects\ProjectController@index')->name('projects');
+//     Route::post('projects', 'Projects\AddNewProjectController@addNew');
 
-    Route::get('project/{id}/addProjectDeveloper', 'Projects\EditProjectController@addDeveloper');
-    Route::post('project/{id}/addProjectDeveloper', 'Projects\ProjectController@addNewDeveloper');
+//     Route::get('timecards', 'Timecards\TimecardController@index')->name('timecards');
+//     Route::post('timecards/{id}/edit', 'Timecards\TimecardController@edit');
+//     Route::post('timecards/{id}/delete', 'Timecards\TimecardController@delete');
 
-    Route::get('developer/{id}/show', 'Developers\ShowDeveloperController@showDev');
+//     Route::get('project/{id}/show', 'Projects\ShowProjectController@showProject');
+//     Route::get('project/{id}/edit', 'Projects\EditProjectController@showProject');
+//     Route::post('project/{id}/edit', 'Projects\EditProjectController@editProject');
 
-});
+//     Route::get('project/{id}/addProjectDeveloper', 'Projects\EditProjectController@addDeveloper');
+//     Route::post('project/{id}/addProjectDeveloper', 'Projects\ProjectController@addNewDeveloper');
+
+//     Route::get('developer/{id}/show', 'Developers\ShowDeveloperController@showDev');
+
+// });
 
 // Route::group([
 //     'prefix' => 'api',
@@ -58,3 +61,7 @@ Route::group(['middleware' => ['auth', 'web']], function(){
     
 //     Route::resource('timecards', 'TimeCardController');
 // });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -1,6 +1,7 @@
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom mb-3">
+        <App></App>
+        {{-- <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom mb-3">
             <div class="container">
                 <div class="">
                     <!-- Collapsed Hamburger -->
@@ -57,7 +58,11 @@
                     </ul>
                 </div>
             </div>
-        </nav>
-        @yield('content')
+        </nav> --}}
+        {{-- @yield('content') --}}
     </div>
+    <!-- Scripts -->
+    <script src="{{ asset(mix("/js/manifest.js")) }}"></script>
+    <script src="{{ asset(mix("/js/vendor.js")) }}"></script>
+    <script src="{{ asset(mix("/js/app.js")) }}"></script>
 </body>

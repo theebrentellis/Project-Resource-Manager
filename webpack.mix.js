@@ -12,14 +12,14 @@ const webpack = require('webpack');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
+mix.js('resources/js/app.js', 'public/js')
     .extract([
         'jquery',
         'vue',
         'popper.js',
         'bootstrap',
     ])
-    .sass('resources/assets/sass/app.scss', 'public/css')
+    .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps();
 
 mix.options({
