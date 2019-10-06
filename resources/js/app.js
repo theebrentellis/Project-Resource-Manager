@@ -32,17 +32,17 @@ import { mapState } from 'vuex';
 const router = new VueRouter({
     mode: 'history',
     routes: [
+        // {
+        //     path: '/',
+        //     name: 'welcome',
+        //     component: Welcome
+        // },
+        // {
+        //     path: '/login',
+        //     name: 'login'
+        // },
         {
-            path: '/',
-            name: 'welcome',
-            component: Welcome
-        },
-        {
-            path: '/login',
-            name: 'login'
-        },
-        {
-            path: '/home',
+            path: '/app/home',
             name: 'home',
             component: Home
         }

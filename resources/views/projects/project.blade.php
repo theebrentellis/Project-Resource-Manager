@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
-                <div class="card-block">
+                <div class="card-body">
                     <h3 class="card-title">Add A New Project</h3>
                     <form method="POST" action="/projects">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">

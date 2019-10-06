@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col">
                 <div class="card card-inverse" style="background-color: #333; border-color: #333;">
-                    <div class="card-block">
+                    <div class="card-body">
                         <h2 class="card-title">Projects</h2>
                         <a href="/projects" class="btn btn-outline-secondary btn-sm" role="button">
                             <i class="fa fa-fw fa-btn fa-plus"></i>Add New Project

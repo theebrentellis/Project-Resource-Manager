@@ -8,7 +8,7 @@
                 <div class="card-header">
                     <h4>Edit Timecard</h4>
                 </div>
-                <div class="card-block">
+                <div class="card-body">
                     <form action="/timecards/{{ $timecard->id }}/edit" method="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="edit" value="updateTimecard">

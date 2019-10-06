@@ -100,7 +100,7 @@
                                 <div class="card-header">
                                     {{ $timecard->user->name }}
                                 </div>
-                                <div class="card-block">
+                                <div class="card-body">
                                     <p class="card-text"><strong>Role: </strong>{{ $timecard->role->label }}</p>
                                     <p class="card-text"><strong>Time: </strong>{{ $timecard->time }}</p>
                                     <p class="card-text"><strong>Description: </strong>{{ $timecard->notes }}</p>

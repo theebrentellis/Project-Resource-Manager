@@ -15,7 +15,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-block">
+                <div class="card-body">
                     <ul class="nav flex-column" v-for="user in dashboardRoleUsers(state, users)" :key="user.id">
                         <li v-bind:class="{active: user.id === state.dashboardUser.id }" v-on:click="setDashboardUser(user)">
                             <a href="" class="nav-link" data-toggle="tab" role="tab">{{ user.name }}</a>
@@ -33,7 +33,7 @@
                             <h5 v-else-if="!state.dashboardUser.name">{{ "All " + dashboardRoles(state, roles) | pluralize }}</h5>
                             <h5 v-else class="card-text">{{ state.dashboardUser.name }}</h5>
                         </div>
-                        <div class="card-block">
+                        <div class="card-body">
                             <table class="table">
                                 <thead>
                                     <tr>

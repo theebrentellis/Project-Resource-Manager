@@ -33,7 +33,7 @@
                                 <p class="card-title"><strong>{{ $timecard->project->name }}</strong></p>
                                 <p class="card-text">{{ date('F d', strtotime($timecard->date)) }}</p>
                             </div>
-                            <div class="card-block">
+                            <div class="card-body">
                                 <p class="card-text"><strong>{{ $timecard->user->name }}</strong></p>
                                 <p class="card-text"><strong>Role: </strong>{{ $timecard->role->label }}</p>
                                 <p class="card-text"><strong>Time: </strong>{{ $timecard->time }}</p>

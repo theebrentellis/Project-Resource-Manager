@@ -16,7 +16,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button> {{ state.errors }}
                         </div>
-                        <div class="card-block">
+                        <div class="card-body">
                             <form>
                                 <!--<div class="form-group">
                                     <p v-if="state.date"><strong>Date: </strong>{{ state.date.date | dateFormat }}</p>
