@@ -59,3 +59,7 @@ Route::group(['middleware' => ['auth', 'web']], function(){
     
 //     Route::resource('timecards', 'TimeCardController');
 // });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

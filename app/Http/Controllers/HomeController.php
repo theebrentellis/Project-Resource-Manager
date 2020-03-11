@@ -13,17 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('auth');
-    }
-
-    /**
-     * Show the application index page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-        return view('welcome');
+        $this->middleware('auth');
     }
 
     /**
@@ -31,8 +21,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function app()
+    public function index()
     {
-        return view('layouts.app');
+        return view('home');
     }
 }
