@@ -29,7 +29,7 @@
         "@fullcalendar/daygrid": "^4.3.0",
         "@fullcalendar/vue": "^4.3.1",
         "fullcalendar": "^3.10.1",
-        "jquery": "^3.2.1",
+        "jquery": "^3.5.0",
         "moment": "^2.22.2",
         "popper.js": "^1.14.3",
         "vue-resource": "^1.0.3",
