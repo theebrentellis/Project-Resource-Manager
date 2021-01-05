@@ -10,7 +10,7 @@
     },
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.10.2",
-        "axios": "^0.15.2",
+        "axios": "^0.21.1",
         "bootstrap": "^4.3.x",
         "cross-env": "^5.2.1",
         "laravel-mix": "^4.1.2",
